@@ -2,12 +2,18 @@ package com.ad.app.notify.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
@@ -21,6 +27,12 @@ import com.ad.app.notify.adapter.NotificationRecyclerAdapter;
 import com.ad.app.notify.database.NotificationDatabaseHandler;
 import com.ad.app.notify.databinding.ActivityMainBinding;
 import com.ad.app.notify.model.NotificationModel;
+import com.ad.app.notify.service.NotificationService;
+import com.ad.app.notify.utils.Utils;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.List;
 import java.util.Objects;
@@ -57,70 +69,72 @@ public class MainActivity extends AppCompatActivity {
 //        appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
 //        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
 
-//        binding.fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//                final View dialogView = getLayoutInflater().inflate(R.layout.dialog_add_new_note, null);
-//
-//                AlertDialog dialog = new MaterialAlertDialogBuilder(MainActivity.this)
-//                        .setView(dialogView)
-//                        .setCancelable(true)
-//                        .show();
-//
-//                final TextInputEditText edt_Dialog_Message = dialogView.findViewById(R.id.edt_Dialog_Message);
-//                final MaterialButton btn_Dialog_Done = dialogView.findViewById(R.id.btn_Dialog_Done);
-//
-//                edt_Dialog_Message.requestFocus();
-//                Window window = dialog.getWindow();
-//                window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
-//                window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-//
-//
-//                btn_Dialog_Done.setOnClickListener(view2 -> {
-//
-//                    String message = Objects.requireNonNull(edt_Dialog_Message.getText()).toString();
-//
-//                    if (message.equals("")) {
-//                        //TODO - EXTRACT STRING
-//                        edt_Dialog_Message.setError("Empty Field");
-//                    } else {
-//
-//                        int id = new Utils().getNotificationId();
-//
-//                        NotificationModel notificationModel = new NotificationModel();
-//
-//                        notificationModel.setNotificationId(id);
-//                        notificationModel.setNotificationDate("Sun, 19 Dec"); //TODO - GET CURRENT DATE
-//                        notificationModel.setNotificationTime("6:34"); //TODO - GET CURRENT TIME
-//                        notificationModel.setNotificationSubText(message);
-//                        notificationModel.setNotificationCategory("Reminder"); //TODO - SET CATEGORY AFTER TEXT PROCESSING
-//                        notificationModel.setNotificationTags("sticky note - phone - email");  //TODO - SET TAGS AFTER TEXT PROCESSING
-//                        notificationModel.setNotificationPinned(true);
-//
-//                        new NotificationDatabaseHandler(MainActivity.this).addNewNotification(notificationModel);
-//
-//                        RecyclerView recyclerView = findViewById(R.id.recyclerview_Home);
-//                        recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-//                        recyclerView.setAdapter(new NotificationRecyclerAdapter(
-//                                new NotificationDatabaseHandler(MainActivity.this)
-//                                        .getActiveNotificationList(), MainActivity.this));
-//
-//
-//                        Intent intent = new Intent(MainActivity.this, NotificationService.class);
-//                        intent.putExtra("notification_id", id);
-//                        intent.putExtra("notification_body", message);
-//                        startService(intent);
-//
-//                        dialog.dismiss();
-//                    }
-//
-//
-//                });
-//
-//                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-//            }
-//        });
+        ExtendedFloatingActionButton fab = (ExtendedFloatingActionButton) findViewById(R.id.fab);
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                final View dialogView = getLayoutInflater().inflate(R.layout.dialog_add_new_note, null);
+
+                AlertDialog dialog = new MaterialAlertDialogBuilder(MainActivity.this)
+                        .setView(dialogView)
+                        .setCancelable(true)
+                        .show();
+
+                final TextInputEditText edt_Dialog_Message = dialogView.findViewById(R.id.edt_Dialog_Message);
+                final MaterialButton btn_Dialog_Done = dialogView.findViewById(R.id.btn_Dialog_Done);
+
+                edt_Dialog_Message.requestFocus();
+                Window window = dialog.getWindow();
+                window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+                window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+
+
+                btn_Dialog_Done.setOnClickListener(view2 -> {
+
+                    String message = Objects.requireNonNull(edt_Dialog_Message.getText()).toString();
+
+                    if (message.equals("")) {
+                        //TODO - EXTRACT STRING
+                        edt_Dialog_Message.setError("Empty Field");
+                    } else {
+
+                        int id = new Utils().getNotificationId();
+
+                        NotificationModel notificationModel = new NotificationModel();
+
+                        notificationModel.setNotificationId(id);
+                        notificationModel.setNotificationDate("Sun, 19 Dec"); //TODO - GET CURRENT DATE
+                        notificationModel.setNotificationTime("6:34"); //TODO - GET CURRENT TIME
+                        notificationModel.setNotificationSubText(message);
+                        notificationModel.setNotificationCategory("Reminder"); //TODO - SET CATEGORY AFTER TEXT PROCESSING
+                        notificationModel.setNotificationTags("sticky note - phone - email");  //TODO - SET TAGS AFTER TEXT PROCESSING
+                        notificationModel.setNotificationPinned(true);
+
+                        new NotificationDatabaseHandler(MainActivity.this).addNewNotification(notificationModel);
+
+                        RecyclerView recyclerView = findViewById(R.id.recyclerview_Home);
+                        recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+                        recyclerView.setAdapter(new NotificationRecyclerAdapter(
+                                new NotificationDatabaseHandler(MainActivity.this)
+                                        .getActiveNotificationList(), MainActivity.this));
+
+
+                        Intent intent = new Intent(MainActivity.this, NotificationService.class);
+                        intent.putExtra("notification_id", id);
+                        intent.putExtra("notification_body", message);
+                        startService(intent);
+
+                        dialog.dismiss();
+                    }
+
+
+                });
+
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            }
+        });
     }
 
     @Override
