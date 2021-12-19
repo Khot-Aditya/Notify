@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -58,6 +59,12 @@ public class MainActivity extends AppCompatActivity {
 
         RecyclerView recyclerView = findViewById(R.id.recyclerview_Home);
 
+        LinearLayout linearLayout_NoData = (LinearLayout) findViewById(R.id.linearLayout_NoData);
+
+        linearLayout_NoData.setVisibility(
+                new NotificationDatabaseHandler(this).getItemCount() == 0 ?
+                        View.VISIBLE : View.GONE);
+
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
 
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -65,75 +72,72 @@ public class MainActivity extends AppCompatActivity {
 
         }, 100);
 
-//        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-//        appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
-//        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
 
         ExtendedFloatingActionButton fab = (ExtendedFloatingActionButton) findViewById(R.id.fab);
 
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        fab.setOnClickListener(view -> {
 
-                final View dialogView = getLayoutInflater().inflate(R.layout.dialog_add_new_note, null);
+            final View dialogView = getLayoutInflater().inflate(R.layout.dialog_add_new_note, null);
 
-                AlertDialog dialog = new MaterialAlertDialogBuilder(MainActivity.this)
-                        .setView(dialogView)
-                        .setCancelable(true)
-                        .show();
+            AlertDialog dialog = new MaterialAlertDialogBuilder(MainActivity.this)
+                    .setView(dialogView)
+                    .setCancelable(true)
+                    .show();
 
-                final TextInputEditText edt_Dialog_Message = dialogView.findViewById(R.id.edt_Dialog_Message);
-                final MaterialButton btn_Dialog_Done = dialogView.findViewById(R.id.btn_Dialog_Done);
+            final TextInputEditText edt_Dialog_Message = dialogView.findViewById(R.id.edt_Dialog_Message);
+            final MaterialButton btn_Dialog_Done = dialogView.findViewById(R.id.btn_Dialog_Done);
 
-                edt_Dialog_Message.requestFocus();
-                Window window = dialog.getWindow();
-                window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
-                window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+            edt_Dialog_Message.requestFocus();
+            Window window = dialog.getWindow();
+            window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+            window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
 
 
-                btn_Dialog_Done.setOnClickListener(view2 -> {
+            btn_Dialog_Done.setOnClickListener(view2 -> {
 
-                    String message = Objects.requireNonNull(edt_Dialog_Message.getText()).toString();
+                String message = Objects.requireNonNull(edt_Dialog_Message.getText()).toString();
 
-                    if (message.equals("")) {
-                        //TODO - EXTRACT STRING
-                        edt_Dialog_Message.setError("Empty Field");
-                    } else {
+                if (message.equals("")) {
+                    //TODO - EXTRACT STRING
+                    edt_Dialog_Message.setError("Empty Field");
+                } else {
 
-                        int id = new Utils().getNotificationId();
+                    int id = new Utils().getNotificationId();
 
-                        NotificationModel notificationModel = new NotificationModel();
+                    NotificationModel notificationModel = new NotificationModel();
 
-                        notificationModel.setNotificationId(id);
-                        notificationModel.setNotificationDate("Sun, 19 Dec"); //TODO - GET CURRENT DATE
-                        notificationModel.setNotificationTime("6:34"); //TODO - GET CURRENT TIME
-                        notificationModel.setNotificationSubText(message);
-                        notificationModel.setNotificationCategory("Reminder"); //TODO - SET CATEGORY AFTER TEXT PROCESSING
-                        notificationModel.setNotificationTags("sticky note - phone - email");  //TODO - SET TAGS AFTER TEXT PROCESSING
-                        notificationModel.setNotificationPinned(true);
+                    notificationModel.setNotificationId(id);
+                    notificationModel.setNotificationDate("Sun, 19 Dec"); //TODO - GET CURRENT DATE
+                    notificationModel.setNotificationTime("6:34"); //TODO - GET CURRENT TIME
+                    notificationModel.setNotificationSubText(message);
+                    notificationModel.setNotificationCategory("Reminder"); //TODO - SET CATEGORY AFTER TEXT PROCESSING
+                    notificationModel.setNotificationTags("sticky note - phone - email");  //TODO - SET TAGS AFTER TEXT PROCESSING
+                    notificationModel.setNotificationPinned(true);
 
-                        new NotificationDatabaseHandler(MainActivity.this).addNewNotification(notificationModel);
+                    new NotificationDatabaseHandler(MainActivity.this).addNewNotification(notificationModel);
 
-                        RecyclerView recyclerView = findViewById(R.id.recyclerview_Home);
-                        recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-                        recyclerView.setAdapter(new NotificationRecyclerAdapter(
-                                new NotificationDatabaseHandler(MainActivity.this)
-                                        .getActiveNotificationList(), MainActivity.this));
+                    RecyclerView recyclerView1 = findViewById(R.id.recyclerview_Home);
+                    recyclerView1.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+                    recyclerView1.setAdapter(new NotificationRecyclerAdapter(
+                            new NotificationDatabaseHandler(MainActivity.this)
+                                    .getActiveNotificationList(), MainActivity.this));
+
+                    linearLayout_NoData.setVisibility(
+                            new NotificationDatabaseHandler(this).getItemCount() == 0 ?
+                                    View.VISIBLE : View.GONE);
+
+                    Intent intent = new Intent(MainActivity.this, NotificationService.class);
+                    intent.putExtra("notification_id", id);
+                    intent.putExtra("notification_body", message);
+                    startService(intent);
+
+                    dialog.dismiss();
+                }
 
 
-                        Intent intent = new Intent(MainActivity.this, NotificationService.class);
-                        intent.putExtra("notification_id", id);
-                        intent.putExtra("notification_body", message);
-                        startService(intent);
+            });
 
-                        dialog.dismiss();
-                    }
-
-
-                });
-
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-            }
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         });
     }
 
@@ -172,8 +176,7 @@ public class MainActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
 
-            Intent i = new Intent(this, SettingsActivity.class);
-            startActivity(i);
+            startActivity(new Intent(this, SettingsActivity.class));
             overridePendingTransition(R.anim.slide_in_from_right,
                     R.anim.slide_out_to_left);
 

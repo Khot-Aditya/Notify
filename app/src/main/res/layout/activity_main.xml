@@ -6,6 +6,20 @@
     android:layout_height="match_parent"
     tools:context=".activities.MainActivity">
 
+    <!--
+
+           TODO - TAGS FUTURE UPDATE
+               1. LINK
+               2. PHONE
+               3. STICKY NOTE
+               4. REMINDER
+               5. WATCH LATER
+               6. EMAIL
+               7. WEB URL
+
+       -->
+
+
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -25,18 +39,29 @@
             app:titleTextColor="?colorPrimaryText" />
 
     </com.google.android.material.appbar.AppBarLayout>
-    <!--
 
-               TODO - TAGS FUTURE UPDATE
-                   1. LINK
-                   2. PHONE
-                   3. STICKY NOTE
-                   4. REMINDER
-                   5. WATCH LATER
-                   6. EMAIL
-                   7. WEB URL
+    <LinearLayout
+        android:id="@+id/linearLayout_NoData"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
 
-           -->
+        <TextView
+            style="@style/TextAppearance.MaterialComponents.Headline3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="¯\\_(ツ)_/¯"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:textColor="?colorSecondaryText"
+            android:fontFamily="@font/roboto_black"
+            android:text="No running notifications"/>
+    </LinearLayout>
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview_Home"

@@ -6,4 +6,97 @@
     android:layout_height="match_parent"
     tools:context=".EditorActivity">
 
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout_Editor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:liftOnScroll="true">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_Editor"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorBackground"
+            android:theme="@style/ToolBarStyle"
+            app:navigationIcon="@drawable/ic_arrow_small_left"
+            app:popupTheme="@style/menu_item"
+            app:title="Notes" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout3"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:hint="Title (optional)"
+        app:expandedHintEnabled="false"
+        app:hintEnabled="true"
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout_Editor"
+        tools:layout_editor_absoluteX="10dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_bold"
+            android:maxHeight="100dp"
+            android:scrollbars="vertical" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:hint="Message"
+        app:expandedHintEnabled="false"
+        app:hintEnabled="true"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout3"
+        tools:layout_editor_absoluteX="10dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto"
+            android:gravity="top"
+            android:maxHeight="200dp"
+            android:minHeight="200dp"
+            android:scrollbars="vertical" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <!--
+        TODO -
+            ACTIONS:
+                1. SEARCH AS QUERY
+                2. SEND A MAIL
+                3. MAKE A PHONE CALL
+                4. CREATE A NEW CONTACT
+                5. TEXT THIS NUMBER
+                6. SHARE
+                7. COPY
+                8. PIN/UNPIN
+                9. EXTRACT URL, EMAIL, PHONE, YOUTUBE WATCH LATER
+                10. CATEGORY
+
+    -->
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_UpdateNotification"
+        style="@style/Widget.MaterialComponents.Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:fontFamily="@font/roboto_bold"
+        android:padding="15dp"
+        android:text="Done"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

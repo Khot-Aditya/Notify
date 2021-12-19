@@ -1,8 +1,9 @@
 package com.ad.app.notify.adapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
-import android.text.format.Formatter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.ad.app.notify.EditorActivity;
 import com.ad.app.notify.R;
 import com.ad.app.notify.model.NotificationModel;
 import com.google.android.material.card.MaterialCardView;
@@ -42,19 +44,23 @@ public class NotificationRecyclerAdapter extends RecyclerView.Adapter<Notificati
         holder.cardview_Container.setCardBackgroundColor(Color.parseColor("#FFF2DE"));
         holder.txt_DayOfTheWeek.setText("SUN");
         holder.txt_Date.setText("19");
-        holder.txt_SubText.setText(object.getNotificationSubText());
+
+        String subText = object.getNotificationSubText().length() > 300 ?
+                object.getNotificationSubText().substring(0, 300) + "..." :
+                object.getNotificationSubText();
+
+
+        holder.txt_SubText.setText(subText);
         holder.txt_Time.setText(object.getNotificationTime());
         holder.ic_Pin.setImageResource(R.drawable.ic_thumbtack);
         holder.txt_Tags.setText(object.getNotificationTags());
 
-//        holder.txt_FileName.setText(object.getFileName());
-//        holder.txt_Filetype.setText(object.getFileType());
-//        holder.txt_FileSize.setText(Formatter.formatShortFileSize(context, Integer.parseInt(object.getFileSize())));
-//
-//        holder.img_RemoveFile.setOnClickListener(v -> {
-//            objectList.remove(holder.getAdapterPosition());
-//            notifyItemRemoved(holder.getAdapterPosition());
-//        });
+        holder.cardview_Container.setOnClickListener(v -> {
+
+            context.startActivity(new Intent(context, EditorActivity.class));
+            ((Activity) context).overridePendingTransition(R.anim.slide_in_from_right,
+                    R.anim.slide_out_to_left);
+        });
 
     }
 

@@ -34,18 +34,21 @@
             android:textColor="?colorPrimaryText" />
     </LinearLayout>
 
+
+    <!--    TODO - DIFFERENT LAYOUTS FOR DIFFERENT CATEGORY-->
+
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardview_Container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="15dp"
-        android:layout_marginTop="15dp"
         android:background="?selectableItemBackground"
         android:clickable="true"
         android:focusable="true"
         android:outlineProvider="none"
-        app:cardCornerRadius="10dp">
+        app:cardCornerRadius="16dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -75,8 +78,8 @@
                         android:id="@+id/txt_SubText"
                         style="@style/TextAppearance.AppCompat.Body1"
                         android:layout_width="wrap_content"
-                        android:fontFamily="@font/roboto"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto"
                         android:text="Cars came into global use during the 20th century, and developed economies depend on them. The year 1886 is regarded as the birth year of the car when German inventor Karl Benz patented his Benz Patent-Motorwagen.[1][4][5] Cars b.."
                         android:textColor="#323232"
                         app:layout_constraintStart_toStartOf="parent"
@@ -93,7 +96,7 @@
                             android:id="@+id/txt_Time"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/roboto_condensed_regular"
+                            android:fontFamily="@font/roboto"
                             android:text="8:57 pm"
                             android:textColor="?colorSecondaryText" />
 
@@ -109,7 +112,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:fontFamily="@font/roboto_condensed_regular"
+                            android:fontFamily="@font/roboto"
                             android:text="link • phone • sticky note"
                             android:textColor="?colorSecondaryText" />
 
