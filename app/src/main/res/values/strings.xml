@@ -1,0 +1,48 @@
+<resources>
+    <string name="version">Version 1.1 Beta</string>
+    <string name="app_name">Notify</string>
+    <string name="action_settings">Settings</string>
+
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="show_notification">Show Notification</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="title_activity_settings">SettingsActivity</string>
+
+    <!-- Preferences -->
+    <string name="theme_title">Theme</string>
+    <string name="theme_dialog_title">Choose Theme</string>
+
+    <string name="attach_pin_title">Attach Pin</string>
+    <string name="attach_pin_description">When enabled pin will be attached to notes by default</string>
+
+    <string name="temporary_notes_title">Temporary Notes</string>
+    <string name="temporary_notes_dialog_title">Choose Time</string>
+    <string name="temporary_notes_description">Clear unpinned notifications after selected time</string>
+
+    <string name="clear_title">Clear</string>
+    <string name="clear_description">Clear all ongoing notifications</string>
+
+    <string name="email_title">Email</string>
+    <string name="email_description">adityakhot6838@gmail.com</string>
+
+    <string name="donate_title">Donate</string>
+    <string name="donate_description">Support the development</string>
+
+    <string name="feedback_title">Feedback</string>
+    <string name="feedback_description">Share your experience</string>
+
+    <string name="about_app_title">About Notify</string>
+    <string name="about_app_description">Learn more about this app</string>
+
+    <string name="privacy_policy_title">Privacy Policy</string>
+    <string name="privacy_policy_description">something.github.com</string>
+
+    <string name="help_title">Help</string>
+    <string name="heLp_description">Contact developer for questions</string>
+
+</resources>

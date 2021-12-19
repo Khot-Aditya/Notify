@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="AppTheme">
+        <attr name="colorPrimary" format="color"/>
+        <attr name="colorSecondary" format="color"/>
+        <attr name="colorPrimaryText" format="color"/>
+        <attr name="colorSecondaryText" format="color"/>
+        <attr name="colorIcon" format="color"/>
+        <attr name="colorBackground" format="color"/>
+        <attr name="colorCardBackground" format="color"/>
+        <attr name="colorCamera" format="color"/>
+        <attr name="colorMicrophone" format="color"/>
+        <attr name="colorLocation" format="color"/>
+    </declare-styleable>
+
+</resources>

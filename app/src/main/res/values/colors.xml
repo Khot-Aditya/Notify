@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--Light Theme-->
+    <color name="lightPrimary">#ff9100</color>
+    <color name="lightSecondary">#ff9100</color>
+    <color name="lightPrimaryText">#202020</color>
+    <color name="lightSecondaryText">#808080</color>
+    <color name="lightBackground">#FFFFFF</color>
+    <color name="LightDividerBackground">#EBEBEB</color>
+    <color name="lightIcon">#737373</color>
+
+    <!--Dark Theme-->
+    <color name="darkPrimary">#ff9100</color>
+    <color name="darkSecondary">#ff9100</color>
+    <color name="darkPrimaryText">#E0E0E0</color>
+    <color name="darkSecondaryText">#6E6E6E</color>
+    <color name="darkBackground">#000000</color>
+    <color name="darkDividerBackground">#3b3b3b</color>
+    <color name="darkIcon">#9AA0A6</color>
+
+    <!--__________________________________________________________________________-->
+
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="color_app">#ff9100</color>
+
+    <color name="color_StickyNote6">#FFECCF</color> <!--    black text-->
+    <color name="color_StickyNote7">#CDF2CA</color> <!--    black text-->
+    <color name="color_StickyNote8">#FFDEFA</color>
+    <color name="color_StickyNote9">#FFC898</color>
+</resources>

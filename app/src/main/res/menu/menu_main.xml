@@ -1,0 +1,18 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.ad.app.notify.activities.MainActivity">
+
+    <item
+        android:id="@+id/help"
+        android:icon="@drawable/ic_interrogation"
+        android:title="@string/about_app_title"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_settings"
+        android:icon="@drawable/ic_settings"
+        android:title="@string/action_settings"
+        app:showAsAction="ifRoom" />
+
+</menu>

@@ -1,0 +1,120 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory app:title="App Settings"
+        app:iconSpaceReserved="false">
+        <ListPreference
+            android:title="@string/theme_title"
+            app:defaultValue="follow_system"
+            app:dialogTitle="@string/theme_dialog_title"
+            app:entries="@array/theme_title"
+            app:entryValues="@array/theme_values"
+            app:icon="@drawable/ic_theme"
+            app:key="@string/theme_title"
+            app:negativeButtonText=""
+            app:positiveButtonText=""
+            app:useSimpleSummaryProvider="true" />
+
+        <SwitchPreferenceCompat
+            android:summary="@string/attach_pin_description"
+            app:icon="@drawable/ic_pin"
+            app:defaultValue="false"
+            app:key="@string/attach_pin_title"
+            app:title="@string/attach_pin_title" />
+
+        <ListPreference
+            android:title="@string/temporary_notes_title"
+            app:dialogTitle="@string/temporary_notes_dialog_title"
+            app:defaultValue="86400000"
+            app:entries="@array/temporary_notes_title"
+            app:entryValues="@array/temporary_notes_values"
+            app:icon="@drawable/ic_temporary_notes"
+            app:key="@string/temporary_notes_title"
+            app:negativeButtonText=""
+            app:positiveButtonText=""
+            app:summary="@string/temporary_notes_description"
+            app:useSimpleSummaryProvider="false" />
+
+<!--        TODO - DEVELOP THIS FEATURE-->
+        <SwitchPreferenceCompat
+            android:summary="Group notifications with similar category"
+            app:icon="@drawable/ic_pin"
+            app:defaultValue="false"
+            app:key="Groups"
+            app:title="Groups" />
+
+        <Preference
+            android:key="@string/clear_title"
+            android:summary="@string/clear_description"
+            android:title="@string/clear_title"
+            app:icon="@drawable/ic_clear_all" />
+
+    </PreferenceCategory>
+
+
+    <PreferenceCategory app:title=" Contact Developer"
+        app:iconSpaceReserved="false">
+
+        <!--        <Preference-->
+        <!--            android:key="Telegram"-->
+        <!--            android:summary="This is a cool button"-->
+        <!--            app:icon="@drawable/ic_telegram"-->
+        <!--            android:title="Telegram" />-->
+
+        <!--        <Preference-->
+        <!--            android:key="Github"-->
+        <!--            android:summary="https://github.com/adityakhot6838"-->
+        <!--            android:title="Github"-->
+        <!--            app:icon="@drawable/ic_github" />-->
+
+        <Preference
+            android:key="@string/email_title"
+            android:summary="@string/email_description"
+            android:title="@string/email_title"
+            app:icon="@drawable/ic_email" />
+
+        <Preference
+            android:key="@string/donate_title"
+            android:summary="@string/donate_description"
+            android:title="@string/donate_title"
+            app:icon="@drawable/ic_donate" />
+
+        <Preference
+            android:key="@string/feedback_title"
+            android:summary="@string/feedback_description"
+            android:title="@string/feedback_title"
+            app:icon="@drawable/ic_feedback" />
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="About App"
+        app:iconSpaceReserved="false">
+        <!--        <Preference-->
+        <!--            android:key="Changelog"-->
+        <!--            android:summary="This is a cool button"-->
+        <!--            android:title="Changelog"-->
+        <!--            app:icon="@drawable/ic_change_log" />-->
+
+        <Preference
+            android:key="@string/privacy_policy_title"
+            android:summary="@string/privacy_policy_description"
+            android:title="@string/privacy_policy_title"
+            app:icon="@drawable/ic_privacy_policy" />
+
+        <!-- TODO - PLAY STORE LINK -->
+        <Preference
+            android:key="@string/about_app_title"
+            android:summary="@string/about_app_description"
+            android:title="@string/about_app_title"
+            app:icon="@drawable/ic_about_app" />
+
+
+<!--        <Preference-->
+<!--            android:key="@string/help_title"-->
+<!--            android:summary="@string/heLp_description"-->
+<!--            android:title="@string/help_title"-->
+<!--            app:icon="@drawable/ic_help" />-->
+    </PreferenceCategory>
+
+
+    <Preference app:layout="@layout/layout_version" />
+</PreferenceScreen>

@@ -1,0 +1,55 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="AppTheme" parent="AppTheme.Light">
+        <item name="colorPrimary">@color/lightPrimary</item>
+        <item name="colorSecondary">@color/lightSecondary</item>
+        <item name="colorPrimaryDark">@color/lightBackground</item>
+        <item name="colorAccent">@color/lightPrimary</item>
+        <item name="android:navigationBarColor">@color/lightBackground</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
+        <item name="android:windowDisablePreview">true</item>
+
+        <!--        TODO - SET CORNER VALUE IN XML-->
+        <item name="dialogCornerRadius">16dp</item>
+
+        <item name="android:overScrollMode">never</item>
+        <item name="android:scrollbars">none</item>
+    </style>
+
+    <!--    FAB-->
+    <style name="ShapeAppearance.App.SmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+        <!--        TODO - SET CORNER VALUE IN XML-->
+        <item name="cornerSize">16dp</item>
+    </style>
+
+    <style name="AppTheme.Light" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimaryText">@color/lightPrimaryText</item>
+        <item name="colorSecondaryText">@color/lightSecondaryText</item>
+        <item name="colorIcon">@color/lightIcon</item>
+        <item name="colorBackground">@color/lightBackground</item>
+        <item name="colorCardBackground">@color/LightDividerBackground</item>
+    </style>
+
+
+    <style name="ToolBarStyle" parent="Widget.MaterialComponents.PopupMenu">
+        <item name="android:textColorPrimary">?attr/colorPrimaryText</item>
+        <item name="fontFamily">@font/roboto_black</item>
+        <item name="iconTint">@color/black</item>
+    </style>
+
+    <style name="menu_item" parent="Theme.MaterialComponents.Light">
+        <item name="android:textColor">?attr/colorPrimaryText</item>
+        <item name="fontFamily">@font/roboto</item>
+        <item name="popupMenuBackground">@drawable/custom_popup_background</item>
+
+    </style>
+
+    <style name="TabText" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textSize">15sp</item>
+        <item name="textAllCaps">false</item>
+        <item name="android:textColor">?attr/colorPrimaryText</item>
+        <!--        <item name="android:fontFamily">@font/bold</item>-->
+    </style>
+</resources>

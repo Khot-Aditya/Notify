@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.MainActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:liftOnScroll="true">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorBackground"
+            android:paddingStart="20dp"
+            android:paddingEnd="10dp"
+            android:theme="@style/ToolBarStyle"
+            app:menu="@menu/menu_main"
+            app:popupTheme="@style/menu_item"
+            app:title="@string/app_name"
+            app:titleTextColor="?colorPrimaryText" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+    <!--
+
+               TODO - TAGS FUTURE UPDATE
+                   1. LINK
+                   2. PHONE
+                   3. STICKY NOTE
+                   4. REMINDER
+                   5. WATCH LATER
+                   6. EMAIL
+                   7. WEB URL
+
+           -->
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerview_Home"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:listitem="@layout/itemveiw_notification" />
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center"
+        android:layout_marginBottom="@dimen/fab_margin"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        app:icon="@drawable/ic_plus"
+        app:iconTint="@color/white"
+        app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
+        app:shapeAppearanceOverlay="@style/ShapeAppearance.App.SmallComponent" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

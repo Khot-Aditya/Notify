@@ -1,0 +1,28 @@
+<resources>
+
+<!--    Theme Preference -->
+    <string-array name="theme_title">
+        <item>Light</item>
+        <item>Dark</item>
+        <item>System</item>
+    </string-array>
+    <string-array name="theme_values">
+        <item>light</item>
+        <item>dark</item>
+        <item>follow_system</item>
+    </string-array>
+
+<!--    Temporary Notes Preference -->
+    <string-array name="temporary_notes_title">
+        <item>5h</item>
+        <item>10h</item>
+        <item>24h</item>
+        <item>Never</item>
+    </string-array>
+    <string-array name="temporary_notes_values">
+        <item>18000000</item> <!-- 5 Hours -->
+        <item>36000000</item> <!-- 10 Hours -->
+        <item>86400000</item> <!-- 24 Hours -->
+        <item>never</item>
+    </string-array>
+</resources>
