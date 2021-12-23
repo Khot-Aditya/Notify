@@ -3,7 +3,6 @@ package com.ad.app.notify.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +27,9 @@ public class NotificationRecyclerAdapter extends RecyclerView.Adapter<Notificati
     public NotificationRecyclerAdapter(List<NotificationModel> objectList, Context context) {
         this.objectList = objectList;
         this.context = context;
+
     }
+
 
     @NonNull
     @Override
@@ -41,9 +42,25 @@ public class NotificationRecyclerAdapter extends RecyclerView.Adapter<Notificati
     public void onBindViewHolder(@NonNull NotificationRecyclerAdapter.ListBasicViewHolder holder, int position) {
         final NotificationModel object = objectList.get(position);
 
-        holder.cardview_Container.setCardBackgroundColor(Color.parseColor("#FFF2DE"));
-        holder.txt_DayOfTheWeek.setText("SUN");
-        holder.txt_Date.setText("19");
+//        holder.cardview_Container.setCardBackgroundColor(Color.parseColor("#FFEFD6"));
+
+        String dayOfTheWeek = "null";
+        String date = "null";
+        try {
+            dayOfTheWeek = object.getNotificationDate().substring(0, 3);
+            date = object.getNotificationDate().substring(5, 7);
+
+//            //if date starts with 0
+//            if(date.substring(5,6).equals("0")){
+//                date = date.substring(6,7);
+//            }
+
+        } catch (Exception e) {
+            //TODO - LOG ERROR MESSAGE
+        }
+
+        holder.txt_DayOfTheWeek.setText(dayOfTheWeek);
+        holder.txt_Date.setText(date);
 
         String subText = object.getNotificationSubText().length() > 300 ?
                 object.getNotificationSubText().substring(0, 300) + "..." :

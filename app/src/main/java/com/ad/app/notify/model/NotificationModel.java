@@ -1,7 +1,8 @@
 package com.ad.app.notify.model;
 
-public class NotificationModel {
+import java.io.Serializable;
 
+public class NotificationModel implements Serializable {
 
     private int notificationId; //PRIMARY KEY
     private String notificationDate;

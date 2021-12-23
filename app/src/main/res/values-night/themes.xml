@@ -12,10 +12,23 @@
 
         <!--        TODO - SET CORNER VALUE IN XML-->
         <item name="dialogCornerRadius">16dp</item>
+        <item name="materialAlertDialogTheme">@style/MaterialAlertDialog_rounded</item>
+
 
         <item name="android:overScrollMode">never</item>
         <item name="android:scrollbars">none</item>
     </style>
+
+    <style name="MaterialAlertDialog_rounded" parent="@style/ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="shapeAppearanceOverlay">@style/DialogCorners</item>
+
+    </style>
+
+    <style name="DialogCorners">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">16dp</item>
+    </style>
+
 
 <!--    FAB-->
     <style name="ShapeAppearance.App.SmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">

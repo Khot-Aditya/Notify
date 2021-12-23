@@ -3,7 +3,7 @@
     android:id="@+id/linear_Container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/color_StickyNote6"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <LinearLayout
@@ -50,74 +50,87 @@
             android:src="@drawable/ic_notification_pin" />
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/txt_Body"
-        style="@style/TextAppearance.AppCompat.Body1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:background="@drawable/background_view"
-        android:padding="10dp"
-        android:text="@string/app_name"
-        android:textColor="@color/black" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
         android:background="@drawable/background_view"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/img_ActionCopy"
+        <TextView
+            android:id="@+id/txt_Body"
+            style="@style/TextAppearance.AppCompat.Body1"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_margin="5dp"
-            android:layout_weight="1"
-            android:src="@drawable/ic_duplicate" />
+            android:layout_height="wrap_content"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:paddingBottom="10dp"
+            android:text="Cars came into global use during the 20th century, and developed economies depend on them. The year 1886 is regarded as the birth year of the car when German inventor Karl Benz patented his Benz Patent-Motorwagen.[1][4][5] Cars b.."
+            android:textColor="@color/black" />
 
-        <ImageView
-            android:id="@+id/img_ActionSearch"
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_margin="5dp"
-            android:layout_weight="1"
-            android:src="@drawable/ic_search" />
+            android:layout_height="1dp"
+            android:layout_marginStart="70dp"
+            android:layout_marginEnd="70dp"
+            android:alpha="0.1"
+            android:background="@color/black"/>
 
-        <ImageView
-            android:id="@+id/img_ActionShare"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_margin="5dp"
-            android:layout_weight="1"
-            android:src="@drawable/ic_share" />
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-        <ImageView
-            android:id="@+id/img_ActionMessage"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_margin="5dp"
-            android:layout_weight="1"
-            android:src="@drawable/ic_envelope" />
+            <ImageView
+                android:id="@+id/img_ActionCopy"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:src="@drawable/ic_duplicate" />
 
-        <ImageView
-            android:id="@+id/img_ActionDialer"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_margin="5dp"
-            android:layout_weight="1"
-            android:src="@drawable/ic_phone_call" />
+            <ImageView
+                android:id="@+id/img_ActionSearch"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:src="@drawable/ic_search" />
 
-        <ImageView
-            android:id="@+id/img_ActionMoreSettings"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_margin="5dp"
-            android:layout_weight="1"
-            android:src="@drawable/ic_app_icon" />
+            <ImageView
+                android:id="@+id/img_ActionShare"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:src="@drawable/ic_share" />
 
+            <ImageView
+                android:id="@+id/img_ActionMessage"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:src="@drawable/ic_envelope" />
+
+            <ImageView
+                android:id="@+id/img_ActionDialer"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:src="@drawable/ic_phone_call" />
+
+            <ImageView
+                android:id="@+id/img_ActionMoreSettings"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:src="@drawable/ic_app_icon" />
+
+        </LinearLayout>
     </LinearLayout>
+
 
 
 </LinearLayout>

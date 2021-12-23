@@ -10,12 +10,14 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.SwitchPreferenceCompat;
 
 import com.ad.app.notify.R;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -108,7 +110,7 @@ public class SettingsActivity extends AppCompatActivity {
             assert btn_clearAll != null;
             btn_clearAll.setOnPreferenceClickListener(preference -> {
 
-                new AlertDialog.Builder(requireContext())
+                new MaterialAlertDialogBuilder(requireContext())
                         .setMessage("Remove all active notes?")
                         .setPositiveButton(android.R.string.ok, (dialog, whichButton) -> {
                             //TODO - CLEAR ALL NOTES

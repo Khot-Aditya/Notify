@@ -7,6 +7,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.ad.app.notify.service.NotificationService;
+import com.ad.app.notify.utils.Constants;
+import com.ad.app.notify.utils.TextProcessor;
 import com.ad.app.notify.utils.Utils;
 
 public class TextReceiverActivity extends AppCompatActivity {
@@ -21,19 +23,23 @@ public class TextReceiverActivity extends AppCompatActivity {
 
         if (Intent.ACTION_SEND.equals(getIntent().getAction()) && "text/plain".equals(getIntent().getType())) {
 
-            Intent intent = new Intent(this, NotificationService.class);
+            new TextProcessor(this).process(getIntent().getStringExtra(Intent.EXTRA_TEXT));
 
-            intent.putExtra("notification_id", new Utils().getNotificationId());
-            intent.putExtra("notification_body", getIntent().getStringExtra(Intent.EXTRA_TEXT));
-            startService(intent);
+//            Intent intent = new Intent(this, NotificationService.class);
+
+//            intent.putExtra(Constants.NOTIFICATION_ID, new Utils().getNotificationId());
+//            intent.putExtra(Constants.NOTIFICATION_SUB_TEXT, getIntent().getStringExtra(Intent.EXTRA_TEXT));
+//            startService(intent);
 
         } else if (message != null) {
 
-            Intent intent = new Intent(this, NotificationService.class);
+            new TextProcessor(this).process(message.toString());
 
-            intent.putExtra("notification_id", new Utils().getNotificationId());
-            intent.putExtra("notification_body", message.toString());
-            startService(intent);
+//            Intent intent = new Intent(this, NotificationService.class);
+
+//            intent.putExtra(Constants.NOTIFICATION_ID, new Utils().getNotificationId());
+//            intent.putExtra(Constants.NOTIFICATION_SUB_TEXT, message.toString());
+//            startService(intent);
         } else {
             Toast.makeText(this, "Exception Found", Toast.LENGTH_SHORT).show();
         }

@@ -5,8 +5,6 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,8 +26,7 @@ import com.ad.app.notify.adapter.NotificationRecyclerAdapter;
 import com.ad.app.notify.database.NotificationDatabaseHandler;
 import com.ad.app.notify.databinding.ActivityMainBinding;
 import com.ad.app.notify.model.NotificationModel;
-import com.ad.app.notify.service.NotificationService;
-import com.ad.app.notify.utils.Utils;
+import com.ad.app.notify.utils.TextProcessor;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
@@ -49,31 +46,16 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        ExtendedFloatingActionButton fab = (ExtendedFloatingActionButton) findViewById(R.id.fab);
+
+
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowHomeEnabled(true);
         Objects.requireNonNull(getSupportActionBar()).setIcon(R.drawable.ic_toolbar_app_icon);
 
 
-        List<NotificationModel> notificationModelList =
-                new NotificationDatabaseHandler(this).getActiveNotificationList();
+        refreshRecyclerview(new NotificationDatabaseHandler(this).getActiveNotificationList());
 
-        RecyclerView recyclerView = findViewById(R.id.recyclerview_Home);
-
-        LinearLayout linearLayout_NoData = (LinearLayout) findViewById(R.id.linearLayout_NoData);
-
-        linearLayout_NoData.setVisibility(
-                new NotificationDatabaseHandler(this).getItemCount() == 0 ?
-                        View.VISIBLE : View.GONE);
-
-        new Handler(Looper.getMainLooper()).postDelayed(() -> {
-
-            recyclerView.setLayoutManager(new LinearLayoutManager(this));
-            recyclerView.setAdapter(new NotificationRecyclerAdapter(notificationModelList, this));
-
-        }, 100);
-
-
-        ExtendedFloatingActionButton fab = (ExtendedFloatingActionButton) findViewById(R.id.fab);
 
         fab.setOnClickListener(view -> {
 
@@ -102,34 +84,7 @@ public class MainActivity extends AppCompatActivity {
                     edt_Dialog_Message.setError("Empty Field");
                 } else {
 
-                    int id = new Utils().getNotificationId();
-
-                    NotificationModel notificationModel = new NotificationModel();
-
-                    notificationModel.setNotificationId(id);
-                    notificationModel.setNotificationDate("Sun, 19 Dec"); //TODO - GET CURRENT DATE
-                    notificationModel.setNotificationTime("6:34"); //TODO - GET CURRENT TIME
-                    notificationModel.setNotificationSubText(message);
-                    notificationModel.setNotificationCategory("Reminder"); //TODO - SET CATEGORY AFTER TEXT PROCESSING
-                    notificationModel.setNotificationTags("sticky note - phone - email");  //TODO - SET TAGS AFTER TEXT PROCESSING
-                    notificationModel.setNotificationPinned(true);
-
-                    new NotificationDatabaseHandler(MainActivity.this).addNewNotification(notificationModel);
-
-                    RecyclerView recyclerView1 = findViewById(R.id.recyclerview_Home);
-                    recyclerView1.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-                    recyclerView1.setAdapter(new NotificationRecyclerAdapter(
-                            new NotificationDatabaseHandler(MainActivity.this)
-                                    .getActiveNotificationList(), MainActivity.this));
-
-                    linearLayout_NoData.setVisibility(
-                            new NotificationDatabaseHandler(this).getItemCount() == 0 ?
-                                    View.VISIBLE : View.GONE);
-
-                    Intent intent = new Intent(MainActivity.this, NotificationService.class);
-                    intent.putExtra("notification_id", id);
-                    intent.putExtra("notification_body", message);
-                    startService(intent);
+                    new TextProcessor(this).process(message);
 
                     dialog.dismiss();
                 }
@@ -159,6 +114,21 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void refreshRecyclerview(List<NotificationModel> notificationModelList) {
+
+        RecyclerView recyclerView = findViewById(R.id.recyclerview_Home);
+
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(new NotificationRecyclerAdapter(notificationModelList, this));
+
+        LinearLayout linearLayout_NoData = (LinearLayout) findViewById(R.id.linearLayout_NoData);
+
+        linearLayout_NoData.setVisibility(
+                new NotificationDatabaseHandler(this).getItemCount() == 0 ?
+                        View.VISIBLE : View.GONE);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -185,7 +155,6 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
 
 
 }

@@ -1,5 +1,8 @@
 package com.ad.app.notify.service;
 
+import static com.ad.app.notify.utils.Constants.CHANNEL_ID;
+import static com.ad.app.notify.utils.Constants.CHANNEL_NAME;
+
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -22,9 +25,10 @@ import androidx.preference.PreferenceManager;
 
 import com.ad.app.notify.R;
 import com.ad.app.notify.activities.MainActivity;
+import com.ad.app.notify.database.NotificationDatabaseHandler;
+import com.ad.app.notify.model.NotificationModel;
 import com.ad.app.notify.receiver.NotificationActionReceiver;
 import com.ad.app.notify.utils.Constants;
-import com.ad.app.notify.utils.TextProcessor;
 import com.ad.app.notify.utils.Utils;
 
 public class NotificationService extends Service {
@@ -38,6 +42,8 @@ public class NotificationService extends Service {
 
     //TODO - REGEX TO ACCEPT ONLY ALPHABETS AND NUMBERS AND SOME SYMBOLS
     //TODO - IF WORDS LESS THEN 200 CHANGE REMOTE VIEW TO NON EXPANDABLE
+
+
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -52,10 +58,20 @@ public class NotificationService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        if (createNotification(intent.getIntExtra("notification_id", 0),
-                intent.getStringExtra("notification_body"))) {
+        NotificationModel notificationModel = (NotificationModel) intent.getSerializableExtra("notificationModel");
+
+        if (createNotification(notificationModel)) {
 
             Toast.makeText(this, "Added to Notify", Toast.LENGTH_SHORT).show();
+
+            new NotificationDatabaseHandler(this).addNewNotification(notificationModel);
+//
+//                    RecyclerView recyclerView1 = findViewById(R.id.recyclerview_Home);
+//                    recyclerView1.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+//                    recyclerView1.setAdapter(new NotificationRecyclerAdapter(
+//                            new NotificationDatabaseHandler(MainActivity.this)
+//                                    .getActiveNotificationList(), MainActivity.this));
+
             stopSelf();
         } else {
             Toast.makeText(this, "NotificationService: Exception found", Toast.LENGTH_SHORT).show();
@@ -64,45 +80,36 @@ public class NotificationService extends Service {
         return super.onStartCommand(intent, flags, startId);
     }
 
-    private boolean createNotification(int notificationId, String receivedText) {
+    private boolean createNotification(NotificationModel model) {
 
-        //TODO - MOVE THIS CODE IN TEXT PROCESSOR CLASS
-        if (notificationId == 0) {
-            Toast.makeText(this, "Exception 1", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        if (receivedText == null) {
-            Toast.makeText(this, "Exception 2", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        if (receivedText.equals("")) {
-            Toast.makeText(this, "Exception 3", Toast.LENGTH_SHORT).show();
-            return false;
-        }
+        int notificationId = model.getNotificationId();
+        String notificationSubText = model.getNotificationSubText();
+        String notificationDate = model.getNotificationDate();
+        String notificationTime = model.getNotificationTime();
+        String notificationCategory = model.getNotificationCategory();
+        String notificationTags = model.getNotificationTags();
+        boolean isNotificationPinned = model.isNotificationPinned();
 
-        //TODO - ADD TO CONSTANTS
-        final String channelId = "Notify Service";
-        final String channelName = "Notify Service Channel";
 
         //------------------------------------------------------------------------------------------
         NotificationCompat.Builder mBuilder;
-        mBuilder = new NotificationCompat.Builder(this, channelId);
+        mBuilder = new NotificationCompat.Builder(this, CHANNEL_ID);
 
         NotificationManager notificationManager = (NotificationManager)
                 getSystemService(Context.NOTIFICATION_SERVICE);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_HIGH);
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, NotificationManager.IMPORTANCE_HIGH);
             channel.enableVibration(false);
             channel.setLockscreenVisibility(Notification.VISIBILITY_SECRET);
             notificationManager.createNotificationChannel(channel);
-            mBuilder.setChannelId(channelId);
+            mBuilder.setChannelId(CHANNEL_ID);
         }
 
         SharedPreferences sharedConfig = PreferenceManager.getDefaultSharedPreferences(this);
         String temporaryNotes = sharedConfig.getString(getString(R.string.temporary_notes_title), "never");
 
-        if(!temporaryNotes.equals("never")){
+        if (!temporaryNotes.equals("never")) {
             mBuilder.setTimeoutAfter(Integer.parseInt(temporaryNotes));
         }
 
@@ -123,7 +130,7 @@ public class NotificationService extends Service {
         mBuilder.setSubText("Change This Text");
         mBuilder.setAutoCancel(false);
         mBuilder.setOngoing(true);
-        mBuilder.setCustomBigContentView(getRemoteView(notificationId, receivedText));
+        mBuilder.setCustomBigContentView(getRemoteView(notificationId, notificationSubText));
 
         try {
             notificationManager.notify(notificationId, mBuilder.build());
@@ -142,7 +149,7 @@ public class NotificationService extends Service {
                 receivedText;
 
         RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.layout_notification);
-        remoteViews.setInt(R.id.linear_Container, "setBackgroundResource", R.color.color_StickyNote6); //notification color
+//        remoteViews.setInt(R.id.linear_Container, "setBackgroundResource", R.color.color_StickyNote6); //notification color
         remoteViews.setTextViewText(R.id.txt_Body, trimmedText);
 //        remoteViews.setTextViewTextSize(R.id.txt_Body, 1, 24); //change size if phone number
 //        remoteViews.setTextColor(R.id.txt_Body, Color.parseColor("#0645AD")); //text color
@@ -179,16 +186,18 @@ public class NotificationService extends Service {
 
     private PendingIntent getSearchUrlIntent(String url) {
 
-        Intent intent = new TextProcessor().isYoutubeUrl(url) ?
-                new Intent(Intent.ACTION_VIEW, Uri.parse(new TextProcessor().getIdFromUrl(url))) :
-                new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        Intent intent = new TextProcessor(this).isYoutubeUrl(url) ?
+//                new Intent(Intent.ACTION_VIEW, Uri.parse(new TextProcessor(this).)) :
+//                new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+//        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//
+//        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+//        stackBuilder.addParentStack(MainActivity.class);
+//        stackBuilder.addNextIntent(intent);
+//
+//        return stackBuilder.getPendingIntent(new Utils().getNotificationId(), PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
-        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-        stackBuilder.addParentStack(MainActivity.class);
-        stackBuilder.addNextIntent(intent);
-
-        return stackBuilder.getPendingIntent(new Utils().getNotificationId(), PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+        return null;
     }
 
     private PendingIntent getShareIntent(String textToShare) {
