@@ -12,13 +12,11 @@
                1. LINK
                2. PHONE
                3. STICKY NOTE
-               4. REMINDER
-               5. WATCH LATER
-               6. EMAIL
-               7. WEB URL
+               4. WATCH LATER
+               5. EMAIL
+               6. WEB URL
 
        -->
-
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -51,23 +49,24 @@
             style="@style/TextAppearance.MaterialComponents.Headline3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="¯\\_(ツ)_/¯"/>
+            android:textColor="?colorPrimaryText"
+            android:text="¯\\_(ツ)_/¯" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:textColor="?colorSecondaryText"
-            android:fontFamily="@font/roboto_black"
-            android:text="No running notifications"/>
+            style="@style/TextAppearance.AppCompat.Body1"
+            android:fontFamily="@font/roboto"
+            android:text="No running notifications"
+            android:textColor="?colorSecondaryText" />
     </LinearLayout>
-
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview_Home"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:layout_height="wrap_content"
         tools:listitem="@layout/itemveiw_notification" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton

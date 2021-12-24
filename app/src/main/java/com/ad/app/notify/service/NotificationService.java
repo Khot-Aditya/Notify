@@ -2,6 +2,7 @@ package com.ad.app.notify.service;
 
 import static com.ad.app.notify.utils.Constants.CHANNEL_ID;
 import static com.ad.app.notify.utils.Constants.CHANNEL_NAME;
+import static com.ad.app.notify.utils.Constants.TAG_WATCH_LATER;
 
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -29,6 +30,7 @@ import com.ad.app.notify.database.NotificationDatabaseHandler;
 import com.ad.app.notify.model.NotificationModel;
 import com.ad.app.notify.receiver.NotificationActionReceiver;
 import com.ad.app.notify.utils.Constants;
+import com.ad.app.notify.utils.TextProcessor;
 import com.ad.app.notify.utils.Utils;
 
 public class NotificationService extends Service {
@@ -53,6 +55,7 @@ public class NotificationService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+
     }
 
     @Override
@@ -65,12 +68,6 @@ public class NotificationService extends Service {
             Toast.makeText(this, "Added to Notify", Toast.LENGTH_SHORT).show();
 
             new NotificationDatabaseHandler(this).addNewNotification(notificationModel);
-//
-//                    RecyclerView recyclerView1 = findViewById(R.id.recyclerview_Home);
-//                    recyclerView1.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-//                    recyclerView1.setAdapter(new NotificationRecyclerAdapter(
-//                            new NotificationDatabaseHandler(MainActivity.this)
-//                                    .getActiveNotificationList(), MainActivity.this));
 
             stopSelf();
         } else {
@@ -90,6 +87,13 @@ public class NotificationService extends Service {
         String notificationTags = model.getNotificationTags();
         boolean isNotificationPinned = model.isNotificationPinned();
 
+        SharedPreferences sharedConfig = PreferenceManager.getDefaultSharedPreferences(this);
+
+
+        boolean attachPinByDefault = sharedConfig.getBoolean(getString(R.string.attach_pin_title), true);
+        String temporaryNotes = sharedConfig.getString(getString(R.string.temporary_notes_title), "never");
+
+
 
         //------------------------------------------------------------------------------------------
         NotificationCompat.Builder mBuilder;
@@ -106,8 +110,7 @@ public class NotificationService extends Service {
             mBuilder.setChannelId(CHANNEL_ID);
         }
 
-        SharedPreferences sharedConfig = PreferenceManager.getDefaultSharedPreferences(this);
-        String temporaryNotes = sharedConfig.getString(getString(R.string.temporary_notes_title), "never");
+
 
         if (!temporaryNotes.equals("never")) {
             mBuilder.setTimeoutAfter(Integer.parseInt(temporaryNotes));
@@ -125,12 +128,25 @@ public class NotificationService extends Service {
         mBuilder.setDefaults(0);
         mBuilder.setColor(Color.parseColor("#EEEEEE"));
         mBuilder.setColorized(true);
+        mBuilder.setSubText(notificationTags);
+
 
         //User can change values
-        mBuilder.setSubText("Change This Text");
-        mBuilder.setAutoCancel(false);
-        mBuilder.setOngoing(true);
-        mBuilder.setCustomBigContentView(getRemoteView(notificationId, notificationSubText));
+
+
+
+        if(attachPinByDefault){
+            mBuilder.setAutoCancel(false);
+            mBuilder.setOngoing(true);
+        }
+
+        if (notificationCategory.equals(TAG_WATCH_LATER)) {
+            mBuilder.setCustomContentView(getWatchLaterRemoteView(model));
+
+
+        } else {
+            mBuilder.setCustomBigContentView(getRemoteView(notificationId, notificationSubText));
+        }
 
         try {
             notificationManager.notify(notificationId, mBuilder.build());
@@ -140,6 +156,19 @@ public class NotificationService extends Service {
         }
     }
 
+    private RemoteViews getWatchLaterRemoteView(NotificationModel model) {
+
+        RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.layout_notification_watch_later);
+        remoteViews.setTextViewText(R.id.txt_SubText_WatchLater,model.getNotificationSubText());
+        if(model.isNotificationPinned()){
+            remoteViews.setImageViewResource(R.id.ic_Pin_Watchlater,R.drawable.ic_pinned);
+        }else{
+            remoteViews.setImageViewResource(R.id.ic_Pin_Watchlater,R.drawable.ic_unpinned);
+        }
+        remoteViews.setTextViewText(R.id.txt_Time_WatchLater,model.getNotificationTime() + " • " + model.getNotificationDate());
+        remoteViews.setOnClickPendingIntent(R.id.txt_SubText_WatchLater, getSearchUrlIntent(model.getNotificationSubText()));
+        return remoteViews;
+    }
 
     private RemoteViews getRemoteView(int notificationId, String receivedText) {
 
@@ -148,7 +177,7 @@ public class NotificationService extends Service {
                 receivedText.substring(0, 300) + "..." :
                 receivedText;
 
-        RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.layout_notification);
+        RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.layout_notification_full);
 //        remoteViews.setInt(R.id.linear_Container, "setBackgroundResource", R.color.color_StickyNote6); //notification color
         remoteViews.setTextViewText(R.id.txt_Body, trimmedText);
 //        remoteViews.setTextViewTextSize(R.id.txt_Body, 1, 24); //change size if phone number
@@ -185,19 +214,18 @@ public class NotificationService extends Service {
     }
 
     private PendingIntent getSearchUrlIntent(String url) {
+        //TODO - NOT TESTED
+        Intent intent = new TextProcessor(this).isYoutubeUrl(url) ?
+                new Intent(Intent.ACTION_VIEW, Uri.parse(new TextProcessor(this).getSearchableUrl(url))) :
+                new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-//        Intent intent = new TextProcessor(this).isYoutubeUrl(url) ?
-//                new Intent(Intent.ACTION_VIEW, Uri.parse(new TextProcessor(this).)) :
-//                new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-//        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//
-//        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-//        stackBuilder.addParentStack(MainActivity.class);
-//        stackBuilder.addNextIntent(intent);
-//
-//        return stackBuilder.getPendingIntent(new Utils().getNotificationId(), PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+        stackBuilder.addParentStack(MainActivity.class);
+        stackBuilder.addNextIntent(intent);
 
-        return null;
+        return stackBuilder.getPendingIntent(new Utils().getNotificationId(), PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+
     }
 
     private PendingIntent getShareIntent(String textToShare) {

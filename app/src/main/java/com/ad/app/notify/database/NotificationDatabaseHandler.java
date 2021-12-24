@@ -73,6 +73,14 @@ public class NotificationDatabaseHandler extends SQLiteOpenHelper {
         return delete != -1;
     }
 
+    public boolean deleteAllNotifications() {
+        SQLiteDatabase database = this.getWritableDatabase();
+
+        int delete = database.delete(Constants.TABLE_NOTIFICATION, null, null);
+
+        database.close();
+        return delete != -1;
+    }
 
     public boolean addNewNotification(NotificationModel notificationModel) {
         SQLiteDatabase database = this.getWritableDatabase();
@@ -94,12 +102,12 @@ public class NotificationDatabaseHandler extends SQLiteOpenHelper {
     }
 
 
-    public List<NotificationModel> getActiveNotificationList() {
-        return getDataFromDatabase("SELECT * FROM " + Constants.TABLE_NOTIFICATION);
+    public List<NotificationModel> getActiveNotificationList(boolean recentlyAdded) {
+        return getDataFromDatabase(recentlyAdded, "SELECT * FROM " + Constants.TABLE_NOTIFICATION);
     }
 
 
-    private List<NotificationModel> getDataFromDatabase(String queryString) {
+    private List<NotificationModel> getDataFromDatabase(boolean recentlyAdded, String queryString) {
 
         SQLiteDatabase database = this.getReadableDatabase();
 
@@ -133,7 +141,12 @@ public class NotificationDatabaseHandler extends SQLiteOpenHelper {
                     Log.d(TAG, "getList: " + e.getLocalizedMessage());
                 }
 
-                itemList.add(notificationModel);
+                if (recentlyAdded) {
+                    itemList.add(0, notificationModel);
+                } else {
+                    itemList.add(notificationModel);
+                }
+
 
             } while (cursor.moveToNext());
         } else {

@@ -38,7 +38,7 @@
 <!--        TODO - DEVELOP THIS FEATURE-->
         <SwitchPreferenceCompat
             android:summary="Group notifications with similar category"
-            app:icon="@drawable/ic_pin"
+            app:icon="@drawable/ic_group"
             app:defaultValue="false"
             app:key="Groups"
             app:title="Groups" />
@@ -46,7 +46,7 @@
         <!--        TODO - DEVELOP THIS FEATURE-->
         <SwitchPreferenceCompat
             android:summary="Enable to collapse big notifications"
-            app:icon="@drawable/ic_pin"
+            app:icon="@drawable/ic_collapse"
             app:defaultValue="false"
             app:key="Groups"
             app:title="Collapsed View" />

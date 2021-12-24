@@ -4,9 +4,15 @@
     tools:context="com.ad.app.notify.activities.MainActivity">
 
     <item
-        android:id="@+id/help"
-        android:icon="@drawable/ic_interrogation"
-        android:title="@string/about_app_title"
+        android:id="@+id/action_reportBug"
+        android:icon="@drawable/ic_report"
+        android:title="@string/report_bug"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_sort"
+        android:icon="@drawable/ic_interlining"
+        android:title="@string/sort"
         app:showAsAction="ifRoom" />
 
     <item

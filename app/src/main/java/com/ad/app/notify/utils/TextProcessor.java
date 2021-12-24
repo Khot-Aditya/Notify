@@ -19,6 +19,7 @@ import java.util.regex.Pattern;
 public class TextProcessor extends Constants {
 
     private Context context;
+    private boolean attachPinByDefault;
 
     //TODO - IMPROVE REGEX
     private static final Pattern REGEX_PHONE_NUMBER_1 =
@@ -36,6 +37,9 @@ public class TextProcessor extends Constants {
 
     public TextProcessor(Context context) {
         this.context = context;
+
+        SharedPreferences sharedConfig = PreferenceManager.getDefaultSharedPreferences(context);
+        attachPinByDefault = sharedConfig.getBoolean(context.getString(R.string.attach_pin_title), true);
     }
 
 
@@ -45,7 +49,7 @@ public class TextProcessor extends Constants {
         //create unique notification id
 
         List<NotificationModel> activeNotificationList =
-                new NotificationDatabaseHandler(context).getActiveNotificationList();
+                new NotificationDatabaseHandler(context).getActiveNotificationList(false);
 
         //set id to a random number
         int notificationId = new Utils().getNotificationId();
@@ -57,9 +61,9 @@ public class TextProcessor extends Constants {
             }
         }
 
-        StringBuilder stringBuilder = new StringBuilder("");
 
-        //TODO - SET TAGS
+        String category = getCategory(string);
+        String tags = getTags(category);
 
 
         NotificationModel newNotificationModel = new NotificationModel();
@@ -67,10 +71,10 @@ public class TextProcessor extends Constants {
         newNotificationModel.setNotificationId(notificationId);
         newNotificationModel.setNotificationDate(new Utils().getCurrentDate());
         newNotificationModel.setNotificationTime(new Utils().getCurrentTime());
-        newNotificationModel.setNotificationSubText(string + "[" + notificationId + "]");
-        newNotificationModel.setNotificationCategory(getCategory(string));
-        newNotificationModel.setNotificationTags("sticky note - phone - email");  //TODO - SET TAGS AFTER TEXT PROCESSING
-        newNotificationModel.setNotificationPinned(true);
+        newNotificationModel.setNotificationSubText(string);
+        newNotificationModel.setNotificationCategory(category);
+        newNotificationModel.setNotificationTags(tags);
+        newNotificationModel.setNotificationPinned(attachPinByDefault);
 
 
         Intent intent = new Intent(context, NotificationService.class);
@@ -78,85 +82,42 @@ public class TextProcessor extends Constants {
         context.startService(intent);
     }
 
+    private String getTags(String string) {
+
+
+
+        switch (string) {
+
+            case TAG_URL:
+                return "Web Url";
+
+            case TAG_EMAIL:
+                return "Email";
+
+            case TAG_PHONE_NUMBER:
+                return "Phone Number";
+
+            case TAG_WATCH_LATER:
+                return "Youtube Watch Later";
+
+            case TAG_NOTE:
+                return attachPinByDefault ? "Sticky Note" : "Temporary Note";
+        }
+        return null;
+    }
+
     private String getCategory(String string) {
 
-        String category;
 
-        //check if received string contains any url
         String urlType = getUrlType(string);
         String emailType = getEmailType(string);
         String phoneNumberType = getPhoneNumberType(string);
 
-        PreferenceManager.setDefaultValues(context, R.xml.root_preferences, false);
+        if (!urlType.equals("0")) return urlType;
+        if (!emailType.equals("0")) return emailType;
+        if (!phoneNumberType.equals("0")) return phoneNumberType;
 
-        SharedPreferences sharedConfig = PreferenceManager.getDefaultSharedPreferences(context);
-        boolean attachPinByDefault = sharedConfig.getBoolean(context.getString(R.string.attach_pin_title), true);
-
-        category = attachPinByDefault ?
-                Constants.STICKY_NOTE :
-                Constants.TEMPORARY_NOTE;
-
-        if (!urlType.equals("0")) {
-            //contains url
-
-            switch (urlType){
-
-                case Constants.YOUTUBE_URL:
-                    return "Youtube";
-
-                case Constants.NOTE_CONTAINING_YOUTUBE_URL:
-                    //TODO
-                    break;
-
-                case Constants.WEB_URL:
-                    //TODO
-                    break;
-
-                case Constants.NOTE_CONTAINING_WEB_URL:
-                    //TODO
-                    break;
-
-                default:
-                    //TODO
-                    break;
-            }
-        }else{
-            //TODO
-        }
-
-        if (!emailType.equals("0")) {
-            //contains email address
-
-            if(emailType.equals(Constants.EMAIL_ADDRESS)){
-
-            }else if(emailType.equals(Constants.NOTE_CONTAINING_EMAIL_ADDRESS)){
-
-            }else{
-
-            }
-        }else{
-
-        }
-
-        if (!phoneNumberType.equals("0")) {
-            //phone number found
-
-            if(phoneNumberType.equals(Constants.PHONE_NUMBER)){
-
-            }
-
-            if(phoneNumberType.equals(Constants.NOTE_CONTAINING_PHONE_NUMBER)){
-
-            }else{
-
-            }
-        }else{
-
-        }
-
-
-
-        return category;
+        return Constants.TAG_NOTE;
     }
 
     private String getPhoneNumberType(String string) {
@@ -169,14 +130,14 @@ public class TextProcessor extends Constants {
 
                     if (s.length() == string.length()) {
                         //received string contains only phone number no other character
-                        return Constants.PHONE_NUMBER;
+                        return Constants.TAG_PHONE_NUMBER;
                     } else {
                         //received string contains other characters with single phone number
-                        return Constants.NOTE_CONTAINING_PHONE_NUMBER;
+                        return Constants.TAG_NOTE;
                     }
                 } else {
                     //multiple phone numbers found
-                    return Constants.NOTE_CONTAINING_PHONE_NUMBER;
+                    return Constants.TAG_NOTE;
                 }
             }
         } else {
@@ -198,11 +159,11 @@ public class TextProcessor extends Constants {
 
                     //check if received text only contains email address and not any other character
                     return s.length() == string.length() ?
-                            Constants.EMAIL_ADDRESS :
-                            Constants.NOTE_CONTAINING_EMAIL_ADDRESS;
+                            Constants.TAG_EMAIL :
+                            Constants.TAG_NOTE;
                 } else {
                     //received string contains multiple email addresses
-                    return Constants.NOTE_CONTAINING_EMAIL_ADDRESS;
+                    return Constants.TAG_NOTE;
                 }
             }
         } else {
@@ -227,23 +188,23 @@ public class TextProcessor extends Constants {
 
                         //if only url is received not any other characters
                         return s.length() == string.length() ?
-                                Constants.YOUTUBE_URL :
-                                Constants.NOTE_CONTAINING_YOUTUBE_URL;
+                                Constants.TAG_WATCH_LATER :
+                                Constants.TAG_NOTE;
                     } else {
                         //when received url is not of youtube
 
                         //if only url is received not any other characters
                         return s.length() == string.length() ?
-                                Constants.WEB_URL :
-                                Constants.NOTE_CONTAINING_WEB_URL;
+                                Constants.TAG_URL :
+                                Constants.TAG_NOTE;
                     }
                 } else {
                     //if multiple urls are found
 
                     //check if url is of youtube or other websites
                     return isYoutubeUrl(s) ?
-                            Constants.NOTE_CONTAINING_YOUTUBE_URL :
-                            Constants.NOTE_CONTAINING_WEB_URL;
+                            Constants.TAG_NOTE :
+                            Constants.TAG_NOTE;
                 }
             }
         } else {
@@ -254,11 +215,11 @@ public class TextProcessor extends Constants {
         return "0";
     }
 
-    public static boolean isYoutubeUrl(String youTubeURl) {
+    public boolean isYoutubeUrl(String url) {
 
         String pattern = "^(http(s)?:\\/\\/)?((w){3}.)?youtu(be|.be)?(\\.com)?\\/.+";
 
-        return !youTubeURl.isEmpty() && youTubeURl.matches(pattern);
+        return !url.isEmpty() && url.matches(pattern);
     }
 
     private List<String> getUrlFromString(String string) {
@@ -316,16 +277,20 @@ public class TextProcessor extends Constants {
     //TODO - DEVELOP THIS FUNCTION
     public String getSearchableUrl(String url) {
 
-        String s;
 
-//        if (isYoutubeUrl(url)) {
-//            Matcher matcher = REGEX_YOUTUBE_URL.matcher(url);
-//            if (matcher.find()) {
-//                s = "https://www.youtube.com/watch?v=" + matcher.group(1);
-//            }
-//        } else {
-//            s = url;
-//        }
+        String regex = "^https?://.*(?:youtu.be/|v/|u/\\\\w/|embed/|watch?v=)([^#&?]*).*$";
+
+        Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
+
+
+        if (isYoutubeUrl(url)) {
+            Matcher matcher = pattern.matcher(url);
+            if (matcher.find()) {
+                return "https://www.youtube.com/watch?v=" + matcher.group(1);
+            }
+        } else {
+            return url;
+        }
 
 
         return null;

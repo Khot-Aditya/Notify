@@ -1,6 +1,5 @@
 package com.ad.app.notify.activities;
 
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -10,13 +9,14 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.res.ResourcesCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.SwitchPreferenceCompat;
 
 import com.ad.app.notify.R;
+import com.ad.app.notify.database.NotificationDatabaseHandler;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 public class SettingsActivity extends AppCompatActivity {
@@ -93,19 +93,10 @@ public class SettingsActivity extends AppCompatActivity {
             });
 
             assert switch_AttachPin != null;
-            switch_AttachPin.setOnPreferenceChangeListener((preference, newValue) -> {
-
-                Toast.makeText(getContext(), newValue.toString(), Toast.LENGTH_SHORT).show();
-                return true;
-            });
+            switch_AttachPin.setOnPreferenceChangeListener((preference, newValue) -> true);
 
             assert temporaryNotesTime != null;
-            temporaryNotesTime.setOnPreferenceChangeListener((preference, newValue) -> {
-
-
-                Toast.makeText(getContext(), newValue.toString(), Toast.LENGTH_SHORT).show();
-                return true;
-            });
+            temporaryNotesTime.setOnPreferenceChangeListener((preference, newValue) -> true);
 
             assert btn_clearAll != null;
             btn_clearAll.setOnPreferenceClickListener(preference -> {
@@ -113,8 +104,22 @@ public class SettingsActivity extends AppCompatActivity {
                 new MaterialAlertDialogBuilder(requireContext())
                         .setMessage("Remove all active notes?")
                         .setPositiveButton(android.R.string.ok, (dialog, whichButton) -> {
-                            //TODO - CLEAR ALL NOTES
-                            Toast.makeText(requireContext(), "Clear all", Toast.LENGTH_SHORT).show();
+
+                            if (new NotificationDatabaseHandler(requireContext()).deleteAllNotifications()) {
+                                try {
+//                                    NotificationManager notificationManager =
+//                                            (NotificationManager) requireActivity().getSystemService(Context.NOTIFICATION_SERVICE);
+//                                    notificationManager.cancelAll();
+
+                                    NotificationManagerCompat.from(requireContext()).cancelAll();
+                                    Toast.makeText(requireContext(), "Done", Toast.LENGTH_SHORT).show();
+                                } catch (Exception e) {
+                                    //TODO - LOG EXCEPTION
+                                }
+
+                            } else {
+                                Toast.makeText(requireContext(), "Failed", Toast.LENGTH_SHORT).show();
+                            }
                         })
                         .setNegativeButton(android.R.string.no, null).show();
 

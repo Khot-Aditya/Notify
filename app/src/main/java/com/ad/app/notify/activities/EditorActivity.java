@@ -1,9 +1,11 @@
-package com.ad.app.notify;
+package com.ad.app.notify.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.os.Bundle;
+
+import com.ad.app.notify.R;
 
 public class EditorActivity extends AppCompatActivity {
 

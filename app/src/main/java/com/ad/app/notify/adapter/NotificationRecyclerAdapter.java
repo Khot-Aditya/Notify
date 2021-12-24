@@ -12,7 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.ad.app.notify.EditorActivity;
+import com.ad.app.notify.activities.EditorActivity;
 import com.ad.app.notify.R;
 import com.ad.app.notify.model.NotificationModel;
 import com.google.android.material.card.MaterialCardView;
@@ -69,8 +69,8 @@ public class NotificationRecyclerAdapter extends RecyclerView.Adapter<Notificati
 
         holder.txt_SubText.setText(subText);
         holder.txt_Time.setText(object.getNotificationTime());
-        holder.ic_Pin.setImageResource(R.drawable.ic_thumbtack);
-        holder.txt_Tags.setText(object.getNotificationTags());
+        holder.ic_Pin.setVisibility(View.GONE);
+        holder.txt_Tags.setText(" • " + object.getNotificationTags());
 
         holder.cardview_Container.setOnClickListener(v -> {
 

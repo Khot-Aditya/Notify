@@ -24,14 +24,12 @@ public class Constants {
 
 
     //tags
-    //TODO - EXTRACT STRING FROM RESOURCE
-    public static final String TAG_WATCH_LATER = "Watch Later"; //WATCH LATER TAG IF ONLY YOUTUBE LINK IS RECEIVED
-    public static final String URL = "Url"; //if any contains any url including youtube
-    public static final String PHONE = "Mobile Number";
-    public static final String EMAIL = "Email";
-    public static final String All = "All";
-    public static final String PLAIN_TEXT = "Plain Text";
+    public static final String TAG_WATCH_LATER = "com.ad.app.notify.Constants.TAG_WATCH_LATER";
+    public static final String TAG_URL = "com.ad.app.notify.Constants.TAG_URL";
+    public static final String TAG_EMAIL = "com.ad.app.notify.Constants.TAG_EMAIL";
+    public static final String TAG_PHONE_NUMBER = "com.ad.app.notify.Constants.TAG_PHONE_NUMBER";
 
+    public static final String TAG_NOTE = "com.ad.app.notify.Constants.NOTE_CONTAINING_EMAIL_ADDRESS";
 
     /*
     * TODO -
@@ -47,17 +45,7 @@ public class Constants {
     */
 
 
-    public static final String WEB_URL = "com.ad.app.notify.Constants.WEB_URL";
-    public static final String YOUTUBE_URL = "com.ad.app.notify.Constants.YOUTUBE_URL";
-    public static final String PHONE_NUMBER = "com.ad.app.notify.Constants.PHONE_NUMBER";
-    public static final String EMAIL_ADDRESS = "com.ad.app.notify.Constants.EMAIL_ADDRESS";
-    public static final String STICKY_NOTE = "com.ad.app.notify.Constants.STICKY_NOTE";
-    public static final String TEMPORARY_NOTE = "com.ad.app.notify.Constants.TEMPORARY_NOTE";
 
-    public static final String NOTE_CONTAINING_WEB_URL = "com.ad.app.notify.Constants.NOTE_CONTAINING_WEB_URL";
-    public static final String NOTE_CONTAINING_YOUTUBE_URL = "com.ad.app.notify.Constants.NOTE_CONTAINING_YOUTUBE_URL";
-    public static final String NOTE_CONTAINING_PHONE_NUMBER = "com.ad.app.notify.Constants.NOTE_CONTAINING_PHONE_NUMBER";
-    public static final String NOTE_CONTAINING_EMAIL_ADDRESS = "com.ad.app.notify.Constants.NOTE_CONTAINING_EMAIL_ADDRESS";
 
 
 
