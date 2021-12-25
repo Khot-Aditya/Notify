@@ -21,7 +21,6 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 public class SettingsActivity extends AppCompatActivity {
 
-    // TODO - REDIRECT TO PLAY STORE
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,10 +33,10 @@ public class SettingsActivity extends AppCompatActivity {
                     .replace(R.id.settings, new SettingsFragment())
                     .commit();
         }
+
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
-
         }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_Settings);
@@ -47,8 +46,6 @@ public class SettingsActivity extends AppCompatActivity {
             overridePendingTransition(R.anim.slide_in_from_left,
                     R.anim.slide_out_to_right);
         });
-
-
     }
 
     @Override
@@ -65,7 +62,6 @@ public class SettingsActivity extends AppCompatActivity {
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey);
 
-
             ListPreference theme = (ListPreference) findPreference(getString(R.string.theme_title));
             SwitchPreferenceCompat switch_AttachPin = (SwitchPreferenceCompat) findPreference(getString(R.string.attach_pin_title));
             ListPreference temporaryNotesTime = (ListPreference) findPreference(getString(R.string.temporary_notes_title));
@@ -78,96 +74,109 @@ public class SettingsActivity extends AppCompatActivity {
 //            Preference btn_Help = (Preference) findPreference(getString(R.string.help_title));
 
 
-            assert theme != null;
-            theme.setOnPreferenceChangeListener((preference, newValue) -> {
+            if (theme != null)
+                theme.setOnPreferenceChangeListener((preference, newValue) -> {
 
-                if (newValue.equals("light")) {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                } else if (newValue.equals("dark")) {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                } else {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
-                }
+                    if (newValue.equals("light")) {
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    } else if (newValue.equals("dark")) {
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    } else {
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+                    }
 
-                return true;
-            });
+                    return true;
+                });
 
-            assert switch_AttachPin != null;
-            switch_AttachPin.setOnPreferenceChangeListener((preference, newValue) -> true);
+            if (switch_AttachPin != null)
+                switch_AttachPin.setOnPreferenceChangeListener((preference, newValue) -> true);
 
-            assert temporaryNotesTime != null;
-            temporaryNotesTime.setOnPreferenceChangeListener((preference, newValue) -> true);
+            if (temporaryNotesTime != null)
+                temporaryNotesTime.setOnPreferenceChangeListener((preference, newValue) -> true);
 
-            assert btn_clearAll != null;
-            btn_clearAll.setOnPreferenceClickListener(preference -> {
+            if (btn_clearAll != null)
+                btn_clearAll.setOnPreferenceClickListener(preference -> {
 
-                new MaterialAlertDialogBuilder(requireContext())
-                        .setMessage("Remove all active notes?")
-                        .setPositiveButton(android.R.string.ok, (dialog, whichButton) -> {
+                    new MaterialAlertDialogBuilder(requireContext())
+                            .setMessage("Remove all active notes?")
+                            .setPositiveButton(android.R.string.ok, (dialog, whichButton) -> {
 
-                            if (new NotificationDatabaseHandler(requireContext()).deleteAllNotifications()) {
-                                try {
+                                if (new NotificationDatabaseHandler(requireContext()).deleteAllNotifications()) {
+                                    try {
 //                                    NotificationManager notificationManager =
 //                                            (NotificationManager) requireActivity().getSystemService(Context.NOTIFICATION_SERVICE);
 //                                    notificationManager.cancelAll();
 
-                                    NotificationManagerCompat.from(requireContext()).cancelAll();
-                                    Toast.makeText(requireContext(), "Done", Toast.LENGTH_SHORT).show();
-                                } catch (Exception e) {
-                                    //TODO - LOG EXCEPTION
+                                        NotificationManagerCompat.from(requireContext()).cancelAll();
+                                        Toast.makeText(requireContext(), "Done", Toast.LENGTH_SHORT).show();
+                                    } catch (Exception e) {
+                                        //TODO - LOG EXCEPTION
+                                    }
+
+                                } else {
+                                    Toast.makeText(requireContext(), "Failed", Toast.LENGTH_SHORT).show();
                                 }
+                            })
+                            .setNegativeButton(android.R.string.no, null).show();
 
-                            } else {
-                                Toast.makeText(requireContext(), "Failed", Toast.LENGTH_SHORT).show();
-                            }
-                        })
-                        .setNegativeButton(android.R.string.no, null).show();
+                    return true;
+                });
 
-                return true;
-            });
+            if (btn_Email != null)
+                btn_Email.setOnPreferenceClickListener(preference -> {
 
-            assert btn_Email != null;
-            btn_Email.setOnPreferenceClickListener(preference -> {
+                    String to = "adityakhot6838@gmail.com";
+                    String subject = "";
+                    String body = "";
 
-                String to = "adityakhot6838@gmail.com";
-                String subject = "";
-                String body = "";
+                    String mailTo = "mailto:" + to +
+                            "?&subject=" + Uri.encode(subject) +
+                            "&body=" + Uri.encode(body);
 
-                String mailTo = "mailto:" + to +
-                        "?&subject=" + Uri.encode(subject) +
-                        "&body=" + Uri.encode(body);
+                    Intent emailIntent = new Intent(Intent.ACTION_VIEW);
+                    emailIntent.setData(Uri.parse(mailTo));
 
-                Intent emailIntent = new Intent(Intent.ACTION_VIEW);
-                emailIntent.setData(Uri.parse(mailTo));
+                    try {
+                        startActivity(Intent.createChooser(emailIntent, "Send Email"));
+                    } catch (Exception e) {
+                        //TODO - LOG EXCEPTION
+                    }
 
-                try {
-                    startActivity(Intent.createChooser(emailIntent, "Send Email"));
-                } catch (Exception e) {
-                    //TODO - LOG EXCEPTION
-                }
+                    return true;
+                });
 
-                return true;
-            });
+            if (btn_Donate != null)
+                btn_Donate.setOnPreferenceClickListener(preference -> {
 
-            assert btn_Donate != null;
-            btn_Donate.setOnPreferenceClickListener(preference -> {
+                    startActivity(new Intent(requireContext(), DonateActivity.class));
+                    requireActivity().overridePendingTransition(R.anim.slide_in_from_right,
+                            R.anim.slide_out_to_left);
 
-                startActivity(new Intent(requireContext(), DonateActivity.class));
-                requireActivity().overridePendingTransition(R.anim.slide_in_from_right,
-                        R.anim.slide_out_to_left);
+                    return true;
+                });
 
-                return true;
-            });
+            if (btn_Feedback != null)
+                btn_Feedback.setOnPreferenceClickListener(preference -> {
 
-            assert btn_Feedback != null;
-            btn_Feedback.setOnPreferenceClickListener(preference -> {
+                    startActivity(new Intent(requireActivity(), FeedbackActivity.class));
+                    requireActivity().overridePendingTransition(R.anim.slide_in_from_right,
+                            R.anim.slide_out_to_left);
+                    return true;
+                });
 
-                startActivity(new Intent(requireActivity(), FeedbackActivity.class));
-                requireActivity().overridePendingTransition(R.anim.slide_in_from_right,
-                        R.anim.slide_out_to_left);
-                return true;
-            });
+            if (btn_AboutApp != null)
+                btn_AboutApp.setOnPreferenceClickListener(preference -> {
+                    // TODO - REDIRECT TO PLAY STORE
+                    Toast.makeText(requireContext(), "Clicked", Toast.LENGTH_SHORT).show();
+                    return true;
+                });
 
+            if (btn_PrivacyPolicy != null)
+                btn_PrivacyPolicy.setOnPreferenceClickListener(preference -> {
+                    //TODO - OPEN PRIVACY POLICY LINK IN BROWSER
+                    Toast.makeText(requireContext(), "Clicked", Toast.LENGTH_SHORT).show();
+                    return true;
+                });
         }
     }
 }

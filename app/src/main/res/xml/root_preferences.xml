@@ -1,8 +1,10 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <PreferenceCategory app:title="App Settings"
-        app:iconSpaceReserved="false">
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:title="App Settings">
+
         <ListPreference
             android:title="@string/theme_title"
             app:defaultValue="follow_system"
@@ -17,15 +19,15 @@
 
         <SwitchPreferenceCompat
             android:summary="@string/attach_pin_description"
-            app:icon="@drawable/ic_pin"
             app:defaultValue="true"
+            app:icon="@drawable/ic_pin"
             app:key="@string/attach_pin_title"
             app:title="@string/attach_pin_title" />
 
         <ListPreference
             android:title="@string/temporary_notes_title"
-            app:dialogTitle="@string/temporary_notes_dialog_title"
             app:defaultValue="86400000"
+            app:dialogTitle="@string/temporary_notes_dialog_title"
             app:entries="@array/temporary_notes_title"
             app:entryValues="@array/temporary_notes_values"
             app:icon="@drawable/ic_temporary_notes"
@@ -35,20 +37,20 @@
             app:summary="@string/temporary_notes_description"
             app:useSimpleSummaryProvider="false" />
 
-<!--        TODO - DEVELOP THIS FEATURE-->
+        <!--        TODO - DEVELOP THIS FEATURE-->
         <SwitchPreferenceCompat
             android:summary="Group notifications with similar category"
-            app:icon="@drawable/ic_group"
             app:defaultValue="false"
+            app:icon="@drawable/ic_group"
             app:key="Groups"
             app:title="Groups" />
 
         <!--        TODO - DEVELOP THIS FEATURE-->
         <SwitchPreferenceCompat
             android:summary="Enable to collapse big notifications"
+            app:defaultValue="true"
             app:icon="@drawable/ic_collapse"
-            app:defaultValue="false"
-            app:key="Groups"
+            app:key="Collapsed View"
             app:title="Collapsed View" />
 
         <Preference
@@ -60,8 +62,9 @@
     </PreferenceCategory>
 
 
-    <PreferenceCategory app:title=" Contact Developer"
-        app:iconSpaceReserved="false">
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:title=" Contact Developer">
 
         <!--        <Preference-->
         <!--            android:key="Telegram"-->
@@ -94,8 +97,9 @@
             app:icon="@drawable/ic_feedback" />
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="About App"
-        app:iconSpaceReserved="false">
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:title="About App">
         <!--        <Preference-->
         <!--            android:key="Changelog"-->
         <!--            android:summary="This is a cool button"-->
@@ -116,11 +120,11 @@
             app:icon="@drawable/ic_about_app" />
 
 
-<!--        <Preference-->
-<!--            android:key="@string/help_title"-->
-<!--            android:summary="@string/heLp_description"-->
-<!--            android:title="@string/help_title"-->
-<!--            app:icon="@drawable/ic_help" />-->
+        <!--        <Preference-->
+        <!--            android:key="@string/help_title"-->
+        <!--            android:summary="@string/heLp_description"-->
+        <!--            android:title="@string/help_title"-->
+        <!--            app:icon="@drawable/ic_help" />-->
     </PreferenceCategory>
 
 

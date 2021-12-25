@@ -41,6 +41,7 @@
         <entry key="..\:/Users/Dell/AndroidStudioProjects/Notify/app/src/main/res/drawable/ic_paper_clip.xml" value="0.290625" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/Notify/app/src/main/res/drawable/ic_phone_call.xml" value="0.290625" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/Notify/app/src/main/res/drawable/ic_pin.xml" value="0.18355263157894736" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/Notify/app/src/main/res/drawable/ic_pinned.xml" value="0.18355263157894736" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/Notify/app/src/main/res/drawable/ic_privacy_policy.xml" value="0.18355263157894736" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/Notify/app/src/main/res/drawable/ic_search.xml" value="0.290625" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/Notify/app/src/main/res/drawable/ic_settings.xml" value="0.290625" />
@@ -64,6 +65,8 @@
         <entry key="..\:/Users/Dell/AndroidStudioProjects/Notify/app/src/main/res/layout/activity_text_process.xml" value="0.27447916666666666" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/Notify/app/src/main/res/layout/content_main.xml" value="0.27447916666666666" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/Notify/app/src/main/res/layout/dialog_add_new_note.xml" value="0.264" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/Notify/app/src/main/res/layout/dialog_report_bug.xml" value="0.17335526315789473" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/Notify/app/src/main/res/layout/dialog_sort_list.xml" value="0.17335526315789473" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/Notify/app/src/main/res/layout/fragment_first.xml" value="0.27447916666666666" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/Notify/app/src/main/res/layout/fragment_home.xml" value="0.15584415584415584" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/Notify/app/src/main/res/layout/fragment_second.xml" value="0.17335526315789473" />
@@ -71,7 +74,7 @@
         <entry key="..\:/Users/Dell/AndroidStudioProjects/Notify/app/src/main/res/layout/layout_notification.xml" value="0.45892351274787535" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/Notify/app/src/main/res/layout/layout_notification_back.xml" value="0.536" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/Notify/app/src/main/res/layout/layout_notification_email.xml" value="0.17335526315789473" />
-        <entry key="..\:/Users/Dell/AndroidStudioProjects/Notify/app/src/main/res/layout/layout_notification_full.xml" value="0.4" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/Notify/app/src/main/res/layout/layout_notification_full.xml" value="0.264" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/Notify/app/src/main/res/layout/layout_notification_phone_number.xml" value="0.17335526315789473" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/Notify/app/src/main/res/layout/layout_notification_watch_later.xml" value="0.4" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/Notify/app/src/main/res/layout/layout_notification_web_url.xml" value="0.17335526315789473" />
@@ -95,5 +98,12 @@
   </component>
   <component name="ProjectType">
     <option name="id" value="Android" />
+  </component>
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.264" />
+      </ProjectState>
+    </option>
   </component>
 </project>

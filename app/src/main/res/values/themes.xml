@@ -5,10 +5,9 @@
         <item name="colorSecondary">@color/lightSecondary</item>
         <item name="colorPrimaryDark">@color/lightBackground</item>
         <item name="colorAccent">@color/lightPrimary</item>
-        <item name="android:navigationBarColor">@color/lightBackground</item>
+<!--        <item name="android:navigationBarColor">@color/lightBackground</item>-->
         <item name="android:windowLightStatusBar">true</item>
-        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
-        <item name="android:windowDisablePreview">true</item>
+<!--        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>-->
 
         <!--        TODO - SET CORNER VALUE IN XML-->
         <item name="dialogCornerRadius">16dp</item>

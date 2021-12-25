@@ -23,7 +23,7 @@ public class TextReceiverActivity extends AppCompatActivity {
 
         if (Intent.ACTION_SEND.equals(getIntent().getAction()) && "text/plain".equals(getIntent().getType())) {
 
-            new TextProcessor(this).process(getIntent().getStringExtra(Intent.EXTRA_TEXT));
+            new TextProcessor(this).process(getIntent().getStringExtra(Intent.EXTRA_TEXT),Constants.ACTION_ADD);
 
 //            Intent intent = new Intent(this, NotificationService.class);
 
@@ -33,7 +33,7 @@ public class TextReceiverActivity extends AppCompatActivity {
 
         } else if (message != null) {
 
-            new TextProcessor(this).process(message.toString());
+            new TextProcessor(this).process(message.toString(),Constants.ACTION_ADD);
 
 //            Intent intent = new Intent(this, NotificationService.class);
 

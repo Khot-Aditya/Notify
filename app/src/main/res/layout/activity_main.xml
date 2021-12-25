@@ -58,15 +58,16 @@
             android:layout_marginTop="20dp"
             style="@style/TextAppearance.AppCompat.Body1"
             android:fontFamily="@font/roboto"
-            android:text="No running notifications"
+            android:text="No ongoing notifications"
             android:textColor="?colorSecondaryText" />
     </LinearLayout>
 
+<!--     android:layoutAnimation="@anim/layout_animation_slide_from_bottom" -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview_Home"
         android:layout_width="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         tools:listitem="@layout/itemveiw_notification" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton

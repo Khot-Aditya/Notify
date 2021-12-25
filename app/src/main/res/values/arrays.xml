@@ -1,5 +1,6 @@
 <resources>
 
+<!--    TODO - EXTRACT STRING RESOURCES-->
 <!--    Theme Preference -->
     <string-array name="theme_title">
         <item>Light</item>

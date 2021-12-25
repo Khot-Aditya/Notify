@@ -10,7 +10,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
+        android:layout_margin="10dp"
         android:background="@drawable/dialog_background"
         android:orientation="vertical"
         android:padding="20dp">
@@ -22,10 +22,10 @@
             android:fontFamily="@font/roboto_bold"
             android:text="Create Note" />
 
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
             android:fontFamily="@font/roboto"
             android:text="Add notes and reminders to Notify and access easily from notifications." />
 
@@ -34,6 +34,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             app:endIconMode="clear_text"
             app:expandedHintEnabled="false"
             app:hintEnabled="false">
@@ -45,8 +46,8 @@
                 android:fontFamily="@font/roboto"
                 android:gravity="start|top"
                 android:hint="Reminder: Buy tickets for the family vacations."
-                android:maxHeight="200dp"
                 android:inputType="none"
+                android:maxHeight="200dp"
                 android:minHeight="100dp"
                 android:overScrollMode="always"
                 android:scrollbars="vertical">
@@ -54,17 +55,42 @@
             </com.google.android.material.textfield.TextInputEditText>
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_Dialog_Done"
-            style="@style/Widget.MaterialComponents.Button"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:fontFamily="@font/roboto_bold"
-            android:outlineProvider="none"
-            android:text="Done"
-            android:textAllCaps="true"
-            android:textColor="@color/white" />
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_Dialog_Cancel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="5dp"
+                android:layout_weight="1"
+                android:fontFamily="@font/roboto_bold"
+                android:outlineProvider="none"
+                android:text="Cancel"
+                android:textAllCaps="true"
+                android:textColor="@color/color_app"
+                app:backgroundTint="?android:colorBackgroundFloating" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_Dialog_Done"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:fontFamily="@font/roboto_bold"
+                android:outlineProvider="none"
+                android:text="Done"
+                android:textAllCaps="true"
+                android:textColor="@color/white" />
+
+
+        </LinearLayout>
+
 
     </LinearLayout>
 

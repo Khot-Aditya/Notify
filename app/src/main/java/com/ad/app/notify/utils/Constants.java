@@ -8,6 +8,12 @@ public class Constants {
     public static final String CHANNEL_NAME = "Notify Service";
 
 
+    public static final String ACTION = "com.ad.app.notify.Constants.ACTION";
+    public static final String ACTION_ADD = "com.ad.app.notify.Constants.ACTION_ADD";
+    public static final String ACTION_UPDATE = "com.ad.app.notify.Constants.ACTION_UPDATE";
+    public static final String NOTIFICATION_MODEL = "com.ad.app.notify.Constants.NOTIFICATION_MODEL";
+
+
     public static final String NOTIFICATION_ID = "com.ad.app.notify.Constants.NOTIFICATION_ID";
     public static final String NOTIFICATION_SUB_TEXT = "com.ad.app.notify.Constants.NOTIFICATION_SUB_TEXT";
     public static final String NOTIFICATION_CATEGORY = "com.ad.app.notify.Constants.NOTIFICATION_CATEGORY";

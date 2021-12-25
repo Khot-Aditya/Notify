@@ -3,6 +3,7 @@ package com.ad.app.notify.utils;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.widget.Toast;
 
 import androidx.preference.PreferenceManager;
 
@@ -43,7 +44,7 @@ public class TextProcessor extends Constants {
     }
 
 
-    public void process(String string) {
+    public void process(String string, String action) {
 
 
         //create unique notification id
@@ -78,13 +79,12 @@ public class TextProcessor extends Constants {
 
 
         Intent intent = new Intent(context, NotificationService.class);
-        intent.putExtra("notificationModel", newNotificationModel);
+        intent.putExtra(NOTIFICATION_MODEL, newNotificationModel);
+        intent.putExtra(Constants.ACTION,action);
         context.startService(intent);
     }
 
     private String getTags(String string) {
-
-
 
         switch (string) {
 
@@ -107,7 +107,6 @@ public class TextProcessor extends Constants {
     }
 
     private String getCategory(String string) {
-
 
         String urlType = getUrlType(string);
         String emailType = getEmailType(string);
@@ -278,23 +277,27 @@ public class TextProcessor extends Constants {
     public String getSearchableUrl(String url) {
 
 
-        String regex = "^https?://.*(?:youtu.be/|v/|u/\\\\w/|embed/|watch?v=)([^#&?]*).*$";
-
-        Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
-
-
         if (isYoutubeUrl(url)) {
+
+            Pattern pattern = Pattern.compile(
+                    "^https?://.*(?:youtu.be/|v/|u/\\\\w/|embed/|watch?v=)([^#&?]*).*$",
+                    Pattern.CASE_INSENSITIVE);
+
             Matcher matcher = pattern.matcher(url);
             if (matcher.find()) {
                 return "https://www.youtube.com/watch?v=" + matcher.group(1);
             }
         } else {
-            return url;
+
+            List<String> urls = getUrlFromString(url);
+
+            if (urls != null) {
+                //TODO SHOW TRANSPARENT ACTIVITY TO CHOOSE OPTIONS
+//                Toast.makeText(context, urls.get(0), Toast.LENGTH_SHORT).show();
+            }
         }
 
-
-        return null;
-
+        return url;
     }
 
 

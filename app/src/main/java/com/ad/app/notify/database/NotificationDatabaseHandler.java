@@ -22,18 +22,18 @@ public class NotificationDatabaseHandler extends SQLiteOpenHelper {
     public static final String TAG = "NotificationDatabaseHandler";
 
     public NotificationDatabaseHandler(@Nullable Context context) {
-        super(context, "notifications.db", null, 1);
+        super(context, "com.ad.app.notify.NotificationDatabaseHandler", null, 1);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String createTableStatement = "CREATE TABLE " + Constants.TABLE_NOTIFICATION + " (" +
-                Constants.COL_ID + " INTEGER " + "," +
+        String createTableStatement = "CREATE TABLE " + Constants.TABLE_NOTIFICATION + " ( " +
+                Constants.COL_ID + " INTEGER" + " , " +
                 Constants.COL_DATE + " TEXT" + " , " +
                 Constants.COL_TIME + " TEXT" + " , " +
                 Constants.COL_SUB_TEXT + " TEXT" + " , " +
                 Constants.COL_CATEGORY + " TEXT" + " , " +
-                Constants.COL_TAGS + " INTEGER" + " , " +
+                Constants.COL_TAGS + " TEXT" + " , " +
                 Constants.COL_IS_PINNED + " BOOL" + " )";
 
         db.execSQL(createTableStatement);
@@ -44,7 +44,7 @@ public class NotificationDatabaseHandler extends SQLiteOpenHelper {
 
     }
 
-    public boolean updateExistingDocuments(NotificationModel notificationModel) {
+    public boolean updateExistingNotification(NotificationModel notificationModel) {
         SQLiteDatabase database = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
@@ -164,6 +164,7 @@ public class NotificationDatabaseHandler extends SQLiteOpenHelper {
         Cursor cursor = database.rawQuery(countQuery, null);
         int count = cursor.getCount();
         cursor.close();
+        database.close();
         return count;
     }
 }
