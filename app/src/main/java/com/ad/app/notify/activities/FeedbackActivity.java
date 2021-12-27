@@ -104,7 +104,7 @@ public class FeedbackActivity extends AppCompatActivity {
             try {
                 startActivity(Intent.createChooser(emailIntent, "Send Email"));
             } catch (Exception e) {
-                //TODO - LOG EXCEPTION
+
             }
         });
     }

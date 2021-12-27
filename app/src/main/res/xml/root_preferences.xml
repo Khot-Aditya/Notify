@@ -37,21 +37,21 @@
             app:summary="@string/temporary_notes_description"
             app:useSimpleSummaryProvider="false" />
 
-        <!--        TODO - DEVELOP THIS FEATURE-->
-        <SwitchPreferenceCompat
-            android:summary="Group notifications with similar category"
-            app:defaultValue="false"
-            app:icon="@drawable/ic_group"
-            app:key="Groups"
-            app:title="Groups" />
 
-        <!--        TODO - DEVELOP THIS FEATURE-->
+<!--        <SwitchPreferenceCompat-->
+<!--            android:summary="@string/groups_description"-->
+<!--            app:defaultValue="false"-->
+<!--            app:icon="@drawable/ic_group"-->
+<!--            app:key="@string/groups_title"-->
+<!--            app:title="@string/groups_title" />-->
+
+
         <SwitchPreferenceCompat
-            android:summary="Enable to collapse big notifications"
+            android:summary="@string/collapsed_view_description"
             app:defaultValue="true"
             app:icon="@drawable/ic_collapse"
-            app:key="Collapsed View"
-            app:title="Collapsed View" />
+            app:key="@string/collapsed_view_title"
+            app:title="@string/collapsed_view_title" />
 
         <Preference
             android:key="@string/clear_title"

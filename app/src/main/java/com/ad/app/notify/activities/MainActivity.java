@@ -2,6 +2,7 @@ package com.ad.app.notify.activities;
 
 import android.app.NotificationManager;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -24,7 +25,9 @@ import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -105,8 +108,7 @@ public class MainActivity extends AppCompatActivity {
                         //need delay to save data in database
                         new Handler(Looper.getMainLooper()).postDelayed(() -> refreshRecyclerview(true), 200);
                     } else {
-                        //TODO - EXTRACT STRING
-                        edt_Dialog_Message.setError("Empty Field");
+                        edt_Dialog_Message.setError(getString(R.string.empty_field_error));
                     }
                 });
 
@@ -127,17 +129,16 @@ public class MainActivity extends AppCompatActivity {
 
 //        PreferenceManager.setDefaultValues(this, R.xml.root_preferences, false); /* does not affect performance */
 
-        //TODO
-//        SharedPreferences sharedConfig = PreferenceManager.getDefaultSharedPreferences(this);
-//        String theme = sharedConfig.getString(getString(R.string.theme_title), "system");
-//
-//        if (theme.equals("light")) {
-//            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-//        } else if (theme.equals("dark")) {
-//            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-//        } else {
-//            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
-//        }
+        SharedPreferences sharedConfig = PreferenceManager.getDefaultSharedPreferences(this);
+        String theme = sharedConfig.getString(getString(R.string.theme_title), "system");
+
+        if (theme.equals("light")) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        } else if (theme.equals("dark")) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+        }
     }
 
     public void refreshRecyclerview(boolean doAnimation) {

@@ -36,14 +36,13 @@
 
 
     <!--    TODO - DIFFERENT LAYOUTS FOR DIFFERENT CATEGORY-->
-
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardview_Container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="10dp"
-        android:backgroundTint="#FFDFDD"
+        android:backgroundTint="#FFE9D9"
         android:layout_marginBottom="15dp"
         android:background="?selectableItemBackground"
         android:clickable="true"
@@ -62,10 +61,11 @@
                 android:layout_margin="15dp">
 
                 <View
+                    android:id="@+id/view_Decor_RecyclerView"
                     android:layout_width="5dp"
                     android:layout_height="match_parent"
                     android:layout_marginEnd="10dp"
-                    android:background="@drawable/itemdecor_recyclerview"
+                    android:background="@drawable/itemdecor_recyclerview_watch_later"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />

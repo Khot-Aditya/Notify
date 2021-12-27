@@ -13,10 +13,6 @@ public class Constants {
     public static final String ACTION_UPDATE = "com.ad.app.notify.Constants.ACTION_UPDATE";
     public static final String NOTIFICATION_MODEL = "com.ad.app.notify.Constants.NOTIFICATION_MODEL";
 
-
-    public static final String NOTIFICATION_ID = "com.ad.app.notify.Constants.NOTIFICATION_ID";
-    public static final String NOTIFICATION_SUB_TEXT = "com.ad.app.notify.Constants.NOTIFICATION_SUB_TEXT";
-    public static final String NOTIFICATION_CATEGORY = "com.ad.app.notify.Constants.NOTIFICATION_CATEGORY";
     public static final String NOTIFICATION_INTENT_ACTION = "com.ad.app.notify.Constants.NOTIFICATION_INTENT_ACTION";
 
     public static final String ACTION_COPY = "com.ad.app.notify.Constants.ACTION_COPY";
@@ -36,25 +32,6 @@ public class Constants {
     public static final String TAG_PHONE_NUMBER = "com.ad.app.notify.Constants.TAG_PHONE_NUMBER";
 
     public static final String TAG_NOTE = "com.ad.app.notify.Constants.NOTE_CONTAINING_EMAIL_ADDRESS";
-
-    /*
-    * TODO -
-    *   LAYOUTS
-    *   1. YOUTUBE WATCH LATER LAYOUT
-    *   2. WEB LINK
-    *   3. PHONE NUMBER
-    *   4. EMAIL ADDRESS
-    *   5. PLAIN TEXT
-    *   6. CONTAIN DIFFERENT LINKS
-    *   7. CONTAIN DIFFERENT CONTACTS
-    *   8. CONTAIN ALL TAGS
-    */
-
-
-
-
-
-
 
     //TODO - USE THIS REGEX IF OTHERS FAIL
 //    public static final Pattern REGEX_PHONE_NUMBER_1 =

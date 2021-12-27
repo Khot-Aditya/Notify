@@ -1,20 +1,31 @@
 package com.ad.app.notify.adapter;
 
+import static com.ad.app.notify.utils.Constants.TAG_EMAIL;
+import static com.ad.app.notify.utils.Constants.TAG_NOTE;
+import static com.ad.app.notify.utils.Constants.TAG_PHONE_NUMBER;
+import static com.ad.app.notify.utils.Constants.TAG_URL;
+import static com.ad.app.notify.utils.Constants.TAG_WATCH_LATER;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RemoteViews;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.ad.app.notify.activities.EditorActivity;
 import com.ad.app.notify.R;
+import com.ad.app.notify.activities.EditorActivity;
 import com.ad.app.notify.model.NotificationModel;
+import com.ad.app.notify.utils.Constants;
 import com.google.android.material.card.MaterialCardView;
 
 import java.util.List;
@@ -42,7 +53,37 @@ public class NotificationRecyclerAdapter extends RecyclerView.Adapter<Notificati
     public void onBindViewHolder(@NonNull NotificationRecyclerAdapter.ListBasicViewHolder holder, int position) {
         final NotificationModel object = objectList.get(position);
 
-//        holder.cardview_Container.setCardBackgroundColor(Color.parseColor("#FFEFD6"));
+
+        //under developed function
+//        switch (object.getNotificationCategory()) {
+//
+//            case TAG_WATCH_LATER:
+//                holder.view_Decor_RecyclerView.setBackground(ContextCompat.getDrawable(context, R.drawable.itemdecor_recyclerview_watch_later));
+//                holder.cardview_Container.setCardBackgroundColor(Color.parseColor("#FFDFDD"));
+//                break;
+//
+//            case TAG_EMAIL:
+//                holder.view_Decor_RecyclerView.setBackground(ContextCompat.getDrawable(context, R.drawable.itemdecor_recyclerview_email));
+//                holder.cardview_Container.setCardBackgroundColor(ContextCompat.getColor(context,R.color.color_StickyNote6));
+//                break;
+//
+//            case TAG_NOTE:
+//                holder.view_Decor_RecyclerView.setBackground(ContextCompat.getDrawable(context, R.drawable.itemdecor_recyclerview_note));
+//                holder.cardview_Container.setCardBackgroundColor(Color.parseColor("#FFDFDD"));
+//                break;
+//
+//            case TAG_PHONE_NUMBER:
+//                holder.view_Decor_RecyclerView.setBackground(ContextCompat.getDrawable(context, R.drawable.itemdecor_recyclerview_phone));
+//                holder.cardview_Container.setCardBackgroundColor(Color.parseColor("#FFDFDD"));
+//                break;
+//
+//            case TAG_URL:
+//                holder.view_Decor_RecyclerView.setBackground(ContextCompat.getDrawable(context, R.drawable.itemdecor_recyclerview_url));
+//                holder.cardview_Container.setCardBackgroundColor(Color.parseColor("#FFDFDD"));
+//                break;
+//        }
+
+
 
         String dayOfTheWeek = "null";
         String date = "null";
@@ -56,7 +97,7 @@ public class NotificationRecyclerAdapter extends RecyclerView.Adapter<Notificati
 //            }
 
         } catch (Exception e) {
-            //TODO - LOG ERROR MESSAGE
+
         }
 
         holder.txt_DayOfTheWeek.setText(dayOfTheWeek);
@@ -90,6 +131,7 @@ public class NotificationRecyclerAdapter extends RecyclerView.Adapter<Notificati
     public static class ListBasicViewHolder extends RecyclerView.ViewHolder {
 
         private final MaterialCardView cardview_Container;
+        private final View view_Decor_RecyclerView;
         private final TextView txt_DayOfTheWeek;
         private final TextView txt_Date;
         private final TextView txt_SubText;
@@ -101,6 +143,7 @@ public class NotificationRecyclerAdapter extends RecyclerView.Adapter<Notificati
             super(itemView);
 
             cardview_Container = itemView.findViewById(R.id.cardview_Container);
+            view_Decor_RecyclerView = itemView.findViewById(R.id.view_Decor_RecyclerView);
             txt_DayOfTheWeek = itemView.findViewById(R.id.txt_DayOfTheWeek);
             txt_Date = itemView.findViewById(R.id.txt_Date);
             txt_SubText = itemView.findViewById(R.id.txt_SubText);

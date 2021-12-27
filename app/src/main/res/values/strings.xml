@@ -46,5 +46,10 @@
     <string name="heLp_description">Contact developer for questions</string>
     <string name="report_bug">Report bug</string>
     <string name="sort">Sort</string>
+    <string name="collapsed_view_title">Collapsed View</string>
+    <string name="collapsed_view_description">Enable to collapse big notifications</string>
+    <string name="groups_title">Groups</string>
+    <string name="groups_description">Group notifications with similar category</string>
+    <string name="empty_field_error">Empty Field</string>
 
 </resources>

@@ -65,6 +65,8 @@ public class SettingsActivity extends AppCompatActivity {
             ListPreference theme = (ListPreference) findPreference(getString(R.string.theme_title));
             SwitchPreferenceCompat switch_AttachPin = (SwitchPreferenceCompat) findPreference(getString(R.string.attach_pin_title));
             ListPreference temporaryNotesTime = (ListPreference) findPreference(getString(R.string.temporary_notes_title));
+//            SwitchPreferenceCompat switch_GroupNotifications = (SwitchPreferenceCompat) findPreference(getString(R.string.groups_title));
+            SwitchPreferenceCompat switch_CollapseNotifications = (SwitchPreferenceCompat) findPreference(getString(R.string.collapsed_view_title));
             Preference btn_clearAll = (Preference) findPreference(getString(R.string.clear_title));
             Preference btn_Email = (Preference) findPreference(getString(R.string.email_title));
             Preference btn_Donate = (Preference) findPreference(getString(R.string.donate_title));
@@ -94,6 +96,32 @@ public class SettingsActivity extends AppCompatActivity {
             if (temporaryNotesTime != null)
                 temporaryNotesTime.setOnPreferenceChangeListener((preference, newValue) -> true);
 
+//            if (switch_GroupNotifications != null)
+//            switch_GroupNotifications.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+//                @Override
+//                public boolean onPreferenceChange(Preference preference, Object newValue) {
+//
+//
+//
+//                    return true;
+//                }
+//            });
+
+            if (switch_CollapseNotifications != null)
+            switch_CollapseNotifications.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newValue) {
+                    if(newValue.equals(false)){
+                        new MaterialAlertDialogBuilder(requireContext())
+//                                .setTitle("Warning")
+                                .setMessage("Turning off this feature may cause some errors.")
+                                .show();
+                    }
+                    return true;
+                }
+            });
+
+
             if (btn_clearAll != null)
                 btn_clearAll.setOnPreferenceClickListener(preference -> {
 
@@ -110,7 +138,7 @@ public class SettingsActivity extends AppCompatActivity {
                                         NotificationManagerCompat.from(requireContext()).cancelAll();
                                         Toast.makeText(requireContext(), "Done", Toast.LENGTH_SHORT).show();
                                     } catch (Exception e) {
-                                        //TODO - LOG EXCEPTION
+
                                     }
 
                                 } else {
@@ -139,7 +167,7 @@ public class SettingsActivity extends AppCompatActivity {
                     try {
                         startActivity(Intent.createChooser(emailIntent, "Send Email"));
                     } catch (Exception e) {
-                        //TODO - LOG EXCEPTION
+
                     }
 
                     return true;

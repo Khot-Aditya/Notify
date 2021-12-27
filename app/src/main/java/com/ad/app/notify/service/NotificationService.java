@@ -3,6 +3,10 @@ package com.ad.app.notify.service;
 import static com.ad.app.notify.utils.Constants.CHANNEL_ID;
 import static com.ad.app.notify.utils.Constants.CHANNEL_NAME;
 import static com.ad.app.notify.utils.Constants.NOTIFICATION_MODEL;
+import static com.ad.app.notify.utils.Constants.TAG_EMAIL;
+import static com.ad.app.notify.utils.Constants.TAG_NOTE;
+import static com.ad.app.notify.utils.Constants.TAG_PHONE_NUMBER;
+import static com.ad.app.notify.utils.Constants.TAG_URL;
 import static com.ad.app.notify.utils.Constants.TAG_WATCH_LATER;
 
 import android.app.Notification;
@@ -38,17 +42,6 @@ import com.ad.app.notify.utils.Utils;
 
 public class NotificationService extends Service {
     private static final String TAG = "NotificationService";
-
-
-    //TODO - SETTINGS - DISMISS NOTIFICATIONS AFTER SPECIFIC TIME (DEFAULT 24 HRS)
-    //TODO - SETTINGS FOR PHONE NUMBER [OPTIONS - TAP TO COPY/ TAP TO OPEN KEYPAD]
-    //TODO - OPEN EMAIL ADDRESS IN EMAIL APP
-
-    //TODO - SWITCH FOR GROUP CATEGORY
-
-    //TODO - REGEX TO ACCEPT ONLY ALPHABETS AND NUMBERS AND SOME SYMBOLS
-    //TODO - IF WORDS LESS THEN 200 CHANGE REMOTE VIEW TO NON EXPANDABLE
-
 
     @Nullable
     @Override
@@ -95,7 +88,8 @@ public class NotificationService extends Service {
 
         //gets milli seconds value saved in array
         String temporaryNotes = sharedConfig.getString(getString(R.string.temporary_notes_title), "never");
-
+        boolean isCollapsed = sharedConfig.getBoolean(getString(R.string.collapsed_view_title), true);
+//        boolean isGrouped = sharedConfig.getBoolean(getString(R.string.groups_title),false);
 
         //Notification Builder ---------------------------------------------------------------------
         NotificationCompat.Builder mBuilder;
@@ -130,23 +124,76 @@ public class NotificationService extends Service {
         if (!temporaryNotes.equals("never"))
             mBuilder.setTimeoutAfter(Integer.parseInt(temporaryNotes));
 
+//        if(isGrouped){
+//            mBuilder.setGroupSummary(true);
+//            mBuilder.setGroup(model.getNotificationCategory());
+//        }else{
+//            mBuilder.setGroupSummary(false);
+//        }
+
         //if is pinned then se auto cancel false
         mBuilder.setAutoCancel(!model.isNotificationPinned());
         mBuilder.setOngoing(model.isNotificationPinned());
 
 
-        //TODO - ADD OTHER REMOTE VIEWS
-        if (model.getNotificationCategory().equals(TAG_WATCH_LATER)) {
-            mBuilder.setCustomContentView(getWatchLaterRemoteView(model));
-        } else {
-            mBuilder.setCustomBigContentView(getFullRemoteViews(model));
+        switch (model.getNotificationCategory()) {
+
+            case TAG_WATCH_LATER:
+                mBuilder.setCustomContentView(getWatchLaterRemoteView(model));
+                break;
+
+            case TAG_EMAIL:
+                if (isCollapsed) {
+                    mBuilder.setCustomBigContentView(getFullRemoteViews(model));
+                } else {
+                    RemoteViews remoteViews = getFullRemoteViews(model);
+                    mBuilder.setCustomContentView(remoteViews);
+                    mBuilder.setCustomBigContentView(remoteViews);
+                }
+                break;
+
+            case TAG_NOTE:
+                if (isCollapsed) {
+                    mBuilder.setCustomBigContentView(getFullRemoteViews(model));
+                } else {
+                    RemoteViews remoteViews = getFullRemoteViews(model);
+                    mBuilder.setCustomContentView(remoteViews);
+                    mBuilder.setCustomBigContentView(remoteViews);
+                }
+
+                break;
+
+            case TAG_PHONE_NUMBER:
+                if (isCollapsed) {
+                    mBuilder.setCustomBigContentView(getFullRemoteViews(model));
+                } else {
+                    RemoteViews remoteViews = getFullRemoteViews(model);
+                    mBuilder.setCustomContentView(remoteViews);
+                    mBuilder.setCustomBigContentView(remoteViews);
+                }
+                break;
+
+            case TAG_URL:
+                if (isCollapsed) {
+                    mBuilder.setCustomBigContentView(getFullRemoteViews(model));
+                } else {
+                    RemoteViews remoteViews = getFullRemoteViews(model);
+                    mBuilder.setCustomContentView(remoteViews);
+                    mBuilder.setCustomBigContentView(remoteViews);
+                }
+                break;
+
+
+            default:
+                Toast.makeText(this, "Notification Service : Exception found", Toast.LENGTH_SHORT).show();
+                break;
         }
+
 
         try {
             notificationManager.notify(model.getNotificationId(), mBuilder.build());
             return true;
         } catch (Exception e) {
-            //TODO - LOG ERROR
             return false;
         }
     }
@@ -173,13 +220,13 @@ public class NotificationService extends Service {
 
         String receivedText = model.getNotificationSubText();
 
-        //TODO - MENTION IN UI, MESSAGE IN NOTIFICATION IS LIMITED
-        final String trimmedText = receivedText.length() > 300 ?
-                receivedText.substring(0, 300) + "..." :
+        final String trimmedText = receivedText.length() > 200 ?
+                receivedText.substring(0, 200) + "..." :
                 receivedText;
 
         RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.layout_notification_full);
         remoteViews.setTextViewText(R.id.txt_Body, trimmedText);
+        remoteViews.setTextViewText(R.id.txt_Date_Full_Notification, model.getNotificationDate());
         remoteViews.setImageViewResource(R.id.img_ActionPinNotification,
                 model.isNotificationPinned() ?
                         R.drawable.ic_pinned :
@@ -187,9 +234,9 @@ public class NotificationService extends Service {
 
         remoteViews.setOnClickPendingIntent(R.id.img_ActionCopy, getCopyToClipboardIntent(model));
         remoteViews.setOnClickPendingIntent(R.id.img_ActionSearch, getSearchUrlIntent(receivedText));
-        remoteViews.setOnClickPendingIntent(R.id.img_ActionShare, getShareIntent(receivedText));
-        remoteViews.setOnClickPendingIntent(R.id.img_ActionMessage, getMessageIntent());
-        remoteViews.setOnClickPendingIntent(R.id.img_ActionDialer, getDialerIntent(receivedText));
+        remoteViews.setOnClickPendingIntent(R.id.img_ActionShare, getShareIntent(model));
+        remoteViews.setOnClickPendingIntent(R.id.img_ActionMessage, getMessageIntent(model));
+        remoteViews.setOnClickPendingIntent(R.id.img_ActionDialer, getDialerIntent(model));
         remoteViews.setOnClickPendingIntent(R.id.img_ActionEdit, getEditIntent(model));
         remoteViews.setOnClickPendingIntent(R.id.img_ActionPinNotification, getPinNotificationIntent(model));
 
@@ -201,7 +248,7 @@ public class NotificationService extends Service {
 //        int notificationId = model.getNotificationId();
 //        String receivedText = model.getNotificationSubText();
 //
-//        //TODO - MENTION IN UI MESSAGE IN NOTIFICATION IS LIMITED
+//
 //        final String trimmedText = receivedText.length() > 300 ?
 //                receivedText.substring(0, 300) + "..." :
 //                receivedText;
@@ -225,7 +272,7 @@ public class NotificationService extends Service {
     private PendingIntent getPinNotificationIntent(NotificationModel model) {
 
         return PendingIntent.getBroadcast(this,
-                new Utils().getNotificationId(),
+                model.getNotificationId(),
                 new Intent(this, NotificationActionReceiver.class)
                         .putExtra(NOTIFICATION_MODEL, model)
                         .putExtra(Constants.NOTIFICATION_INTENT_ACTION,
@@ -237,7 +284,7 @@ public class NotificationService extends Service {
 
     private PendingIntent getCopyToClipboardIntent(NotificationModel model) {
 
-        return PendingIntent.getBroadcast(this, new Utils().getNotificationId(),
+        return PendingIntent.getBroadcast(this, model.getNotificationId(),
                 new Intent(this, NotificationActionReceiver.class)
                         .putExtra(NOTIFICATION_MODEL, model)
                         .putExtra(Constants.NOTIFICATION_INTENT_ACTION,
@@ -267,43 +314,58 @@ public class NotificationService extends Service {
                         PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
     }
 
-    private PendingIntent getShareIntent(String textToShare) {
+    private PendingIntent getShareIntent(NotificationModel model) {
 
         Intent intent = new Intent(Intent.ACTION_SEND)
                 .setType("text/plain")
-                .putExtra(Intent.EXTRA_TEXT, textToShare);
-
-        //TODO - EXCLUDE THIS APP FROM SHARE SHEET
-        //TODO - THIS FUNCTION DOESN'T WORK
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-//            intent.putExtra(Intent.EXTRA_EXCLUDE_COMPONENTS,
-//                    new ComponentName("com.ad.app.notify", "com.ad.app.notify.activity.TextReceiverActivity"));
-//        }
+                .putExtra(Intent.EXTRA_TEXT, model.getNotificationSubText());
 
         return TaskStackBuilder.create(this)
                 .addParentStack(MainActivity.class)
                 .addNextIntent(Intent.createChooser(intent, null))
-                .getPendingIntent(new Utils().getNotificationId(),
+                .getPendingIntent(model.getNotificationId(),
                         PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
     }
 
-    private PendingIntent getMessageIntent() {
-        //TODO - OPEN GMAIL OR SMS MESSENGER
+    private PendingIntent getMessageIntent(NotificationModel model) {
+
+        if (model.getNotificationCategory().equals(TAG_PHONE_NUMBER)) {
+
+            return PendingIntent.getActivity(this, model.getNotificationId(),
+                    new Intent(Intent.ACTION_VIEW)
+                            .setType("vnd.android-dir/mms-sms")
+                            .putExtra("address", model.getNotificationSubText())
+                            .putExtra("sms_body", ""),
+                    PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+
+        } else if (model.getNotificationCategory().equals(TAG_EMAIL)) {
+            String to = model.getNotificationSubText();
+            String subject = "";
+            String body = "";
+
+            String mailTo = "mailto:" + to +
+                    "?&subject=" + Uri.encode(subject) +
+                    "&body=" + Uri.encode(body);
+
+            return PendingIntent.getActivity(this, model.getNotificationId(),
+                    new Intent(Intent.ACTION_VIEW)
+                            .setData(Uri.parse(mailTo)),
+                    PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+        }
+
         return null;
     }
 
-    private PendingIntent getDialerIntent(String phoneNumber) {
+    private PendingIntent getDialerIntent(NotificationModel model) {
 
-        return PendingIntent.getActivity(this, new Utils().getNotificationId(),
-                new Intent(Intent.ACTION_DIAL)
-                        .setData(Uri.parse("tel:" + phoneNumber))
-                        .setAction(String.valueOf(new Utils().getNotificationId())),
+        return PendingIntent.getActivity(this, model.getNotificationId(),
+                new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + model.getNotificationSubText())),
                 PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
     }
 
     private PendingIntent getEditIntent(NotificationModel model) {
 
-        return PendingIntent.getActivity(this, new Utils().getNotificationId(),
+        return PendingIntent.getActivity(this, model.getNotificationId(),
                 new Intent(this, EditorActivity.class)
                         .putExtra(NOTIFICATION_MODEL, model)
                         .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK),
