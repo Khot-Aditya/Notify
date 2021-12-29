@@ -21,12 +21,10 @@ public class EditorActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor);
 
-        TextInputEditText edt_EditorActivity_Title = (TextInputEditText) findViewById(R.id.edt_EditorActivity_Title);
         TextInputEditText edt_EditorActivity_Message = (TextInputEditText) findViewById(R.id.edt_EditorActivity_Message);
 
         if(getIntent().hasExtra(Constants.NOTIFICATION_MODEL)){
             model = (NotificationModel) getIntent().getSerializableExtra(NOTIFICATION_MODEL);
-            edt_EditorActivity_Title.setText("");
             edt_EditorActivity_Message.setText(model.getNotificationSubText());
         }
 

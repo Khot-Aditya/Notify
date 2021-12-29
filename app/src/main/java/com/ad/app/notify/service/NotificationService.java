@@ -55,28 +55,27 @@ public class NotificationService extends Service {
 
     }
 
-//    if (new NotificationDatabaseHandler(this).addNewNotification(notificationModel))
-//            Toast.makeText(this, "Added to Notify", Toast.LENGTH_SHORT).show();
-//                    else
-//                            Toast.makeText(this, "NotificationService: Exception found", Toast.LENGTH_SHORT).show();
-
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
         NotificationModel notificationModel = (NotificationModel) intent.getSerializableExtra(NOTIFICATION_MODEL);
 
-        Toast.makeText(this,
-                intent.hasExtra(Constants.ACTION) ?
-                        createNotification(notificationModel) ?
-                                intent.getStringExtra(Constants.ACTION).equals(Constants.ACTION_ADD) ?
-                                        new NotificationDatabaseHandler(this)
-                                                .addNewNotification(notificationModel) ?
-                                                "Added to notify" : "addNewNotification() : Exception Found" :
+        String toast = intent.hasExtra(Constants.ACTION) ?
+                createNotification(notificationModel) ?
+                        intent.getStringExtra(Constants.ACTION).equals(Constants.ACTION_ADD) ?
+                                new NotificationDatabaseHandler(this)
+                                        .addNewNotification(notificationModel) ?
+                                        "Added to Notify" : "addNewNotification() - Exception Found" :
+                                intent.getStringExtra(Constants.ACTION)
+                                        .equals(Constants.ACTION_REBOOTED) ? null :
                                         new NotificationDatabaseHandler(this)
                                                 .updateExistingNotification(notificationModel) ?
-                                                "Updated" : "updateExistingNotification() : Exception Found" :
-                                "createNotification() : Exception Found" :
-                        "hasExtra() : Exception Found", Toast.LENGTH_SHORT).show();
+                                                "Updated" : "updateExistingNotification() - Exception Found" :
+                        "createNotification() : Exception Found" :
+                "hasExtra() : Exception Found";
+
+        if (toast != null)
+            Toast.makeText(this, toast, Toast.LENGTH_SHORT).show();
 
         stopSelf();
         return super.onStartCommand(intent, flags, startId);
@@ -121,8 +120,19 @@ public class NotificationService extends Service {
 
 
         //User can change values -------------------------------------------------------------------
-        if (!temporaryNotes.equals("never"))
-            mBuilder.setTimeoutAfter(Integer.parseInt(temporaryNotes));
+
+
+        if (!model.isNotificationPinned())
+            if (!temporaryNotes.equals("never"))
+                mBuilder.setTimeoutAfter(Integer.parseInt(temporaryNotes));
+
+        if(model.getNotificationCategory().equals(TAG_WATCH_LATER)){
+            mBuilder.setGroupSummary(true);
+            mBuilder.setGroup(model.getNotificationCategory());
+        }else{
+            mBuilder.setGroupSummary(false);
+        }
+
 
 //        if(isGrouped){
 //            mBuilder.setGroupSummary(true);

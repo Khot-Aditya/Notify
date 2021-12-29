@@ -48,6 +48,9 @@ import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
+    //TODO - WHEN OPENING EDITOR ACTIVITY CHECK IF NOTIFICATION IS ACTIVE
+    //TODO - BOOT RECEIVER
+
     private static final String TAG = "MainActivity";
     private RecyclerView recyclerView;
     private LinearLayout linearLayout_NoData;
@@ -168,6 +171,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void clearNotifications() {
+
+        //TODO - IF OPENED AFTER DEVICE REBOOTED DON'T DELETE ANY DATA
+        //TODO - CHECK IF DEVICE IS POWERED OFF OR POWERED ON
+        //TODO - POWER OFF RECEIVER
 
         NotificationManager mNotificationManager =
                 (NotificationManager) getSystemService(NOTIFICATION_SERVICE);

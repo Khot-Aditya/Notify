@@ -46,12 +46,10 @@ public class TextProcessor extends Constants {
 
     public void process(String string, String action) {
 
-
-        //create unique notification id
-
         List<NotificationModel> activeNotificationList =
                 new NotificationDatabaseHandler(context).getActiveNotificationList(false);
 
+        //create unique notification id
         //set id to a random number
         int notificationId = new Utils().getNotificationId();
         if (activeNotificationList.size() != 0) {
@@ -66,7 +64,6 @@ public class TextProcessor extends Constants {
         String category = getCategory(string);
         String tags = getTags(category);
 
-
         NotificationModel newNotificationModel = new NotificationModel();
 
         newNotificationModel.setNotificationId(notificationId);
@@ -76,7 +73,6 @@ public class TextProcessor extends Constants {
         newNotificationModel.setNotificationCategory(category);
         newNotificationModel.setNotificationTags(tags);
         newNotificationModel.setNotificationPinned(attachPinByDefault);
-
 
         Intent intent = new Intent(context, NotificationService.class);
         intent.putExtra(NOTIFICATION_MODEL, newNotificationModel);

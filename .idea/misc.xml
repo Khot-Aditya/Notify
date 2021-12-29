@@ -63,7 +63,7 @@
         <entry key="..\:/Users/Dell/AndroidStudioProjects/Notify/app/src/main/res/drawable/test_background.xml" value="0.290625" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/Notify/app/src/main/res/font/cabin.xml" value="0.17395833333333333" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/Notify/app/src/main/res/layout/activity_donate.xml" value="0.17335526315789473" />
-        <entry key="..\:/Users/Dell/AndroidStudioProjects/Notify/app/src/main/res/layout/activity_editor.xml" value="0.16447368421052633" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/Notify/app/src/main/res/layout/activity_editor.xml" value="0.264" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/Notify/app/src/main/res/layout/activity_feedback.xml" value="0.17335526315789473" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/Notify/app/src/main/res/layout/activity_main.xml" value="0.17335526315789473" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/Notify/app/src/main/res/layout/activity_settings.xml" value="0.17335526315789473" />
@@ -90,6 +90,7 @@
         <entry key="..\:/Users/Dell/AndroidStudioProjects/Notify/app/src/main/res/layout/settings_activity.xml" value="0.17335526315789473" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/Notify/app/src/main/res/layout/test.xml" value="0.27025641025641023" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/Notify/app/src/main/res/menu/menu_main.xml" value="0.27447916666666666" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/Notify/app/src/main/res/menu/menu_notes.xml" value="0.17335526315789473" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/Notify/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.15989583333333332" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/Notify/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.15989583333333332" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/Notify/app/src/main/res/mipmap-anydpi-v26/ic_new_launcher.xml" value="0.290625" />

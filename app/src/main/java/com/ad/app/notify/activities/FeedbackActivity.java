@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.ad.app.notify.BuildConfig;
 import com.ad.app.notify.R;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.checkbox.MaterialCheckBox;
@@ -84,7 +85,11 @@ public class FeedbackActivity extends AppCompatActivity {
 
 
             String to = "adityakhot6838@gmail.com";
-            String subject = Objects.requireNonNull(edt_FeedbackSubject.getText()).toString() + " [com.ad.app.notify]";
+            String subject =
+                    Objects.requireNonNull(edt_FeedbackSubject.getText()).toString() +
+                    " [com.ad.app.notify] " +
+                    BuildConfig.VERSION_NAME;
+
             String body = Objects.requireNonNull(edt_FeedbackBody.getText()).toString();
 
             if (checkBox_DeviceDetails.isChecked()) {
@@ -104,7 +109,7 @@ public class FeedbackActivity extends AppCompatActivity {
             try {
                 startActivity(Intent.createChooser(emailIntent, "Send Email"));
             } catch (Exception e) {
-
+                System.out.println(e.toString());
             }
         });
     }

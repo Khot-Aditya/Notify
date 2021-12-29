@@ -11,6 +11,7 @@ public class Constants {
     public static final String ACTION = "com.ad.app.notify.Constants.ACTION";
     public static final String ACTION_ADD = "com.ad.app.notify.Constants.ACTION_ADD";
     public static final String ACTION_UPDATE = "com.ad.app.notify.Constants.ACTION_UPDATE";
+    public static final String ACTION_REBOOTED = "com.ad.app.notify.Constants.ACTION_REBOOTED";
     public static final String NOTIFICATION_MODEL = "com.ad.app.notify.Constants.NOTIFICATION_MODEL";
 
     public static final String NOTIFICATION_INTENT_ACTION = "com.ad.app.notify.Constants.NOTIFICATION_INTENT_ACTION";

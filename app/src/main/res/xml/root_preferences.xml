@@ -112,7 +112,7 @@
             android:title="@string/privacy_policy_title"
             app:icon="@drawable/ic_privacy_policy" />
 
-        <!-- TODO - PLAY STORE LINK -->
+
         <Preference
             android:key="@string/about_app_title"
             android:summary="@string/about_app_description"

@@ -35,7 +35,6 @@
     </LinearLayout>
 
 
-    <!--    TODO - DIFFERENT LAYOUTS FOR DIFFERENT CATEGORY-->
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardview_Container"
         android:layout_width="match_parent"
