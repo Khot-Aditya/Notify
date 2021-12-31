@@ -3,7 +3,6 @@ package com.ad.app.notify.utils;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.widget.Toast;
 
 import androidx.preference.PreferenceManager;
 
@@ -43,6 +42,26 @@ public class TextProcessor extends Constants {
         attachPinByDefault = sharedConfig.getBoolean(context.getString(R.string.attach_pin_title), true);
     }
 
+    public void update(NotificationModel model) {
+
+        String category = getCategory(model.getNotificationSubText());
+        String tags = getTags(category);
+
+        NotificationModel newNotificationModel = new NotificationModel();
+
+        newNotificationModel.setNotificationId(model.getNotificationId());
+        newNotificationModel.setNotificationDate(model.getNotificationDate());
+        newNotificationModel.setNotificationTime(model.getNotificationTime());
+        newNotificationModel.setNotificationSubText(model.getNotificationSubText());
+        newNotificationModel.setNotificationCategory(category);
+        newNotificationModel.setNotificationTags(tags);
+        newNotificationModel.setNotificationPinned(model.isNotificationPinned());
+
+        Intent intent = new Intent(context, NotificationService.class);
+        intent.putExtra(NOTIFICATION_MODEL, newNotificationModel);
+        intent.putExtra(Constants.ACTION, ACTION_UPDATE);
+        context.startService(intent);
+    }
 
     public void process(String string, String action) {
 
@@ -76,7 +95,7 @@ public class TextProcessor extends Constants {
 
         Intent intent = new Intent(context, NotificationService.class);
         intent.putExtra(NOTIFICATION_MODEL, newNotificationModel);
-        intent.putExtra(Constants.ACTION,action);
+        intent.putExtra(Constants.ACTION, action);
         context.startService(intent);
     }
 

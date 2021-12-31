@@ -69,7 +69,6 @@ public class MainActivity extends AppCompatActivity {
 
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
-
             getSupportActionBar().setDisplayShowHomeEnabled(true);
             getSupportActionBar().setIcon(R.drawable.ic_toolbar_app_icon);
         }

@@ -37,7 +37,7 @@
         android:layout_height="wrap_content"
         style="@style/TextAppearance.Compat.Notification.Time"
         android:textColor="@color/black"
-        android:text="10:09 am • Fri, 24 Dec"/>
+        android:text="@string/date_time" />
 
     <ImageView
         android:id="@+id/ic_Pin_Watchlater"

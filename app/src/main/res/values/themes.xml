@@ -9,8 +9,7 @@
         <item name="android:windowLightStatusBar">true</item>
 <!--        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>-->
 
-        <!--        TODO - SET CORNER VALUE IN XML-->
-        <item name="dialogCornerRadius">16dp</item>
+        <item name="dialogCornerRadius">@dimen/corner_radius</item>
         <item name="materialAlertDialogTheme">@style/MaterialAlertDialog_rounded</item>
 
 
@@ -30,8 +29,7 @@
     <!--    FAB-->
     <style name="ShapeAppearance.App.SmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
         <item name="cornerFamily">rounded</item>
-        <!--        TODO - SET CORNER VALUE IN XML-->
-        <item name="cornerSize">16dp</item>
+        <item name="cornerSize">@dimen/corner_radius</item>
     </style>
 
     <style name="AppTheme.Light" parent="Theme.MaterialComponents.Light.NoActionBar">

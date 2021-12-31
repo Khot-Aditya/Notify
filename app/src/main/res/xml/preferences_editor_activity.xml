@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory>
+
+        <Preference
+            android:title="Search as query"
+            app:icon="@drawable/ic_search_as_query" />
+        <Preference
+            android:title="Copy to clipboard"
+            app:icon="@drawable/ic_copy_2" />
+        <Preference
+            android:title="Send email"
+            app:icon="@drawable/ic_send_email" />
+        <Preference
+            android:title="Send message"
+            app:icon="@drawable/ic_send_text_message" />
+        <Preference
+            android:title="Make a call"
+            app:icon="@drawable/ic_make_call" />
+        <Preference
+            android:title="Add to contact"
+            app:icon="@drawable/ic_add_to_contact" />
+        <Preference
+            android:title="Share"
+            app:icon="@drawable/ic_share_2" />
+    </PreferenceCategory>
+</PreferenceScreen>

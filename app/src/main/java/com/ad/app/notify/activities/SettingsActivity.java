@@ -60,7 +60,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-            setPreferencesFromResource(R.xml.root_preferences, rootKey);
+            setPreferencesFromResource(R.xml.preferences_settings_activity, rootKey);
 
             ListPreference theme = (ListPreference) findPreference(getString(R.string.theme_title));
             SwitchPreferenceCompat switch_AttachPin = (SwitchPreferenceCompat) findPreference(getString(R.string.attach_pin_title));

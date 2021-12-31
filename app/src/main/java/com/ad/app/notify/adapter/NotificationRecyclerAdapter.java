@@ -1,5 +1,6 @@
 package com.ad.app.notify.adapter;
 
+import static com.ad.app.notify.utils.Constants.NOTIFICATION_MODEL;
 import static com.ad.app.notify.utils.Constants.TAG_EMAIL;
 import static com.ad.app.notify.utils.Constants.TAG_NOTE;
 import static com.ad.app.notify.utils.Constants.TAG_PHONE_NUMBER;
@@ -115,7 +116,8 @@ public class NotificationRecyclerAdapter extends RecyclerView.Adapter<Notificati
 
         holder.cardview_Container.setOnClickListener(v -> {
 
-            context.startActivity(new Intent(context, EditorActivity.class));
+            context.startActivity(new Intent(context, EditorActivity.class).putExtra(NOTIFICATION_MODEL, object));
+
             ((Activity) context).overridePendingTransition(R.anim.slide_in_from_right,
                     R.anim.slide_out_to_left);
         });
