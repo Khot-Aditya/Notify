@@ -4,6 +4,7 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.util.TypedValue;
 
 import androidx.core.content.ContextCompat;
@@ -55,5 +56,25 @@ public class Utils {
         TypedValue typedValue = new TypedValue();
         context.getTheme().resolveAttribute(attr, typedValue, true);
         return ContextCompat.getColor(context, typedValue.resourceId);
+    }
+
+    public int colorBrightness(int color, String method, float brightness) {
+
+        if (method.equals("light")) {
+            int red = (int) ((Color.red(color) * (1 - brightness) / 255 + brightness) * 255);
+            int green = (int) ((Color.green(color) * (1 - brightness) / 255 + brightness) * 255);
+            int blue = (int) ((Color.blue(color) * (1 - brightness) / 255 + brightness) * 255);
+            return Color.argb(Color.alpha(color), red, green, blue);
+        } else {
+
+            int a = Color.alpha(color);
+            int r = Math.round(Color.red(color) * brightness);
+            int g = Math.round(Color.green(color) * brightness);
+            int b = Math.round(Color.blue(color) * brightness);
+            return Color.argb(a,
+                    Math.min(r, 255),
+                    Math.min(g, 255),
+                    Math.min(b, 255));
+        }
     }
 }

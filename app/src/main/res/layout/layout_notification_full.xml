@@ -33,8 +33,8 @@
             style="@style/TextAppearance.Compat.Notification.Time"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginStart="5dp"
+            android:layout_weight="1"
             android:text=" Sun, 12 Dec"
             android:textColor="#555555" />
 
@@ -55,6 +55,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/background_view"
+        android:layout_marginTop="0dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="5dp"
         android:orientation="vertical">
 
         <TextView
@@ -62,9 +66,7 @@
             style="@style/TextAppearance.AppCompat.Body1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingStart="20dp"
-            android:paddingEnd="20dp"
-            android:paddingBottom="10dp"
+            android:layout_margin="10dp"
             android:text="Cars came into global use during the 20th century, and developed economies depend on them. The year 1886 is regarded as the birth year of the car when German inventor Karl Benz patented his Benz Patent-Motorwagen.[1][4][5] Cars b.."
             android:textColor="@color/black" />
 
@@ -74,64 +76,67 @@
             android:layout_marginStart="70dp"
             android:layout_marginEnd="70dp"
             android:alpha="0.1"
-            android:background="@color/black"/>
+            android:background="@color/black" />
 
-        <LinearLayout
+
+        <GridLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:columnCount="6">
 
             <ImageView
                 android:id="@+id/img_ActionCopy"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_width="@dimen/action_icon_size"
+                android:layout_height="@dimen/action_icon_size"
+                android:layout_columnWeight="1"
                 android:layout_margin="5dp"
-                android:layout_weight="1"
                 android:src="@drawable/ic_duplicate" />
 
             <ImageView
                 android:id="@+id/img_ActionSearch"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_width="@dimen/action_icon_size"
+                android:layout_height="@dimen/action_icon_size"
+                android:layout_columnWeight="1"
                 android:layout_margin="5dp"
-                android:layout_weight="1"
                 android:src="@drawable/ic_search" />
 
             <ImageView
                 android:id="@+id/img_ActionShare"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_width="@dimen/action_icon_size"
+                android:layout_height="@dimen/action_icon_size"
+                android:layout_columnWeight="1"
                 android:layout_margin="5dp"
-                android:layout_weight="1"
                 android:src="@drawable/ic_share" />
 
             <ImageView
                 android:id="@+id/img_ActionMessage"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_width="@dimen/action_icon_size"
+                android:layout_height="@dimen/action_icon_size"
+                android:layout_columnWeight="1"
                 android:layout_margin="5dp"
-                android:layout_weight="1"
                 android:src="@drawable/ic_envelope" />
 
             <ImageView
                 android:id="@+id/img_ActionDialer"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_width="@dimen/action_icon_size"
+                android:layout_height="@dimen/action_icon_size"
+                android:layout_columnWeight="1"
                 android:layout_margin="5dp"
-                android:layout_weight="1"
                 android:src="@drawable/ic_phone_call" />
 
             <ImageView
                 android:id="@+id/img_ActionEdit"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_width="@dimen/action_icon_size"
+                android:layout_height="@dimen/action_icon_size"
+                android:layout_columnWeight="1"
                 android:layout_margin="5dp"
-                android:layout_weight="1"
+                android:scaleType="fitCenter"
                 android:src="@drawable/ic_edit" />
 
-        </LinearLayout>
-    </LinearLayout>
+        </GridLayout>
 
+
+    </LinearLayout>
 
 
 </LinearLayout>

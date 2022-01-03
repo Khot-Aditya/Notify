@@ -1,4 +1,5 @@
 <resources>
     <dimen name="fab_margin">30dp</dimen>
     <dimen name="corner_radius">16dp</dimen>
+    <dimen name="action_icon_size">40dp</dimen>
 </resources>

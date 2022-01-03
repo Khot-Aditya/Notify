@@ -2,7 +2,11 @@ package com.ad.app.notify.activities;
 
 import static com.ad.app.notify.utils.Constants.NOTIFICATION_MODEL;
 
+import android.app.PendingIntent;
+import android.app.SearchManager;
+import android.app.TaskStackBuilder;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -161,6 +165,7 @@ public class EditorActivity extends AppCompatActivity {
             if (!model.getNotificationSubText().equals("")) {
                 if (preference_Search != null)
                     preference_Search.setOnPreferenceClickListener(preference -> {
+
                         /*
                             TODO -
                                 IF ANY URL FOUND IN SUBTEXT THEN SHOW IT IN RECYCLER VIEW AND

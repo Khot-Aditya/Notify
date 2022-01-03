@@ -53,7 +53,6 @@ public class NotificationService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-
     }
 
     @Override
@@ -191,12 +190,10 @@ public class NotificationService extends Service {
                 }
                 break;
 
-
             default:
                 Toast.makeText(this, "Notification Service : Exception found", Toast.LENGTH_SHORT).show();
                 break;
         }
-
 
         try {
             notificationManager.notify(model.getNotificationId(), mBuilder.build());
@@ -232,7 +229,27 @@ public class NotificationService extends Service {
                 receivedText.substring(0, 200) + "..." :
                 receivedText;
 
+
         RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.layout_notification_full);
+
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
+//        remoteViews.setColor(R.id.linear_Container,"setBackgroundColor", R.color.color_app);
+
+        remoteViews.setInt(R.id.linear_Container, "setBackgroundColor", new Utils(this).colorBrightness(
+                model.getNotificationBgColor(), "light", 0.7f));
+        remoteViews.setInt(R.id.txt_AppName, "setTextColor",
+                new Utils(this).colorBrightness(
+                        model.getNotificationBgColor(), "dark", 0.7f));
+
+        remoteViews.setInt(R.id.img_AppIcon, "setColorFilter",
+                new Utils(this).colorBrightness(
+                        model.getNotificationBgColor(), "dark", 0.7f));
+
+        remoteViews.setInt(R.id.txt_Date_Full_Notification, "setTextColor",
+                new Utils(this).colorBrightness(
+                        model.getNotificationBgColor(), "dark", 0.55f));
+
+
         remoteViews.setTextViewText(R.id.txt_Body, trimmedText);
         remoteViews.setTextViewText(R.id.txt_Date_Full_Notification, model.getNotificationDate());
         remoteViews.setImageViewResource(R.id.img_ActionPinNotification,

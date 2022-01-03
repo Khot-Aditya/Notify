@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.ad.app.notify.R;
 import com.ad.app.notify.activities.EditorActivity;
 import com.ad.app.notify.model.NotificationModel;
+import com.ad.app.notify.utils.Utils;
 import com.google.android.material.card.MaterialCardView;
 
 import java.util.List;
@@ -95,44 +96,16 @@ public class NotificationRecyclerAdapter extends RecyclerView.Adapter<Notificati
                 object.getNotificationSubText();
 
 
-        //------------------------------------------------------------------------------------------
-        float factor1 = 0.95f;
-        int color1 = object.getNotificationBgColor();
-        int a = Color.alpha(color1);
-        int r = Math.round(Color.red(color1) * factor1);
-        int g = Math.round(Color.green(color1) * factor1);
-        int b = Math.round(Color.blue(color1) * factor1);
-        int darker = Color.argb(a,
-                Math.min(r, 255),
-                Math.min(g, 255),
-                Math.min(b, 255));
+        holder.txt_Tags.setTextColor(new Utils(context).colorBrightness(
+                object.getNotificationBgColor(), "dark", 0.55f));
+        holder.txt_Time.setTextColor(new Utils(context).colorBrightness(
+                object.getNotificationBgColor(), "dark", 0.55f));
+        holder.view_Decor_RecyclerView.setCardBackgroundColor(
+                new Utils(context).colorBrightness(
+                        object.getNotificationBgColor(), "dark", 0.95f));
+        holder.cardview_Container.setCardBackgroundColor(new Utils(context).colorBrightness(
+                object.getNotificationBgColor(), "light", 0.7f));
 
-
-        //------------------------------------------------------------------------------------------
-        float factor = 0.7f;
-        int color = object.getNotificationBgColor();
-        int red = (int) ((Color.red(color) * (1 - factor) / 255 + factor) * 255);
-        int green = (int) ((Color.green(color) * (1 - factor) / 255 + factor) * 255);
-        int blue = (int) ((Color.blue(color) * (1 - factor) / 255 + factor) * 255);
-        int lighter = Color.argb(Color.alpha(color), red, green, blue);
-
-        //------------------------------------------------------------------------------------------
-        float factor2 = 0.55f;
-        int color2 = object.getNotificationBgColor();
-        int a2 = Color.alpha(color2);
-        int r2 = Math.round(Color.red(color2) * factor2);
-        int g2 = Math.round(Color.green(color2) * factor2);
-        int b2 = Math.round(Color.blue(color2) * factor2);
-        int darker2 = Color.argb(a2,
-                Math.min(r2, 255),
-                Math.min(g2, 255),
-                Math.min(b2, 255));
-
-        holder.txt_Tags.setTextColor(darker2);
-        holder.txt_Time.setTextColor(darker2);
-
-        holder.view_Decor_RecyclerView.setCardBackgroundColor(darker);
-        holder.cardview_Container.setCardBackgroundColor(lighter);
 
         holder.txt_SubText.setText(subText);
         holder.txt_Time.setText(object.getNotificationTime());
