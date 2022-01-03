@@ -56,6 +56,7 @@ public class TextProcessor extends Constants {
         newNotificationModel.setNotificationCategory(category);
         newNotificationModel.setNotificationTags(tags);
         newNotificationModel.setNotificationPinned(model.isNotificationPinned());
+        newNotificationModel.setNotificationBgColor(model.getNotificationBgColor());
 
         Intent intent = new Intent(context, NotificationService.class);
         intent.putExtra(NOTIFICATION_MODEL, newNotificationModel);
@@ -70,7 +71,7 @@ public class TextProcessor extends Constants {
 
         //create unique notification id
         //set id to a random number
-        int notificationId = new Utils().getNotificationId();
+        int notificationId = new Utils(context).getNotificationId();
         if (activeNotificationList.size() != 0) {
             //if there are active notifications
             for (NotificationModel list : activeNotificationList) {
@@ -79,19 +80,19 @@ public class TextProcessor extends Constants {
             }
         }
 
-
         String category = getCategory(string);
         String tags = getTags(category);
 
         NotificationModel newNotificationModel = new NotificationModel();
 
         newNotificationModel.setNotificationId(notificationId);
-        newNotificationModel.setNotificationDate(new Utils().getCurrentDate());
-        newNotificationModel.setNotificationTime(new Utils().getCurrentTime());
+        newNotificationModel.setNotificationDate(new Utils(context).getCurrentDate());
+        newNotificationModel.setNotificationTime(new Utils(context).getCurrentTime());
         newNotificationModel.setNotificationSubText(string);
         newNotificationModel.setNotificationCategory(category);
         newNotificationModel.setNotificationTags(tags);
         newNotificationModel.setNotificationPinned(attachPinByDefault);
+        newNotificationModel.setNotificationBgColor(context.getColor(R.color.color_app));
 
         Intent intent = new Intent(context, NotificationService.class);
         intent.putExtra(NOTIFICATION_MODEL, newNotificationModel);

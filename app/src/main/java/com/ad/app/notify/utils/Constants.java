@@ -69,4 +69,5 @@ public class Constants {
     public static final String COL_CATEGORY = "col_category";
     public static final String COL_TAGS = "col_tags";
     public static final String COL_IS_PINNED = "col_is_pinned";
+    public static final String COL_BG_COLOR = "col_background_color";
 }

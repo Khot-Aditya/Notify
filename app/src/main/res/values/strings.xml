@@ -13,7 +13,7 @@
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="title_activity_settings">SettingsActivity</string>
 
-    <!-- Preferences -->
+    <!-- Settings Screen Preferences -->
     <string name="theme_title">Theme</string>
     <string name="theme_dialog_title">Choose Theme</string>
 
@@ -52,5 +52,15 @@
     <string name="groups_description">Group notifications with similar category</string>
     <string name="empty_field_error">Empty Field</string>
     <string name="date_time">9:30 am • Tue, 7 Dec</string>
+
+
+    <!--    Editor Screen Preferences-->
+    <string name="search_as_query">Search as query</string>
+    <string name="copy_to_clipboard">Copy to clipboard</string>
+    <string name="send_email">Send email</string>
+    <string name="send_message">Send message</string>
+    <string name="make_a_call">Make a call</string>
+    <string name="add_to_contact">Add to contact</string>
+    <string name="share">Share</string>
 
 </resources>

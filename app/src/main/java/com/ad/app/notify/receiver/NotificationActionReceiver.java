@@ -3,8 +3,6 @@ package com.ad.app.notify.receiver;
 import static com.ad.app.notify.utils.Constants.NOTIFICATION_MODEL;
 
 import android.content.BroadcastReceiver;
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.widget.Toast;
@@ -12,6 +10,7 @@ import android.widget.Toast;
 import com.ad.app.notify.model.NotificationModel;
 import com.ad.app.notify.service.NotificationService;
 import com.ad.app.notify.utils.Constants;
+import com.ad.app.notify.utils.Utils;
 
 public class NotificationActionReceiver extends BroadcastReceiver {
 
@@ -31,7 +30,7 @@ public class NotificationActionReceiver extends BroadcastReceiver {
 
             case Constants.ACTION_COPY:
                 if(notificationModel.getNotificationSubText() != null){
-                    actionCopyToClipboard(notificationModel.getNotificationSubText());
+                    new Utils(context).copyToClipboard(notificationModel.getNotificationSubText());
                 }
                 break;
 
@@ -54,17 +53,7 @@ public class NotificationActionReceiver extends BroadcastReceiver {
         }
     }
 
-    private void actionCopyToClipboard(String subText) {
-        try {
-            ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
-            ClipData clip = ClipData.newPlainText("label", subText);
-            clipboard.setPrimaryClip(clip);
 
-            Toast.makeText(context, "Copied", Toast.LENGTH_SHORT).show();
-        } catch (Exception e) {
-            Toast.makeText(context, "Exception Found", Toast.LENGTH_SHORT).show();
-        }
-    }
 
 
 }

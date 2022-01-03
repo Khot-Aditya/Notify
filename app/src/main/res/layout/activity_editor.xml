@@ -11,9 +11,6 @@
         android:id="@+id/appBarLayout_Editor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         app:liftOnScroll="true">
 
         <androidx.appcompat.widget.Toolbar
@@ -40,18 +37,152 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <com.ad.app.notify.ColorPaletteView
+                        android:id="@+id/colorPalette_lavender_pinocchio"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:gravity="center"
+                        android:onClick="setBackgroundColor"
+                        app:color="@color/color_lavender_pinocchio" />
+
+                    <com.ad.app.notify.ColorPaletteView
+                        android:id="@+id/colorPalette_white"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:gravity="center"
+                        android:visibility="gone"
+                        android:onClick="setBackgroundColor"
+                        app:color="@color/color_white" />
+
+                    <com.ad.app.notify.ColorPaletteView
+                        android:id="@+id/colorPalette_black"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:gravity="center"
+                        android:onClick="setBackgroundColor"
+                        app:color="#2B2B2B" />
+
+                    <com.ad.app.notify.ColorPaletteView
+                        android:id="@+id/colorPalette_ice_cold"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:gravity="center"
+                        android:onClick="setBackgroundColor"
+                        app:color="@color/color_ice_cold" />
+
+                    <com.ad.app.notify.ColorPaletteView
+                        android:id="@+id/colorPalette_rusty_red"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:gravity="center"
+                        android:onClick="setBackgroundColor"
+                        app:color="@color/color_rusty_red" />
+
+                    <com.ad.app.notify.ColorPaletteView
+                        android:id="@+id/colorPalette_pastel_violet"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:gravity="center"
+                        android:onClick="setBackgroundColor"
+                        app:color="@color/color_pastel_violet" />
+
+                    <com.ad.app.notify.ColorPaletteView
+                        android:id="@+id/colorPalette_cold_purple"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:gravity="center"
+                        android:onClick="setBackgroundColor"
+                        app:color="@color/color_cold_purple" />
+
+                    <com.ad.app.notify.ColorPaletteView
+                        android:id="@+id/colorPalette_dodger_blue"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:gravity="center"
+                        android:onClick="setBackgroundColor"
+                        app:color="@color/color_dodger_blue" />
+
+                    <com.ad.app.notify.ColorPaletteView
+                        android:id="@+id/colorPalette_medium_turquoise"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:gravity="center"
+                        android:onClick="setBackgroundColor"
+                        app:color="@color/color_medium_turquoise" />
+
+                    <com.ad.app.notify.ColorPaletteView
+                        android:id="@+id/colorPalette_aquamarine"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:gravity="center"
+                        android:onClick="setBackgroundColor"
+                        app:color="@color/color_aquamarine" />
+
+                    <com.ad.app.notify.ColorPaletteView
+                        android:id="@+id/colorPalette_dark_pastel_green"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:gravity="center"
+                        android:onClick="setBackgroundColor"
+                        app:color="@color/color_dark_pastel_green" />
+
+                    <com.ad.app.notify.ColorPaletteView
+                        android:id="@+id/colorPalette_light_gold"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:gravity="center"
+                        android:onClick="setBackgroundColor"
+                        app:color="@color/color_light_gold" />
+
+                    <com.ad.app.notify.ColorPaletteView
+                        android:id="@+id/colorPalette_chardonnay"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:gravity="center"
+                        android:onClick="setBackgroundColor"
+                        app:color="@color/color_chardonnay" />
+
+                    <com.ad.app.notify.ColorPaletteView
+                        android:id="@+id/colorPalette_geraldine"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:gravity="center"
+                        android:onClick="setBackgroundColor"
+                        app:color="@color/color_geraldine" />
+
+                    <com.ad.app.notify.ColorPaletteView
+                        android:id="@+id/colorPalette_app_color"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:gravity="center"
+                        android:onClick="setBackgroundColor"
+                        app:color="@color/color_app" />
+
+
+                </LinearLayout>
+            </HorizontalScrollView>
+
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:hint="Message"
+                android:padding="10dp"
                 app:boxCornerRadiusBottomEnd="@dimen/corner_radius"
+                app:boxCornerRadiusBottomStart="@dimen/corner_radius"
                 app:boxCornerRadiusTopEnd="@dimen/corner_radius"
                 app:boxCornerRadiusTopStart="@dimen/corner_radius"
-                app:boxCornerRadiusBottomStart="@dimen/corner_radius"
-                android:hint="Message"
-                app:hintEnabled="true"
                 app:expandedHintEnabled="false"
-                android:padding="10dp">
+                app:hintEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edt_Message_EditorActivity"
@@ -60,7 +191,9 @@
                     android:layout_height="wrap_content"
                     android:autofillHints="name"
                     android:fontFamily="@font/roboto"
-                    android:inputType="none" />
+                    android:gravity="top"
+                    android:inputType="none"
+                    android:minHeight="200dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -76,6 +209,7 @@
                         android:layout_weight="1"
                         android:fontFamily="@font/roboto_bold"
                         android:text="Category"
+                        android:textColor="?colorSecondaryText"
                         tools:layout_editor_absoluteX="10dp"
                         tools:layout_editor_absoluteY="292dp" />
 
@@ -88,6 +222,7 @@
                         android:fontFamily="@font/roboto_bold"
                         android:gravity="end"
                         android:text="@string/date_time"
+                        android:textColor="?colorSecondaryText"
                         tools:layout_editor_absoluteX="341dp"
                         tools:layout_editor_absoluteY="292dp" />
 
@@ -99,7 +234,8 @@
             <FrameLayout
                 android:id="@+id/preferences"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp" />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

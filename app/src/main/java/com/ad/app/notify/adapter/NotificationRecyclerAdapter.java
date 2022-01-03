@@ -1,11 +1,6 @@
 package com.ad.app.notify.adapter;
 
 import static com.ad.app.notify.utils.Constants.NOTIFICATION_MODEL;
-import static com.ad.app.notify.utils.Constants.TAG_EMAIL;
-import static com.ad.app.notify.utils.Constants.TAG_NOTE;
-import static com.ad.app.notify.utils.Constants.TAG_PHONE_NUMBER;
-import static com.ad.app.notify.utils.Constants.TAG_URL;
-import static com.ad.app.notify.utils.Constants.TAG_WATCH_LATER;
 
 import android.app.Activity;
 import android.content.Context;
@@ -15,18 +10,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RemoteViews;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ad.app.notify.R;
 import com.ad.app.notify.activities.EditorActivity;
 import com.ad.app.notify.model.NotificationModel;
-import com.ad.app.notify.utils.Constants;
 import com.google.android.material.card.MaterialCardView;
 
 import java.util.List;
@@ -85,21 +76,16 @@ public class NotificationRecyclerAdapter extends RecyclerView.Adapter<Notificati
 //        }
 
 
-
         String dayOfTheWeek = "null";
         String date = "null";
-        try {
-            dayOfTheWeek = object.getNotificationDate().substring(0, 3);
-            date = object.getNotificationDate().substring(5, 7);
+        dayOfTheWeek = object.getNotificationDate().substring(0, 3);
+        date = object.getNotificationDate().substring(5, 7);
 
-//            //if date starts with 0
-//            if(date.substring(5,6).equals("0")){
-//                date = date.substring(6,7);
-//            }
-
-        } catch (Exception e) {
-
+        //if not date starts with 0
+        if (!date.startsWith("0")) {
+            date = "0" + date;
         }
+
 
         holder.txt_DayOfTheWeek.setText(dayOfTheWeek);
         holder.txt_Date.setText(date);
@@ -108,6 +94,45 @@ public class NotificationRecyclerAdapter extends RecyclerView.Adapter<Notificati
                 object.getNotificationSubText().substring(0, 300) + "..." :
                 object.getNotificationSubText();
 
+
+        //------------------------------------------------------------------------------------------
+        float factor1 = 0.95f;
+        int color1 = object.getNotificationBgColor();
+        int a = Color.alpha(color1);
+        int r = Math.round(Color.red(color1) * factor1);
+        int g = Math.round(Color.green(color1) * factor1);
+        int b = Math.round(Color.blue(color1) * factor1);
+        int darker = Color.argb(a,
+                Math.min(r, 255),
+                Math.min(g, 255),
+                Math.min(b, 255));
+
+
+        //------------------------------------------------------------------------------------------
+        float factor = 0.7f;
+        int color = object.getNotificationBgColor();
+        int red = (int) ((Color.red(color) * (1 - factor) / 255 + factor) * 255);
+        int green = (int) ((Color.green(color) * (1 - factor) / 255 + factor) * 255);
+        int blue = (int) ((Color.blue(color) * (1 - factor) / 255 + factor) * 255);
+        int lighter = Color.argb(Color.alpha(color), red, green, blue);
+
+        //------------------------------------------------------------------------------------------
+        float factor2 = 0.55f;
+        int color2 = object.getNotificationBgColor();
+        int a2 = Color.alpha(color2);
+        int r2 = Math.round(Color.red(color2) * factor2);
+        int g2 = Math.round(Color.green(color2) * factor2);
+        int b2 = Math.round(Color.blue(color2) * factor2);
+        int darker2 = Color.argb(a2,
+                Math.min(r2, 255),
+                Math.min(g2, 255),
+                Math.min(b2, 255));
+
+        holder.txt_Tags.setTextColor(darker2);
+        holder.txt_Time.setTextColor(darker2);
+
+        holder.view_Decor_RecyclerView.setCardBackgroundColor(darker);
+        holder.cardview_Container.setCardBackgroundColor(lighter);
 
         holder.txt_SubText.setText(subText);
         holder.txt_Time.setText(object.getNotificationTime());
@@ -133,7 +158,7 @@ public class NotificationRecyclerAdapter extends RecyclerView.Adapter<Notificati
     public static class ListBasicViewHolder extends RecyclerView.ViewHolder {
 
         private final MaterialCardView cardview_Container;
-        private final View view_Decor_RecyclerView;
+        private final MaterialCardView view_Decor_RecyclerView;
         private final TextView txt_DayOfTheWeek;
         private final TextView txt_Date;
         private final TextView txt_SubText;

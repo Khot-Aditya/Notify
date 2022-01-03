@@ -29,4 +29,20 @@
     <color name="color_StickyNote7">#CDF2CA</color> <!--    black text-->
     <color name="color_StickyNote8">#FFDEFA</color>
     <color name="color_StickyNote9">#FFC898</color>
+
+    <!-- Color palette-->
+    <color name="color_white">#FFFFFF</color>
+    <color name="color_black">#1B1B1B</color>
+    <color name="color_ice_cold">#B2EBF2</color>
+    <color name="color_rusty_red">#FF5A5A</color>
+    <color name="color_pastel_violet">#CE93D8</color>
+    <color name="color_cold_purple">#9FA8DA</color>
+    <color name="color_dodger_blue">#448AFF</color>
+    <color name="color_medium_turquoise">#4DD0E1</color>
+    <color name="color_aquamarine">#64FFDA</color>
+    <color name="color_dark_pastel_green">#4CAF50</color>
+    <color name="color_light_gold">#FFDF4F</color>
+    <color name="color_chardonnay">#FFCC80</color>
+    <color name="color_geraldine">#FF8A80</color>
+    <color name="color_lavender_pinocchio">#E0E0E0</color>
 </resources>

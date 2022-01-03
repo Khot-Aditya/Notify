@@ -5,25 +5,33 @@
     <PreferenceCategory>
 
         <Preference
-            android:title="Search as query"
-            app:icon="@drawable/ic_search_as_query" />
+            android:title="@string/search_as_query"
+            app:icon="@drawable/ic_search_as_query"
+            app:key="@string/search_as_query" />
         <Preference
-            android:title="Copy to clipboard"
-            app:icon="@drawable/ic_copy_2" />
+            android:title="@string/copy_to_clipboard"
+            app:icon="@drawable/ic_copy_2"
+            app:key="@string/copy_to_clipboard" />
         <Preference
-            android:title="Send email"
-            app:icon="@drawable/ic_send_email" />
+            android:title="@string/make_a_call"
+            app:icon="@drawable/ic_make_call"
+            app:key="@string/make_a_call" />
         <Preference
-            android:title="Send message"
-            app:icon="@drawable/ic_send_text_message" />
+            android:title="@string/add_to_contact"
+            app:icon="@drawable/ic_add_to_contact"
+            app:key="@string/add_to_contact" />
         <Preference
-            android:title="Make a call"
-            app:icon="@drawable/ic_make_call" />
+            android:title="@string/send_message"
+            app:icon="@drawable/ic_send_text_message"
+            app:key="@string/send_message" />
         <Preference
-            android:title="Add to contact"
-            app:icon="@drawable/ic_add_to_contact" />
+            android:title="@string/send_email"
+            app:icon="@drawable/ic_send_email"
+            app:key="@string/send_email" />
         <Preference
-            android:title="Share"
-            app:icon="@drawable/ic_share_2" />
+            android:title="@string/share"
+            app:icon="@drawable/ic_share_2"
+            app:key="@string/share" />
+
     </PreferenceCategory>
 </PreferenceScreen>

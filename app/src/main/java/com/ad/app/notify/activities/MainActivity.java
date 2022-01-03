@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
     //TODO - WHEN OPENING EDITOR ACTIVITY CHECK IF NOTIFICATION IS ACTIVE
     //TODO - BOOT RECEIVER
+    //TODO - FORMAT CODE WITH PROPER METHODS (init etc)
 
     private static final String TAG = "MainActivity";
     private RecyclerView recyclerView;

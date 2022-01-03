@@ -12,6 +12,9 @@ public class NotificationModel implements Serializable {
     private String notificationTags;
     private boolean isNotificationPinned;
 
+
+    private int notificationBgColor;
+
     public int getNotificationId() {
         return notificationId;
     }
@@ -20,7 +23,7 @@ public class NotificationModel implements Serializable {
         this.notificationId = notificationId;
     }
 
-    public String  getNotificationDate() {
+    public String getNotificationDate() {
         return notificationDate;
     }
 
@@ -66,5 +69,13 @@ public class NotificationModel implements Serializable {
 
     public void setNotificationPinned(boolean notificationPinned) {
         isNotificationPinned = notificationPinned;
+    }
+
+    public int getNotificationBgColor() {
+        return notificationBgColor;
+    }
+
+    public void setNotificationBgColor(int notificationBgColor) {
+        this.notificationBgColor = notificationBgColor;
     }
 }

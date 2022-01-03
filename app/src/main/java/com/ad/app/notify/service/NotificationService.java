@@ -26,6 +26,7 @@ import android.os.IBinder;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 import androidx.preference.PreferenceManager;
@@ -119,17 +120,14 @@ public class NotificationService extends Service {
         mBuilder.setSubText(model.getNotificationTags());
 
 
-        //User can change values -------------------------------------------------------------------
+        //User can change following values ---------------------------------------------------------
+        if (!model.isNotificationPinned() && !temporaryNotes.equals("never"))
+            mBuilder.setTimeoutAfter(Integer.parseInt(temporaryNotes));
 
-
-        if (!model.isNotificationPinned())
-            if (!temporaryNotes.equals("never"))
-                mBuilder.setTimeoutAfter(Integer.parseInt(temporaryNotes));
-
-        if(model.getNotificationCategory().equals(TAG_WATCH_LATER)){
+        if (model.getNotificationCategory().equals(TAG_WATCH_LATER)) {
             mBuilder.setGroupSummary(true);
             mBuilder.setGroup(model.getNotificationCategory());
-        }else{
+        } else {
             mBuilder.setGroupSummary(false);
         }
 
@@ -253,33 +251,7 @@ public class NotificationService extends Service {
         return remoteViews;
     }
 
-//    private RemoteViews getRemoteView(NotificationModel model) {
-//
-//        int notificationId = model.getNotificationId();
-//        String receivedText = model.getNotificationSubText();
-//
-//
-//        final String trimmedText = receivedText.length() > 300 ?
-//                receivedText.substring(0, 300) + "..." :
-//                receivedText;
-//
-//        RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.layout_notification_full);
-////        remoteViews.setInt(R.id.linear_Container, "setBackgroundResource", R.color.color_StickyNote6); //notification color
-//        remoteViews.setTextViewText(R.id.txt_Body, trimmedText);
-////        remoteViews.setTextViewTextSize(R.id.txt_Body, 1, 24); //change size if phone number
-////        remoteViews.setTextColor(R.id.txt_Body, Color.parseColor("#0645AD")); //text color
-//        remoteViews.setOnClickPendingIntent(R.id.img_ActionCopy, getCopyToClipboardIntent(notificationId, receivedText));
-//        remoteViews.setOnClickPendingIntent(R.id.img_ActionSearch, getSearchUrlIntent(receivedText));
-//        remoteViews.setOnClickPendingIntent(R.id.img_ActionShare, getShareIntent(receivedText));
-//        remoteViews.setOnClickPendingIntent(R.id.img_ActionMessage, getMessageIntent());
-//        remoteViews.setOnClickPendingIntent(R.id.img_ActionDialer, getDialerIntent(receivedText));
-//        remoteViews.setOnClickPendingIntent(R.id.img_ActionMoreSettings, getOpenNotifyIntent(notificationId, receivedText));
-//        remoteViews.setOnClickPendingIntent(R.id.img_ActionPinNotification, getPinNotificationIntent(model));
-//
-//        return remoteViews;
-//    }
-
-    private PendingIntent getPinNotificationIntent(NotificationModel model) {
+    private PendingIntent getPinNotificationIntent(@NonNull NotificationModel model) {
 
         return PendingIntent.getBroadcast(this,
                 model.getNotificationId(),
@@ -292,7 +264,7 @@ public class NotificationService extends Service {
                 PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
     }
 
-    private PendingIntent getCopyToClipboardIntent(NotificationModel model) {
+    private PendingIntent getCopyToClipboardIntent(@NonNull NotificationModel model) {
 
         return PendingIntent.getBroadcast(this, model.getNotificationId(),
                 new Intent(this, NotificationActionReceiver.class)
@@ -320,11 +292,11 @@ public class NotificationService extends Service {
         return TaskStackBuilder.create(this)
                 .addParentStack(MainActivity.class)
                 .addNextIntent(intent)
-                .getPendingIntent(new Utils().getNotificationId(),
+                .getPendingIntent(new Utils(this).getNotificationId(),
                         PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
     }
 
-    private PendingIntent getShareIntent(NotificationModel model) {
+    private PendingIntent getShareIntent(@NonNull NotificationModel model) {
 
         Intent intent = new Intent(Intent.ACTION_SEND)
                 .setType("text/plain")
@@ -337,7 +309,7 @@ public class NotificationService extends Service {
                         PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
     }
 
-    private PendingIntent getMessageIntent(NotificationModel model) {
+    private PendingIntent getMessageIntent(@NonNull NotificationModel model) {
 
         if (model.getNotificationCategory().equals(TAG_PHONE_NUMBER)) {
 
@@ -366,14 +338,14 @@ public class NotificationService extends Service {
         return null;
     }
 
-    private PendingIntent getDialerIntent(NotificationModel model) {
+    private PendingIntent getDialerIntent(@NonNull NotificationModel model) {
 
         return PendingIntent.getActivity(this, model.getNotificationId(),
                 new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + model.getNotificationSubText())),
                 PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
     }
 
-    private PendingIntent getEditIntent(NotificationModel model) {
+    private PendingIntent getEditIntent(@NonNull NotificationModel model) {
 
         return PendingIntent.getActivity(this, model.getNotificationId(),
                 new Intent(this, EditorActivity.class)
@@ -382,6 +354,4 @@ public class NotificationService extends Service {
                 PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
     }
-
-
 }

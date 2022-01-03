@@ -34,7 +34,8 @@ public class NotificationDatabaseHandler extends SQLiteOpenHelper {
                 Constants.COL_SUB_TEXT + " TEXT" + " , " +
                 Constants.COL_CATEGORY + " TEXT" + " , " +
                 Constants.COL_TAGS + " TEXT" + " , " +
-                Constants.COL_IS_PINNED + " BOOL" + " )";
+                Constants.COL_IS_PINNED + " BOOL" + " , " +
+                Constants.COL_BG_COLOR + " INTEGER" + " )";
 
         db.execSQL(createTableStatement);
     }
@@ -56,6 +57,7 @@ public class NotificationDatabaseHandler extends SQLiteOpenHelper {
         contentValues.put(Constants.COL_CATEGORY, notificationModel.getNotificationCategory());
         contentValues.put(Constants.COL_TAGS, notificationModel.getNotificationTags());
         contentValues.put(Constants.COL_IS_PINNED, notificationModel.isNotificationPinned());
+        contentValues.put(Constants.COL_BG_COLOR, notificationModel.getNotificationBgColor());
 
         long insert = database.update(Constants.TABLE_NOTIFICATION, contentValues, Constants.COL_ID + " = " + notificationId, null);
 
@@ -93,6 +95,7 @@ public class NotificationDatabaseHandler extends SQLiteOpenHelper {
         contentValues.put(Constants.COL_CATEGORY, notificationModel.getNotificationCategory());
         contentValues.put(Constants.COL_TAGS, notificationModel.getNotificationTags());
         contentValues.put(Constants.COL_IS_PINNED, notificationModel.isNotificationPinned());
+        contentValues.put(Constants.COL_BG_COLOR, notificationModel.getNotificationBgColor());
 
         long insert = database.insert(Constants.TABLE_NOTIFICATION, null, contentValues);
 
@@ -125,6 +128,7 @@ public class NotificationDatabaseHandler extends SQLiteOpenHelper {
                 String category = cursor.getString(4);
                 String tags = cursor.getString(5);
                 int isPinned = cursor.getInt(6);
+                int backgroundColor = cursor.getInt(7);
 
                 NotificationModel notificationModel = new NotificationModel();
 
@@ -136,6 +140,7 @@ public class NotificationDatabaseHandler extends SQLiteOpenHelper {
                     notificationModel.setNotificationCategory(category);
                     notificationModel.setNotificationTags(tags);
                     notificationModel.setNotificationPinned(isPinned == 1);
+                    notificationModel.setNotificationBgColor(backgroundColor);
 
                 } catch (Exception e) {
                     Log.d(TAG, "getList: " + e.getLocalizedMessage());
