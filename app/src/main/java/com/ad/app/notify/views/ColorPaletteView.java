@@ -1,4 +1,4 @@
-package com.ad.app.notify;
+package com.ad.app.notify.views;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.util.AttributeSet;
 import android.widget.RelativeLayout;
 
+import com.ad.app.notify.R;
 import com.ad.app.notify.utils.Utils;
 import com.google.android.material.card.MaterialCardView;
 

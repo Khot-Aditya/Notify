@@ -3,6 +3,7 @@ package com.ad.app.notify.utils;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.util.Patterns;
 
 import androidx.preference.PreferenceManager;
 
@@ -21,19 +22,8 @@ public class TextProcessor extends Constants {
     private Context context;
     private boolean attachPinByDefault;
 
-    //TODO - IMPROVE REGEX
-    private static final Pattern REGEX_PHONE_NUMBER_1 =
-            Pattern.compile("^\\+(?:[0-9] ?){6,14}[0-9]$");
-
-    private static final Pattern REGEX_PHONE_NUMBER_2 =
-            Pattern.compile("^(\\+\\d{1,3}( )?)?((\\(\\d{3}\\))|\\d{3})[- .]?\\d{3}[- .]?\\d{4}$"
-                    + "|^(\\+\\d{1,3}( )?)?(\\d{3}[ ]?){2}\\d{3}$"
-                    + "|^(\\+\\d{1,3}( )?)?(\\d{3}[ ]?)(\\d{2}[ ]?){2}\\d{2}$", Pattern.CASE_INSENSITIVE);
-
-
     private static final Pattern REGEX_EMAIL_ADDRESS =
             Pattern.compile("[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+", Pattern.CASE_INSENSITIVE);
-
 
     public TextProcessor(Context context) {
         this.context = context;
@@ -237,7 +227,7 @@ public class TextProcessor extends Constants {
         return !url.isEmpty() && url.matches(pattern);
     }
 
-    private List<String> getUrlFromString(String string) {
+    public List<String> getUrlFromString(String string) {
         //TODO - REGEX DOES NOT RECOGNISE TWO URLS IN SINGLE LINE DIVIDED BY SPACE
         //Ex. (https://www.something.com https://www.something.com)
 
@@ -258,13 +248,10 @@ public class TextProcessor extends Constants {
         return urlList.size() == 0 ? null : urlList;
     }
 
-    private List<String> getPhoneNumbersFromString(String string) {
+    public List<String> getPhoneNumbersFromString(String string) {
 
         List<String> phoneNumberList = new ArrayList<>();
-//        String regex = "/^(\\+\\d{1,3}[- ]?)?\\d{10}$/";
-//
-//        Pattern pattern = Pattern.compile(regex,Pattern.CASE_INSENSITIVE);
-        Matcher matcher = REGEX_PHONE_NUMBER_2.matcher(string);
+        Matcher matcher = Patterns.PHONE.matcher(string);
 
         while (matcher.find()) {
             phoneNumberList.add(matcher.group());
@@ -273,7 +260,7 @@ public class TextProcessor extends Constants {
         return phoneNumberList.size() == 0 ? null : phoneNumberList;
     }
 
-    private List<String> getEmailFromString(String string) {
+    public List<String> getEmailFromString(String string) {
 
         List<String> emailList = new ArrayList<>();
 //        String regex = "[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+";

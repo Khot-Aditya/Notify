@@ -31,18 +31,12 @@ public class Constants {
     public static final String TAG_URL = "com.ad.app.notify.Constants.TAG_URL";
     public static final String TAG_EMAIL = "com.ad.app.notify.Constants.TAG_EMAIL";
     public static final String TAG_PHONE_NUMBER = "com.ad.app.notify.Constants.TAG_PHONE_NUMBER";
-
+    public static final String TAG_SEND_TEXT_MESSAGE = "com.ad.app.notify.Constants.TAG_SEND_TEXT_MESSAGE";
+    public static final String TAG_ADD_TO_CONTACT = "com.ad.app.notify.Constants.TAG_ADD_TO_CONTACT";
     public static final String TAG_NOTE = "com.ad.app.notify.Constants.NOTE_CONTAINING_EMAIL_ADDRESS";
 
     //TODO - USE THIS REGEX IF OTHERS FAIL
-//    public static final Pattern REGEX_PHONE_NUMBER_1 =
-//            Pattern.compile("^\\+(?:[0-9] ?){6,14}[0-9]$");
-//
-//    public static final Pattern REGEX_PHONE_NUMBER_2 =
-//            Pattern.compile("^(\\+\\d{1,3}( )?)?((\\(\\d{3}\\))|\\d{3})[- .]?\\d{3}[- .]?\\d{4}$"
-//                    + "|^(\\+\\d{1,3}( )?)?(\\d{3}[ ]?){2}\\d{3}$"
-//                    + "|^(\\+\\d{1,3}( )?)?(\\d{3}[ ]?)(\\d{2}[ ]?){2}\\d{2}$");
-//
+
 //    public static final Pattern REGEX_WEB_URL =
 //            Pattern.compile("(?i)^(?:(?:https?|ftp)://)(?:\\S+(?::\\S*)?@)?(?:(?!(?:10|127)(?:\\." +
 //                    "\\d{1,3}){3})(?!(?:169\\.254|192\\.168)(?:\\.\\d{1,3}){2})(?!172\\.(?:1[6-9]|2" +

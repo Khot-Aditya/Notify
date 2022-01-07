@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
@@ -38,12 +39,12 @@
             app:useSimpleSummaryProvider="false" />
 
 
-<!--        <SwitchPreferenceCompat-->
-<!--            android:summary="@string/groups_description"-->
-<!--            app:defaultValue="false"-->
-<!--            app:icon="@drawable/ic_group"-->
-<!--            app:key="@string/groups_title"-->
-<!--            app:title="@string/groups_title" />-->
+        <!--        <SwitchPreferenceCompat-->
+        <!--            android:summary="@string/groups_description"-->
+        <!--            app:defaultValue="false"-->
+        <!--            app:icon="@drawable/ic_group"-->
+        <!--            app:key="@string/groups_title"-->
+        <!--            app:title="@string/groups_title" />-->
 
 
         <SwitchPreferenceCompat
@@ -64,7 +65,7 @@
 
     <PreferenceCategory
         app:iconSpaceReserved="false"
-        app:title=" Contact Developer">
+        app:title="Developer">
 
         <!--        <Preference-->
         <!--            android:key="Telegram"-->
@@ -78,11 +79,17 @@
         <!--            android:title="Github"-->
         <!--            app:icon="@drawable/ic_github" />-->
 
+        <!--        <Preference-->
+        <!--            android:key="@string/email_title"-->
+        <!--            android:summary="@string/email_description"-->
+        <!--            android:title="@string/email_title"-->
+        <!--            app:icon="@drawable/ic_email" />-->
+
         <Preference
-            android:key="@string/email_title"
-            android:summary="@string/email_description"
-            android:title="@string/email_title"
-            app:icon="@drawable/ic_email" />
+            android:key="@string/feedback_title"
+            android:summary="@string/feedback_description"
+            android:title="@string/feedback_title"
+            app:icon="@drawable/ic_feedback" />
 
         <Preference
             android:key="@string/donate_title"
@@ -90,11 +97,7 @@
             android:title="@string/donate_title"
             app:icon="@drawable/ic_donate" />
 
-        <Preference
-            android:key="@string/feedback_title"
-            android:summary="@string/feedback_description"
-            android:title="@string/feedback_title"
-            app:icon="@drawable/ic_feedback" />
+
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -112,7 +115,6 @@
             android:title="@string/privacy_policy_title"
             app:icon="@drawable/ic_privacy_policy" />
 
-
         <Preference
             android:key="@string/about_app_title"
             android:summary="@string/about_app_description"
@@ -128,5 +130,5 @@
     </PreferenceCategory>
 
 
-    <Preference app:layout="@layout/layout_version" />
+    <!--    <Preference app:layout="@layout/layout_version" />-->
 </PreferenceScreen>

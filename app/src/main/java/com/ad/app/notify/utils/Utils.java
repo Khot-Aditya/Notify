@@ -1,11 +1,13 @@
 package com.ad.app.notify.utils;
 
+import android.app.SearchManager;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.util.TypedValue;
+import android.widget.Toast;
 
 import androidx.core.content.ContextCompat;
 
@@ -44,6 +46,7 @@ public class Utils {
                 "Share Using"));
     }
 
+
     public void copyToClipboard(String text) {
 
         ClipboardManager clipboard = (ClipboardManager)
@@ -56,6 +59,19 @@ public class Utils {
         TypedValue typedValue = new TypedValue();
         context.getTheme().resolveAttribute(attr, typedValue, true);
         return ContextCompat.getColor(context, typedValue.resourceId);
+    }
+
+    public void searchUrl(String url) {
+        Intent intent;
+        intent = new Intent(Intent.ACTION_WEB_SEARCH);
+        intent.putExtra(SearchManager.QUERY, url);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+        if (url.length() < 100) {
+            context.startActivity(intent);
+        } else {
+            Toast.makeText(context, "Search word limit", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public int colorBrightness(int color, String method, float brightness) {

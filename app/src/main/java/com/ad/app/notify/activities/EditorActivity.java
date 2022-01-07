@@ -2,12 +2,11 @@ package com.ad.app.notify.activities;
 
 import static com.ad.app.notify.utils.Constants.NOTIFICATION_MODEL;
 
-import android.app.PendingIntent;
-import android.app.SearchManager;
-import android.app.TaskStackBuilder;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.Toast;
 
@@ -17,18 +16,23 @@ import androidx.core.app.NotificationManagerCompat;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
-import com.ad.app.notify.ColorPaletteView;
+import com.ad.app.notify.CustomListViewDialog;
+import com.ad.app.notify.DataAdapter;
 import com.ad.app.notify.R;
 import com.ad.app.notify.model.NotificationModel;
+import com.ad.app.notify.utils.Constants;
 import com.ad.app.notify.utils.TextProcessor;
 import com.ad.app.notify.utils.Utils;
+import com.ad.app.notify.views.ColorPaletteView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textview.MaterialTextView;
 
+import java.util.List;
 import java.util.Objects;
 
 public class EditorActivity extends AppCompatActivity {
+
 
     private static NotificationModel model;
     private static TextInputEditText edt_EditorActivity_Message;
@@ -51,6 +55,7 @@ public class EditorActivity extends AppCompatActivity {
     private ColorPaletteView colorPalette_geraldine;
     private ColorPaletteView colorPalette_lavender_pinocchio;
 
+    //TODO - CHECK IF NOTIFICATION IS ACTIVE
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,8 +89,6 @@ public class EditorActivity extends AppCompatActivity {
         colorPalette_geraldine = (ColorPaletteView) findViewById(R.id.colorPalette_geraldine);
         colorPalette_lavender_pinocchio = (ColorPaletteView) findViewById(R.id.colorPalette_lavender_pinocchio);
 
-//        colorPalette_white.setEnabled(true);
-
         if (getIntent().hasExtra(NOTIFICATION_MODEL)) {
             model = (NotificationModel) getIntent().getSerializableExtra(NOTIFICATION_MODEL);
             edt_EditorActivity_Message.setText(model.getNotificationSubText());
@@ -93,8 +96,6 @@ public class EditorActivity extends AppCompatActivity {
             txt_TimeDate.setText(String.format("%s • %s",
                     model.getNotificationTime(),
                     model.getNotificationDate()));
-
-//            Toast.makeText(this, String.valueOf(), Toast.LENGTH_SHORT).show();
 
             setBackgroundColor(getActiveColorPalette(model.getNotificationBgColor()));
         }
@@ -106,7 +107,6 @@ public class EditorActivity extends AppCompatActivity {
                 if (!edt_EditorActivity_Message.getText().equals("")) {
 
                     model.setNotificationSubText(edt_EditorActivity_Message.getText().toString());
-                    //TODO - pin unpin
                     new TextProcessor(EditorActivity.this).update(model);
                     finish();
                 }
@@ -145,10 +145,72 @@ public class EditorActivity extends AppCompatActivity {
             overridePendingTransition(R.anim.slide_in_from_left,
                     R.anim.slide_out_to_right);
         });
-
     }
 
-    public static class EditorFragment extends PreferenceFragmentCompat {
+
+    public static class EditorFragment extends PreferenceFragmentCompat implements DataAdapter.RecyclerViewItemClickListener {
+
+        private CustomListViewDialog customDialog;
+
+        @Override
+        public void clickOnItem(String data, String tag) {
+
+            switch (tag) {
+                case Constants.TAG_URL:
+
+                    new Utils(requireContext()).searchUrl(data);
+                    break;
+                case Constants.TAG_EMAIL:
+
+                    String subject = "";
+                    String body = "";
+
+                    String mailTo = "mailto:" + data +
+                            "?&subject=" + Uri.encode(subject) +
+                            "&body=" + Uri.encode(body);
+
+                    Intent emailIntent = new Intent(Intent.ACTION_VIEW);
+                    emailIntent.setData(Uri.parse(mailTo));
+
+                    startActivity(Intent.createChooser(emailIntent, "Send Email"));
+                    break;
+                case Constants.TAG_PHONE_NUMBER:
+
+                    startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + data)));
+                    break;
+                case Constants.TAG_SEND_TEXT_MESSAGE:
+
+                    Uri uri = Uri.parse("smsto:" + data);
+                    Intent intent = new Intent(Intent.ACTION_SENDTO, uri);
+                    intent.putExtra("sms_body", "");
+                    startActivity(intent);
+                    break;
+
+                case Constants.TAG_ADD_TO_CONTACT:
+                    Intent contactIntent = new Intent(ContactsContract.Intents.Insert.ACTION);
+                    contactIntent.setType(ContactsContract.RawContacts.CONTENT_TYPE);
+
+                    contactIntent
+                            .putExtra(ContactsContract.Intents.Insert.NAME, "Name Name")
+                            .putExtra(ContactsContract.Intents.Insert.PHONE, data);
+
+                    startActivity(contactIntent);
+                    break;
+            }
+
+
+            if (customDialog != null) {
+                customDialog.dismiss();
+            }
+        }
+
+        public void showDialog(List<String> items, Context activity, String tag) {
+            DataAdapter dataAdapter = new DataAdapter(items, this, tag);
+            customDialog = new CustomListViewDialog(activity, dataAdapter);
+
+            customDialog.show();
+            customDialog.setCanceledOnTouchOutside(false);
+        }
 
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
@@ -162,76 +224,172 @@ public class EditorActivity extends AppCompatActivity {
             Preference preference_AddToContact = (Preference) findPreference(getString(R.string.add_to_contact));
             Preference preference_Share = (Preference) findPreference(getString(R.string.share));
 
-            if (!model.getNotificationSubText().equals("")) {
-                if (preference_Search != null)
-                    preference_Search.setOnPreferenceClickListener(preference -> {
 
-                        /*
-                            TODO -
-                                IF ANY URL FOUND IN SUBTEXT THEN SHOW IT IN RECYCLER VIEW AND
-                                GIVE OPTION TO SEARCH IT, ELSE SEARCH WHOLE BODY.
-                         */
-                        return true;
-                    });
+            if (preference_Search != null)
+                preference_Search.setOnPreferenceClickListener(preference -> {
 
-                if (preference_CopyToClipboard != null)
-                    preference_CopyToClipboard.setOnPreferenceClickListener(preference -> {
+                    if (!Objects.requireNonNull(
+                            edt_EditorActivity_Message.getText()).toString().equals("")) {
+
+                        List<String> urls = new TextProcessor(requireContext()).getUrlFromString(Objects.requireNonNull(
+                                edt_EditorActivity_Message.getText()).toString());
+
+                        if (urls != null)
+                            if (urls.size() == 1)
+                                new Utils(requireContext()).searchUrl(urls.get(0));
+                            else showDialog(urls, requireContext(), Constants.TAG_URL);
+                        else new Utils(requireContext()).searchUrl(Objects.requireNonNull(
+                                edt_EditorActivity_Message.getText()).toString());
+
+                    }
+
+                    return true;
+                });
+
+            if (preference_CopyToClipboard != null)
+                preference_CopyToClipboard.setOnPreferenceClickListener(preference -> {
+                    if (!Objects.requireNonNull(
+                            edt_EditorActivity_Message.getText()).toString().equals("")) {
                         new Utils(requireContext()).copyToClipboard(Objects.requireNonNull(
                                 edt_EditorActivity_Message.getText()).toString());
-                        return true;
-                    });
+                    }
 
-                if (preference_SendEmail != null)
-                    preference_SendEmail.setOnPreferenceClickListener(preference -> {
-                        /*
-                            TODO -
-                                IF EMAIL FOUND IN SUBTEXT THEN SET IT AS EMAIL ELSE SET SUBTEXT
-                                AS BODY. USE RECYCLER VIEW TO SHOW MULTIPLE EMAIL ADDRESSES.
-                         */
-                        return true;
-                    });
+                    return true;
+                });
 
-                if (preference_SendMessage != null)
-                    preference_SendMessage.setOnPreferenceClickListener(preference -> {
-                        /*
-                            TODO -
-                                IF ANY NUMBER FOUND IN SUBTEXT THEN USE IT AS SENDER ELSE USE
-                                WHOLE SUBTEXT AS BODY. USE RECYCLER VIEW TO SHOW MULTIPLE PHONE NUMBERS.
-                         */
-                        return true;
-                    });
+            if (preference_SendEmail != null)
+                preference_SendEmail.setOnPreferenceClickListener(preference -> {
+                    if (!Objects.requireNonNull(
+                            edt_EditorActivity_Message.getText()).toString().equals("")) {
+                        List<String> email = new TextProcessor(requireContext()).getEmailFromString(Objects.requireNonNull(
+                                edt_EditorActivity_Message.getText()).toString());
 
-                if (preference_MakeACall != null)
-                    preference_MakeACall.setOnPreferenceClickListener(preference -> {
-                        /*
-                            TODO -
-                                OPEN DIALER WITH PHONE NUMBER INSERTED IF ANY, ELSE SHOW TOAST
-                                MESSAGE PHONE NUMBER NOT FOUND. USE RECYCLER VIEW TO SHOW
-                                MULTIPLE PHONE NUMBERS.
+                        if (email != null) {
+                            if (email.size() == 1) {
+                                String to = email.get(0);
+                                String subject = "";
+                                String body = "";
 
-                         */
-                        return true;
-                    });
+                                String mailTo = "mailto:" + to +
+                                        "?&subject=" + Uri.encode(subject) +
+                                        "&body=" + Uri.encode(body);
 
-                if (preference_AddToContact != null)
-                    preference_AddToContact.setOnPreferenceClickListener(preference -> {
-                        /*
-                            TODO -
-                                OPEN ADD TO CONTACT SCREEN WITH PHONE NUMBER INSERTED, IF NOT
-                                FOUND ANY SHOW TOAST. USE RECYCLER VIEW TO SHOW MULTIPLE PHONE
-                                NUMBERS TO SAVE.
-                         */
-                        return true;
-                    });
+                                Intent emailIntent = new Intent(Intent.ACTION_VIEW);
+                                emailIntent.setData(Uri.parse(mailTo));
 
-                if (preference_Share != null)
-                    preference_Share.setOnPreferenceClickListener(preference -> {
+                                startActivity(Intent.createChooser(emailIntent, "Send Email"));
+                            } else {
+                                showDialog(email, requireContext(), Constants.TAG_EMAIL);
+                            }
+                        } else {
+                            String to = "";
+                            String subject = "";
+                            String body = Objects.requireNonNull(
+                                    edt_EditorActivity_Message.getText()).toString();
+
+                            String mailTo = "mailto:" + to +
+                                    "?&subject=" + Uri.encode(subject) +
+                                    "&body=" + Uri.encode(body);
+
+                            Intent emailIntent = new Intent(Intent.ACTION_VIEW);
+                            emailIntent.setData(Uri.parse(mailTo));
+
+                            startActivity(Intent.createChooser(emailIntent, "Send Email"));
+                        }
+                    }
+
+                    return true;
+                });
+
+            if (preference_SendMessage != null)
+                preference_SendMessage.setOnPreferenceClickListener(preference -> {
+
+                    if (!Objects.requireNonNull(
+                            edt_EditorActivity_Message.getText()).toString().equals("")) {
+
+                        List<String> phoneNumber = new TextProcessor(requireContext()).getPhoneNumbersFromString(Objects.requireNonNull(
+                                edt_EditorActivity_Message.getText()).toString());
+
+                        if (phoneNumber != null) {
+                            if (phoneNumber.size() == 1) {
+                                Uri uri = Uri.parse("smsto:" + phoneNumber.get(0));
+                                Intent intent = new Intent(Intent.ACTION_SENDTO, uri);
+                                intent.putExtra("sms_body", "");
+                                startActivity(intent);
+                            } else {
+                                showDialog(phoneNumber, requireContext(), Constants.TAG_SEND_TEXT_MESSAGE);
+                            }
+                        } else {
+                            Toast.makeText(requireContext(), "No phone number found", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    return true;
+                });
+
+            if (preference_MakeACall != null)
+                preference_MakeACall.setOnPreferenceClickListener(preference -> {
+                    if (!Objects.requireNonNull(
+                            edt_EditorActivity_Message.getText()).toString().equals("")) {
+
+                        List<String> phoneNumber = new TextProcessor(requireContext()).getPhoneNumbersFromString(Objects.requireNonNull(
+                                edt_EditorActivity_Message.getText()).toString());
+
+                        if (phoneNumber != null) {
+                            if (phoneNumber.size() == 1) {
+                                startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + phoneNumber.get(0))));
+                            } else {
+                                showDialog(phoneNumber, requireContext(), Constants.TAG_PHONE_NUMBER);
+                            }
+                        } else {
+                            Toast.makeText(requireContext(), "No phone number found", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    return true;
+                });
+
+            if (preference_AddToContact != null)
+                preference_AddToContact.setOnPreferenceClickListener(preference -> {
+
+                    if (!Objects.requireNonNull(
+                            edt_EditorActivity_Message.getText()).toString().equals("")) {
+
+                        List<String> phoneNumber = new TextProcessor(requireContext()).getPhoneNumbersFromString(Objects.requireNonNull(
+                                edt_EditorActivity_Message.getText()).toString());
+
+                        if (phoneNumber != null) {
+                            if (phoneNumber.size() == 1) {
+
+                                Intent contactIntent = new Intent(ContactsContract.Intents.Insert.ACTION);
+                                contactIntent.setType(ContactsContract.RawContacts.CONTENT_TYPE);
+
+                                contactIntent
+                                        .putExtra(ContactsContract.Intents.Insert.NAME, "Name Name")
+                                        .putExtra(ContactsContract.Intents.Insert.PHONE, phoneNumber.get(0));
+
+                                startActivity(contactIntent);
+
+                            } else {
+                                showDialog(phoneNumber, requireContext(), Constants.TAG_ADD_TO_CONTACT);
+                            }
+                        } else {
+                            Toast.makeText(requireContext(), "No phone number found", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                    return true;
+                });
+
+            if (preference_Share != null)
+                preference_Share.setOnPreferenceClickListener(preference -> {
+                    if (!Objects.requireNonNull(
+                            edt_EditorActivity_Message.getText()).toString().equals("")) {
                         new Utils(requireContext()).shareText(model.getNotificationSubText());
-                        return true;
-                    });
-            } else {
-                Toast.makeText(requireContext(), "Field Empty", Toast.LENGTH_SHORT).show();
-            }
+                    }
+                    return true;
+                });
+
         }
     }
 

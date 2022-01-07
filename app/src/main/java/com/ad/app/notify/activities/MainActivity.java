@@ -1,7 +1,11 @@
 package com.ad.app.notify.activities;
 
+import static com.ad.app.notify.utils.Constants.NOTIFICATION_MODEL;
+
+import android.app.Activity;
 import android.app.NotificationManager;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -18,9 +22,6 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.LayoutAnimationController;
-import android.view.animation.RotateAnimation;
-import android.view.animation.ScaleAnimation;
-import android.view.animation.TranslateAnimation;
 import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AlertDialog;
@@ -31,10 +32,13 @@ import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.ad.app.notify.DeviceShutDownReceiver;
 import com.ad.app.notify.R;
 import com.ad.app.notify.adapter.NotificationRecyclerAdapter;
 import com.ad.app.notify.database.NotificationDatabaseHandler;
 import com.ad.app.notify.model.NotificationModel;
+import com.ad.app.notify.receiver.BootBroadcastReceiver;
+import com.ad.app.notify.service.NotificationService;
 import com.ad.app.notify.utils.Constants;
 import com.ad.app.notify.utils.TextProcessor;
 import com.google.android.material.button.MaterialButton;
@@ -47,10 +51,6 @@ import java.util.List;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
-
-    //TODO - WHEN OPENING EDITOR ACTIVITY CHECK IF NOTIFICATION IS ACTIVE
-    //TODO - BOOT RECEIVER
-    //TODO - FORMAT CODE WITH PROPER METHODS (init etc)
 
     private static final String TAG = "MainActivity";
     private RecyclerView recyclerView;
@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
             getSupportActionBar().setIcon(R.drawable.ic_toolbar_app_icon);
         }
 
-        refreshRecyclerview(true);
+        refreshRecyclerview(true, false);
 
         fab.setOnClickListener(view -> {
 
@@ -104,12 +104,12 @@ public class MainActivity extends AppCompatActivity {
 
                     if (!message.equals("")) {
 
-                        new TextProcessor(this).process(message, Constants.ACTION_ADD);
+                        new TextProcessor(this).process(message.trim(), Constants.ACTION_ADD);
 
                         dialog.dismiss();
 
                         //need delay to save data in database
-                        new Handler(Looper.getMainLooper()).postDelayed(() -> refreshRecyclerview(true), 200);
+                        new Handler(Looper.getMainLooper()).postDelayed(() -> refreshRecyclerview(true, true), 200);
                     } else {
                         edt_Dialog_Message.setError(getString(R.string.empty_field_error));
                     }
@@ -120,15 +120,16 @@ public class MainActivity extends AppCompatActivity {
 
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         });
+
+        registerReceiver(new BootBroadcastReceiver(), new IntentFilter(Intent.ACTION_BOOT_COMPLETED));
+        registerReceiver(new DeviceShutDownReceiver(), new IntentFilter(Intent.ACTION_SHUTDOWN));
     }
 
     @Override
     protected void onStart() {
         super.onStart();
 
-        clearNotifications();
-
-        refreshRecyclerview(false);
+        refreshRecyclerview(false, true);
 
 //        PreferenceManager.setDefaultValues(this, R.xml.root_preferences, false); /* does not affect performance */
 
@@ -144,9 +145,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void refreshRecyclerview(boolean doAnimation) {
+    public void refreshRecyclerview(boolean doAnimation, boolean clearNotification) {
 
-        clearNotifications();
+        if (clearNotification)
+            clearNotifications();
 
         linearLayout_NoData.setVisibility(
                 new NotificationDatabaseHandler(this).getItemCount() == 0 ?
@@ -176,50 +178,70 @@ public class MainActivity extends AppCompatActivity {
         //TODO - CHECK IF DEVICE IS POWERED OFF OR POWERED ON
         //TODO - POWER OFF RECEIVER
 
-        NotificationManager mNotificationManager =
-                (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        SharedPreferences sharedPreferences =
+                getSharedPreferences("reboot", Activity.MODE_PRIVATE);
 
-        StatusBarNotification[] notifications =
-                mNotificationManager.getActiveNotifications();
+        if (sharedPreferences.getString("power", "power_on").equals("power_off")) {
 
-        //if no ongoing notifications found then clear database
-        if (notifications.length == 0) {
-
-            new NotificationDatabaseHandler(this).deleteAllNotifications();
-        } else {
-            //delete notifications which are dismissed
-
-            //get saved notifications in list
             List<NotificationModel> oldModelList = new NotificationDatabaseHandler(this)
                     .getActiveNotificationList(true);
 
-            List<Integer> oldList = new ArrayList<>();
-            List<Integer> notificationList = new ArrayList<>();
+            for (NotificationModel model : oldModelList) {
+                if (model.isNotificationPinned()) {
+                    Intent i = new Intent(this, NotificationService.class);
+                    i.putExtra(NOTIFICATION_MODEL, model);
+                    i.putExtra(Constants.ACTION, Constants.ACTION_REBOOTED);
+                    startService(i);
+                }
+            }
 
-            for (NotificationModel model : oldModelList)
-                oldList.add(model.getNotificationId());
+            sharedPreferences.edit().putString("power", "power_on").apply();
+        } else {
+            NotificationManager mNotificationManager =
+                    (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
-            for (StatusBarNotification notification : notifications)
-                notificationList.add(notification.getId());
+            StatusBarNotification[] notifications =
+                    mNotificationManager.getActiveNotifications();
 
-            List<Integer> newList = new ArrayList<>();
-            for (int oldInt : oldList)
-                for (int newInt : notificationList)
-                    if (oldInt == newInt) newList.add(oldInt);
+            //if no ongoing notifications found then clear database
+            if (notifications.length == 0) {
 
-            // Prepare a union
-            List<Integer> union = new ArrayList<>(oldList);
-            union.addAll(newList);
+                new NotificationDatabaseHandler(this).deleteAllNotifications();
+            } else {
+                //delete notifications which are dismissed
 
-            // Prepare an intersection
-            List<Integer> intersection = new ArrayList<>(oldList);
-            intersection.retainAll(newList);
+                //get saved notifications in list
+                List<NotificationModel> oldModelList = new NotificationDatabaseHandler(this)
+                        .getActiveNotificationList(true);
 
-            // Subtract the intersection from the union
-            union.removeAll(intersection);
+                List<Integer> oldList = new ArrayList<>();
+                List<Integer> notificationList = new ArrayList<>();
 
-            // delete notification from union list
-            for (int id : union) new NotificationDatabaseHandler(this).deleteNotification(id);
+                for (NotificationModel model : oldModelList)
+                    oldList.add(model.getNotificationId());
+
+                for (StatusBarNotification notification : notifications)
+                    notificationList.add(notification.getId());
+
+                List<Integer> newList = new ArrayList<>();
+                for (int oldInt : oldList)
+                    for (int newInt : notificationList)
+                        if (oldInt == newInt) newList.add(oldInt);
+
+                // Prepare a union
+                List<Integer> union = new ArrayList<>(oldList);
+                union.addAll(newList);
+
+                // Prepare an intersection
+                List<Integer> intersection = new ArrayList<>(oldList);
+                intersection.retainAll(newList);
+
+                // Subtract the intersection from the union
+                union.removeAll(intersection);
+
+                // delete notification from union list
+                for (int id : union) new NotificationDatabaseHandler(this).deleteNotification(id);
+            }
         }
     }
 

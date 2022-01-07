@@ -5,6 +5,7 @@
       <map>
         <entry key="..\:/Users/Dell/AndroidStudioProjects/Notify/app/src/main/res/drawable-anydpi/ic_add.xml" value="0.290625" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/Notify/app/src/main/res/drawable-anydpi/ic_arrow_small_left.xml" value="0.18355263157894736" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/Notify/app/src/main/res/drawable-anydpi/ic_done.xml" value="0.18355263157894736" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/Notify/app/src/main/res/drawable-anydpi/ic_interrogation.xml" value="0.18355263157894736" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/Notify/app/src/main/res/drawable-anydpi/ic_nterrogation..xml" value="0.28615384615384615" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/Notify/app/src/main/res/drawable-anydpi/ic_settings.xml" value="0.18355263157894736" />
@@ -61,6 +62,8 @@
         <entry key="..\:/Users/Dell/AndroidStudioProjects/Notify/app/src/main/res/drawable/ic_thumbtack.xml" value="0.290625" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/Notify/app/src/main/res/drawable/ic_unpinned.xml" value="0.18355263157894736" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/Notify/app/src/main/res/drawable/itemdecor_recyclerview.xml" value="0.18355263157894736" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/Notify/app/src/main/res/drawable/itemdecor_recyclerview_email.xml" value="0.18355263157894736" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/Notify/app/src/main/res/drawable/itemdecor_recyclerview_note.xml" value="0.18355263157894736" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/Notify/app/src/main/res/drawable/itemdecor_recyclerview_phone.xml" value="0.18355263157894736" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/Notify/app/src/main/res/drawable/itemdecor_recyclerview_url.xml" value="0.18355263157894736" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/Notify/app/src/main/res/drawable/itemdecor_recyclerview_watch_later.xml" value="0.18355263157894736" />
@@ -69,6 +72,10 @@
         <entry key="..\:/Users/Dell/AndroidStudioProjects/Notify/app/src/main/res/drawable/note.xml" value="0.18355263157894736" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/Notify/app/src/main/res/drawable/test_background.xml" value="0.290625" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/Notify/app/src/main/res/font/cabin.xml" value="0.17395833333333333" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/Notify/app/src/main/res/font/roboto.xml" value="0.19055374592833876" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/Notify/app/src/main/res/font/roboto_black.xml" value="0.19055374592833876" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/Notify/app/src/main/res/font/roboto_bold.xml" value="0.19055374592833876" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/Notify/app/src/main/res/font/roboto_condensed_regular.xml" value="0.19055374592833876" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/Notify/app/src/main/res/layout/activity_donate.xml" value="0.17335526315789473" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/Notify/app/src/main/res/layout/activity_editor.xml" value="0.264" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/Notify/app/src/main/res/layout/activity_feedback.xml" value="0.17335526315789473" />
@@ -76,6 +83,7 @@
         <entry key="..\:/Users/Dell/AndroidStudioProjects/Notify/app/src/main/res/layout/activity_settings.xml" value="0.17335526315789473" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/Notify/app/src/main/res/layout/activity_text_process.xml" value="0.27447916666666666" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/Notify/app/src/main/res/layout/content_main.xml" value="0.27447916666666666" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/Notify/app/src/main/res/layout/custom_dialog_layout.xml" value="0.17335526315789473" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/Notify/app/src/main/res/layout/dialog_add_new_note.xml" value="0.264" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/Notify/app/src/main/res/layout/dialog_report_bug.xml" value="0.17335526315789473" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/Notify/app/src/main/res/layout/dialog_sort_list.xml" value="0.17335526315789473" />
@@ -85,6 +93,7 @@
         <entry key="..\:/Users/Dell/AndroidStudioProjects/Notify/app/src/main/res/layout/fragment_second.xml" value="0.17335526315789473" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/Notify/app/src/main/res/layout/itemveiw_notification.xml" value="0.264" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/Notify/app/src/main/res/layout/itemview_contact_numbers.xml" value="0.17335526315789473" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/Notify/app/src/main/res/layout/itemview_fruit.xml" value="0.17335526315789473" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/Notify/app/src/main/res/layout/itemview_url_list.xml" value="0.17335526315789473" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/Notify/app/src/main/res/layout/layout_color_palette.xml" value="0.17335526315789473" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/Notify/app/src/main/res/layout/layout_color_pallete.xml" value="0.17335526315789473" />

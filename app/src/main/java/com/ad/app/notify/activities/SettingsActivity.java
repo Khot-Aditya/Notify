@@ -1,7 +1,7 @@
 package com.ad.app.notify.activities;
 
+import android.app.SearchManager;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -68,7 +68,7 @@ public class SettingsActivity extends AppCompatActivity {
 //            SwitchPreferenceCompat switch_GroupNotifications = (SwitchPreferenceCompat) findPreference(getString(R.string.groups_title));
             SwitchPreferenceCompat switch_CollapseNotifications = (SwitchPreferenceCompat) findPreference(getString(R.string.collapsed_view_title));
             Preference btn_clearAll = (Preference) findPreference(getString(R.string.clear_title));
-            Preference btn_Email = (Preference) findPreference(getString(R.string.email_title));
+//            Preference btn_Email = (Preference) findPreference(getString(R.string.email_title));
             Preference btn_Donate = (Preference) findPreference(getString(R.string.donate_title));
             Preference btn_Feedback = (Preference) findPreference(getString(R.string.feedback_title));
             Preference btn_AboutApp = (Preference) findPreference(getString(R.string.about_app_title));
@@ -108,18 +108,18 @@ public class SettingsActivity extends AppCompatActivity {
 //            });
 
             if (switch_CollapseNotifications != null)
-            switch_CollapseNotifications.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-                @Override
-                public boolean onPreferenceChange(Preference preference, Object newValue) {
-                    if(newValue.equals(false)){
-                        new MaterialAlertDialogBuilder(requireContext())
+                switch_CollapseNotifications.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                    @Override
+                    public boolean onPreferenceChange(Preference preference, Object newValue) {
+                        if (newValue.equals(false)) {
+                            new MaterialAlertDialogBuilder(requireContext())
 //                                .setTitle("Warning")
-                                .setMessage("Turning off this feature may cause some errors.")
-                                .show();
+                                    .setMessage("Turning off this feature may cause some errors.")
+                                    .show();
+                        }
+                        return true;
                     }
-                    return true;
-                }
-            });
+                });
 
 
             if (btn_clearAll != null)
@@ -137,7 +137,7 @@ public class SettingsActivity extends AppCompatActivity {
 
                                         NotificationManagerCompat.from(requireContext()).cancelAll();
                                         Toast.makeText(requireContext(), "Done", Toast.LENGTH_SHORT).show();
-                                    } catch (Exception e) {
+                                    } catch (Exception ignored) {
 
                                     }
 
@@ -150,28 +150,23 @@ public class SettingsActivity extends AppCompatActivity {
                     return true;
                 });
 
-            if (btn_Email != null)
-                btn_Email.setOnPreferenceClickListener(preference -> {
-
-                    String to = "adityakhot6838@gmail.com";
-                    String subject = "";
-                    String body = "";
-
-                    String mailTo = "mailto:" + to +
-                            "?&subject=" + Uri.encode(subject) +
-                            "&body=" + Uri.encode(body);
-
-                    Intent emailIntent = new Intent(Intent.ACTION_VIEW);
-                    emailIntent.setData(Uri.parse(mailTo));
-
-                    try {
-                        startActivity(Intent.createChooser(emailIntent, "Send Email"));
-                    } catch (Exception e) {
-
-                    }
-
-                    return true;
-                });
+//            if (btn_Email != null)
+//                btn_Email.setOnPreferenceClickListener(preference -> {
+//
+//                    String to = "adityakhot6838@gmail.com";
+//                    String subject = "";
+//                    String body = "";
+//
+//                    String mailTo = "mailto:" + to +
+//                            "?&subject=" + Uri.encode(subject) +
+//                            "&body=" + Uri.encode(body);
+//
+//                    Intent emailIntent = new Intent(Intent.ACTION_VIEW);
+//                    emailIntent.setData(Uri.parse(mailTo));
+//
+//                    startActivity(Intent.createChooser(emailIntent, "Send Email"));
+//                    return true;
+//                });
 
             if (btn_Donate != null)
                 btn_Donate.setOnPreferenceClickListener(preference -> {
@@ -201,8 +196,13 @@ public class SettingsActivity extends AppCompatActivity {
 
             if (btn_PrivacyPolicy != null)
                 btn_PrivacyPolicy.setOnPreferenceClickListener(preference -> {
-                    //TODO - OPEN PRIVACY POLICY LINK IN BROWSER
-                    Toast.makeText(requireContext(), "Clicked", Toast.LENGTH_SHORT).show();
+
+                    Intent intent;
+                    intent = new Intent(Intent.ACTION_WEB_SEARCH);
+                    intent.putExtra(SearchManager.QUERY, "https://khot-aditya.github.io/Privacy-Policy/Notify");
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                    startActivity(intent);
                     return true;
                 });
         }

@@ -1,6 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-<!--    TODO - EXTRACT STRING RESOURCES-->
+    <!--    TODO - EXTRACT STRING RESOURCES-->
 <!--    Theme Preference -->
     <string-array name="theme_title">
         <item>Light</item>
@@ -13,7 +14,7 @@
         <item>follow_system</item>
     </string-array>
 
-<!--    Temporary Notes Preference -->
+    <!--    Temporary Notes Preference -->
     <string-array name="temporary_notes_title">
         <item>5h</item>
         <item>10h</item>

@@ -2,9 +2,13 @@ package com.ad.app.notify.receiver;
 
 import static com.ad.app.notify.utils.Constants.NOTIFICATION_MODEL;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Build;
+import android.widget.Toast;
 
 import com.ad.app.notify.database.NotificationDatabaseHandler;
 import com.ad.app.notify.model.NotificationModel;
@@ -12,39 +16,43 @@ import com.ad.app.notify.service.NotificationService;
 import com.ad.app.notify.utils.Constants;
 
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class BootBroadcastReceiver extends BroadcastReceiver {
-
-    final int[] index = {0};
 
     @Override
     public void onReceive(Context context, Intent intent) {
 
         if (intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED)) {
 
-            List<NotificationModel> model = new NotificationDatabaseHandler(context)
+            SharedPreferences sharedPreferences =
+                    context.getSharedPreferences("reboot", Activity.MODE_PRIVATE);
+            List<NotificationModel> oldModelList = new NotificationDatabaseHandler(context)
                     .getActiveNotificationList(true);
 
-            new Timer().scheduleAtFixedRate(new TimerTask() {
+            if (sharedPreferences.getString("power", "power_on").equals("power_off")) {
 
-                @Override
-                public void run() {
+                sharedPreferences.edit().putString("power", "power_on").apply();
 
-                    if (index[0] < model.size()) {
-                        //if notification is pinned then only it will revive else notification will be removed
-                        if(model.get(index[0]).isNotificationPinned()){
-                            Intent i = new Intent(context, NotificationService.class);
-                            i.putExtra(NOTIFICATION_MODEL, model.get(index[0]));
-                            i.putExtra(Constants.ACTION, Constants.ACTION_REBOOTED);
-                            context.startService(i);
+                for (NotificationModel model : oldModelList) {
+                    if (model.isNotificationPinned()) {
+                        Intent i = new Intent(context, NotificationService.class);
+                        i.putExtra(NOTIFICATION_MODEL, model);
+                        i.putExtra(Constants.ACTION, Constants.ACTION_REBOOTED);
+
+                        try {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                context.startForegroundService(i);
+                            } else {
+                                context.startService(i);
+                            }
+                        } catch (Exception e) {
+                            Toast.makeText(context, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                         }
-                    }
 
-                    index[0]++;
+                    }
                 }
-            }, 0, 1000);
+
+            }
 
 
         }

@@ -40,7 +40,7 @@
     <string name="about_app_description">Learn more about this app</string>
 
     <string name="privacy_policy_title">Privacy Policy</string>
-    <string name="privacy_policy_description">something.github.com</string>
+    <string name="privacy_policy_description">khot-aditya.github.io</string>
 
     <string name="help_title">Help</string>
     <string name="heLp_description">Contact developer for questions</string>
@@ -58,8 +58,8 @@
     <string name="search_as_query">Search as query</string>
     <string name="copy_to_clipboard">Copy to clipboard</string>
     <string name="send_email">Send email</string>
-    <string name="send_message">Send message</string>
-    <string name="make_a_call">Make a call</string>
+    <string name="send_message">Send text message</string>
+    <string name="make_a_call">Make a phone call</string>
     <string name="add_to_contact">Add to contact</string>
     <string name="share">Share</string>
 
