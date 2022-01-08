@@ -4,10 +4,14 @@ import static com.ad.app.notify.utils.Constants.NOTIFICATION_MODEL;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.view.View;
+import android.view.Window;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,8 +20,8 @@ import androidx.core.app.NotificationManagerCompat;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
-import com.ad.app.notify.CustomListViewDialog;
-import com.ad.app.notify.DataAdapter;
+import com.ad.app.notify.views.ItemSelectorListViewDialog;
+import com.ad.app.notify.adapter.ItemSelectorDataAdapter;
 import com.ad.app.notify.R;
 import com.ad.app.notify.model.NotificationModel;
 import com.ad.app.notify.utils.Constants;
@@ -55,12 +59,12 @@ public class EditorActivity extends AppCompatActivity {
     private ColorPaletteView colorPalette_geraldine;
     private ColorPaletteView colorPalette_lavender_pinocchio;
 
-    //TODO - CHECK IF NOTIFICATION IS ACTIVE
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor);
+
+        new Utils(this).log("onCreate");
 
         if (savedInstanceState == null) {
             getSupportFragmentManager()
@@ -108,9 +112,13 @@ public class EditorActivity extends AppCompatActivity {
 
                     model.setNotificationSubText(edt_EditorActivity_Message.getText().toString());
                     new TextProcessor(EditorActivity.this).update(model);
+                    new Utils(this).log("action_SaveNote");
+
                     finish();
                 }
             } else if (id == R.id.action_DeleteNote) {
+
+                new Utils(this).log("action_DeleteNote");
 
                 new MaterialAlertDialogBuilder(this)
                         .setMessage("Are you sure you want to delete this note?")
@@ -125,11 +133,15 @@ public class EditorActivity extends AppCompatActivity {
 
             } else if (id == R.id.action_Settings) {
 
+                new Utils(this).log("action_Settings");
+
                 startActivity(new Intent(EditorActivity.this, SettingsActivity.class));
                 overridePendingTransition(R.anim.slide_in_from_right,
                         R.anim.slide_out_to_left);
 
             } else if (id == R.id.action_HelpFeedback) {
+
+                new Utils(this).log("action_HelpFeedback");
 
                 startActivity(new Intent(EditorActivity.this, FeedbackActivity.class)
                         .putExtra("subject", "Help & Feedback"));
@@ -141,6 +153,8 @@ public class EditorActivity extends AppCompatActivity {
         });
         toolbar.setNavigationOnClickListener(v -> {
 
+            new Utils(this).log("onBackPressed");
+
             finish();
             overridePendingTransition(R.anim.slide_in_from_left,
                     R.anim.slide_out_to_right);
@@ -148,9 +162,9 @@ public class EditorActivity extends AppCompatActivity {
     }
 
 
-    public static class EditorFragment extends PreferenceFragmentCompat implements DataAdapter.RecyclerViewItemClickListener {
+    public static class EditorFragment extends PreferenceFragmentCompat implements ItemSelectorDataAdapter.RecyclerViewItemClickListener {
 
-        private CustomListViewDialog customDialog;
+        private ItemSelectorListViewDialog customDialog;
 
         @Override
         public void clickOnItem(String data, String tag) {
@@ -205,28 +219,35 @@ public class EditorActivity extends AppCompatActivity {
         }
 
         public void showDialog(List<String> items, Context activity, String tag) {
-            DataAdapter dataAdapter = new DataAdapter(items, this, tag);
-            customDialog = new CustomListViewDialog(activity, dataAdapter);
+            ItemSelectorDataAdapter itemSelectorDataAdapter = new ItemSelectorDataAdapter(items, this, tag);
+            customDialog = new ItemSelectorListViewDialog(activity, itemSelectorDataAdapter);
 
             customDialog.show();
-            customDialog.setCanceledOnTouchOutside(false);
+
+            customDialog.setCanceledOnTouchOutside(true);
+            customDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            customDialog.setCancelable(true);
         }
 
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             setPreferencesFromResource(R.xml.preferences_editor_activity, rootKey);
 
+            new Utils(requireContext()).log("onCreatePreference");
+
             Preference preference_Search = (Preference) findPreference(getString(R.string.search_as_query));
             Preference preference_CopyToClipboard = (Preference) findPreference(getString(R.string.copy_to_clipboard));
             Preference preference_SendEmail = (Preference) findPreference(getString(R.string.send_email));
             Preference preference_SendMessage = (Preference) findPreference(getString(R.string.send_message));
-            Preference preference_MakeACall = (Preference) findPreference(getString(R.string.make_a_call));
+            Preference preference_MakeAPhoneCall = (Preference) findPreference(getString(R.string.make_a_call));
             Preference preference_AddToContact = (Preference) findPreference(getString(R.string.add_to_contact));
             Preference preference_Share = (Preference) findPreference(getString(R.string.share));
 
 
             if (preference_Search != null)
                 preference_Search.setOnPreferenceClickListener(preference -> {
+
+                    new Utils(requireContext()).log("Tap - preference_Search");
 
                     if (!Objects.requireNonNull(
                             edt_EditorActivity_Message.getText()).toString().equals("")) {
@@ -248,6 +269,9 @@ public class EditorActivity extends AppCompatActivity {
 
             if (preference_CopyToClipboard != null)
                 preference_CopyToClipboard.setOnPreferenceClickListener(preference -> {
+
+                    new Utils(requireContext()).log("Tap - preference_CopyToClipBoard");
+
                     if (!Objects.requireNonNull(
                             edt_EditorActivity_Message.getText()).toString().equals("")) {
                         new Utils(requireContext()).copyToClipboard(Objects.requireNonNull(
@@ -259,6 +283,9 @@ public class EditorActivity extends AppCompatActivity {
 
             if (preference_SendEmail != null)
                 preference_SendEmail.setOnPreferenceClickListener(preference -> {
+
+                    new Utils(requireContext()).log("Tap - preference_SendEmail");
+
                     if (!Objects.requireNonNull(
                             edt_EditorActivity_Message.getText()).toString().equals("")) {
                         List<String> email = new TextProcessor(requireContext()).getEmailFromString(Objects.requireNonNull(
@@ -304,6 +331,8 @@ public class EditorActivity extends AppCompatActivity {
             if (preference_SendMessage != null)
                 preference_SendMessage.setOnPreferenceClickListener(preference -> {
 
+                    new Utils(requireContext()).log("Tap - preference_SendMessage");
+
                     if (!Objects.requireNonNull(
                             edt_EditorActivity_Message.getText()).toString().equals("")) {
 
@@ -327,8 +356,11 @@ public class EditorActivity extends AppCompatActivity {
                     return true;
                 });
 
-            if (preference_MakeACall != null)
-                preference_MakeACall.setOnPreferenceClickListener(preference -> {
+            if (preference_MakeAPhoneCall != null)
+                preference_MakeAPhoneCall.setOnPreferenceClickListener(preference -> {
+
+                    new Utils(requireContext()).log("Tap - preference_MakeAPhoneCall");
+
                     if (!Objects.requireNonNull(
                             edt_EditorActivity_Message.getText()).toString().equals("")) {
 
@@ -351,6 +383,8 @@ public class EditorActivity extends AppCompatActivity {
 
             if (preference_AddToContact != null)
                 preference_AddToContact.setOnPreferenceClickListener(preference -> {
+
+                    new Utils(requireContext()).log("Tap - preference_AddToContact");
 
                     if (!Objects.requireNonNull(
                             edt_EditorActivity_Message.getText()).toString().equals("")) {
@@ -383,6 +417,9 @@ public class EditorActivity extends AppCompatActivity {
 
             if (preference_Share != null)
                 preference_Share.setOnPreferenceClickListener(preference -> {
+
+                    new Utils(requireContext()).log("Tap - preference_Share");
+
                     if (!Objects.requireNonNull(
                             edt_EditorActivity_Message.getText()).toString().equals("")) {
                         new Utils(requireContext()).shareText(model.getNotificationSubText());
@@ -463,6 +500,8 @@ public class EditorActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+
+        new Utils(this).log("onBackPressed");
 
         overridePendingTransition(R.anim.slide_in_from_left,
                 R.anim.slide_out_to_right);

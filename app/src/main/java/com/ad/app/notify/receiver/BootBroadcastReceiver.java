@@ -8,12 +8,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
-import android.widget.Toast;
 
 import com.ad.app.notify.database.NotificationDatabaseHandler;
 import com.ad.app.notify.model.NotificationModel;
 import com.ad.app.notify.service.NotificationService;
 import com.ad.app.notify.utils.Constants;
+import com.ad.app.notify.utils.Utils;
 
 import java.util.List;
 
@@ -46,7 +46,7 @@ public class BootBroadcastReceiver extends BroadcastReceiver {
                                 context.startService(i);
                             }
                         } catch (Exception e) {
-                            Toast.makeText(context, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                            new Utils(context).log("Error: " + e.getLocalizedMessage());
                         }
 
                     }

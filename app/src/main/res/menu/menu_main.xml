@@ -5,7 +5,7 @@
     tools:context="com.ad.app.notify.activities.MainActivity">
 
     <item
-        android:id="@+id/action_reportBug"
+        android:id="@+id/action_ReportBug"
         android:icon="@drawable/ic_report"
         android:title="@string/report_bug"
         app:showAsAction="ifRoom" />

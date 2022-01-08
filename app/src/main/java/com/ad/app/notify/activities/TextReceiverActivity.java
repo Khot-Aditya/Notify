@@ -18,15 +18,16 @@ public class TextReceiverActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        CharSequence message = getIntent().getCharSequenceExtra(Intent.EXTRA_PROCESS_TEXT);
+        new Utils(this).log("onCreate");
 
+        CharSequence message = getIntent().getCharSequenceExtra(Intent.EXTRA_PROCESS_TEXT);
 
         if (Intent.ACTION_SEND.equals(getIntent().getAction()) && "text/plain".equals(getIntent().getType())) {
 
-            new TextProcessor(this).process(getIntent().getStringExtra(Intent.EXTRA_TEXT),Constants.ACTION_ADD);
+            new TextProcessor(this).process(getIntent().getStringExtra(Intent.EXTRA_TEXT), Constants.ACTION_ADD);
 
         } else if (message != null) {
-            new TextProcessor(this).process(message.toString(),Constants.ACTION_ADD);
+            new TextProcessor(this).process(message.toString(), Constants.ACTION_ADD);
         } else {
             Toast.makeText(this, "Exception Found", Toast.LENGTH_SHORT).show();
         }

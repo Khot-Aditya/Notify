@@ -1,5 +1,9 @@
 plugins {
     id 'com.android.application'
+    id 'com.google.gms.google-services'
+
+    id 'com.google.firebase.crashlytics'
+    id 'com.google.firebase.firebase-perf'
 }
 
 android {
@@ -31,6 +35,13 @@ android {
 }
 
 dependencies {
+
+    // Import the BoM for the Firebase platform
+    implementation platform('com.google.firebase:firebase-bom:29.0.3')
+
+    implementation 'com.google.firebase:firebase-crashlytics:18.2.6'
+    implementation 'com.google.firebase:firebase-analytics:20.0.2'
+    implementation 'com.google.firebase:firebase-perf'
 
     implementation 'com.google.android.material:material:1.4.0'
     implementation group: 'commons-io', name: 'commons-io', version: '2.6'

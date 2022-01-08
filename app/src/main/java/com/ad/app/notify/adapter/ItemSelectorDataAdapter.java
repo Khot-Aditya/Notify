@@ -1,24 +1,25 @@
-package com.ad.app.notify;
+package com.ad.app.notify.adapter;
 
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.ad.app.notify.R;
+
 import java.util.List;
 
-public class DataAdapter extends RecyclerView.Adapter<DataAdapter.FruitViewHolder> {
+public class ItemSelectorDataAdapter extends RecyclerView.Adapter<ItemSelectorDataAdapter.ItemSelectorViewHolder> {
 
     private List<String> mDataset;
-    RecyclerViewItemClickListener recyclerViewItemClickListener;
-    String tag;
+    private RecyclerViewItemClickListener recyclerViewItemClickListener;
+    private String tag;
 
-    public DataAdapter(List<String> myDataset, RecyclerViewItemClickListener listener, String tag) {
+    public ItemSelectorDataAdapter(List<String> myDataset, RecyclerViewItemClickListener listener, String tag) {
         mDataset = myDataset;
         this.recyclerViewItemClickListener = listener;
         this.tag = tag;
@@ -26,15 +27,15 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.FruitViewHolde
 
     @NonNull
     @Override
-    public FruitViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
+    public ItemSelectorViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
 
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.itemview_fruit, parent, false);
-        return new FruitViewHolder(v);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.itemview_item_selector, parent, false);
+        return new ItemSelectorViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull FruitViewHolder fruitViewHolder, int i) {
-        fruitViewHolder.mTextView.setText(mDataset.get(i));
+    public void onBindViewHolder(@NonNull ItemSelectorViewHolder itemSelectorViewHolder, int i) {
+        itemSelectorViewHolder.mTextView.setText(mDataset.get(i));
     }
 
     @Override
@@ -42,11 +43,11 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.FruitViewHolde
         return mDataset.size();
     }
 
-    public class FruitViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ItemSelectorViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         public TextView mTextView;
 
-        public FruitViewHolder(View v) {
+        public ItemSelectorViewHolder(View v) {
             super(v);
             mTextView = (TextView) v.findViewById(R.id.textView);
             v.setOnClickListener(this);

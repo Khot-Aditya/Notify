@@ -32,19 +32,21 @@ import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.ad.app.notify.DeviceShutDownReceiver;
 import com.ad.app.notify.R;
 import com.ad.app.notify.adapter.NotificationRecyclerAdapter;
 import com.ad.app.notify.database.NotificationDatabaseHandler;
 import com.ad.app.notify.model.NotificationModel;
 import com.ad.app.notify.receiver.BootBroadcastReceiver;
+import com.ad.app.notify.receiver.DeviceShutDownReceiver;
 import com.ad.app.notify.service.NotificationService;
 import com.ad.app.notify.utils.Constants;
 import com.ad.app.notify.utils.TextProcessor;
+import com.ad.app.notify.utils.Utils;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,11 +57,17 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private RecyclerView recyclerView;
     private LinearLayout linearLayout_NoData;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+
+        new Utils(this).log("onCreate");
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         ExtendedFloatingActionButton fab = (ExtendedFloatingActionButton) findViewById(R.id.fab);
@@ -123,6 +131,8 @@ public class MainActivity extends AppCompatActivity {
 
         registerReceiver(new BootBroadcastReceiver(), new IntentFilter(Intent.ACTION_BOOT_COMPLETED));
         registerReceiver(new DeviceShutDownReceiver(), new IntentFilter(Intent.ACTION_SHUTDOWN));
+
+
     }
 
     @Override
@@ -143,6 +153,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
         }
+
     }
 
     public void refreshRecyclerview(boolean doAnimation, boolean clearNotification) {
@@ -173,10 +184,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void clearNotifications() {
-
-        //TODO - IF OPENED AFTER DEVICE REBOOTED DON'T DELETE ANY DATA
-        //TODO - CHECK IF DEVICE IS POWERED OFF OR POWERED ON
-        //TODO - POWER OFF RECEIVER
 
         SharedPreferences sharedPreferences =
                 getSharedPreferences("reboot", Activity.MODE_PRIVATE);
@@ -263,10 +270,14 @@ public class MainActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
 
+            new Utils(this).log("action_Settings");
+
             startActivity(new Intent(this, SettingsActivity.class));
             overridePendingTransition(R.anim.slide_in_from_right,
                     R.anim.slide_out_to_left);
-        } else if (id == R.id.action_reportBug) {
+        } else if (id == R.id.action_ReportBug) {
+
+            new Utils(this).log("action_ReportBug");
 
             startActivity(new Intent(this, FeedbackActivity.class)
                     .putExtra("subject", "Report Bug"));

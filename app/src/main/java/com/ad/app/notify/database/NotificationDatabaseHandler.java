@@ -154,9 +154,8 @@ public class NotificationDatabaseHandler extends SQLiteOpenHelper {
 
 
             } while (cursor.moveToNext());
-        } else {
-            Log.d(TAG, "getList: error");
         }
+
         cursor.close();
         database.close();
 

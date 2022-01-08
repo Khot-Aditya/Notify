@@ -73,7 +73,7 @@
             </intent-filter>
         </receiver>
         <receiver
-            android:name=".DeviceShutDownReceiver"
+            android:name=".receiver.DeviceShutDownReceiver"
             android:enabled="true"
             android:exported="true">
 

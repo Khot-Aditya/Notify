@@ -279,7 +279,6 @@ public class TextProcessor extends Constants {
     //TODO - DEVELOP THIS FUNCTION
     public String getSearchableUrl(String url) {
 
-
         if (isYoutubeUrl(url)) {
 
             Pattern pattern = Pattern.compile(

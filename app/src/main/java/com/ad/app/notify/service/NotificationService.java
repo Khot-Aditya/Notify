@@ -65,17 +65,23 @@ public class NotificationService extends Service {
                         intent.getStringExtra(Constants.ACTION).equals(Constants.ACTION_ADD) ?
                                 new NotificationDatabaseHandler(this)
                                         .addNewNotification(notificationModel) ?
-                                        "Added to Notify" : "addNewNotification() - Exception Found" :
+                                        "Added to Notify" : "Exception: addNewNotification()" :
                                 intent.getStringExtra(Constants.ACTION)
                                         .equals(Constants.ACTION_REBOOTED) ? null :
                                         new NotificationDatabaseHandler(this)
                                                 .updateExistingNotification(notificationModel) ?
-                                                "Updated" : "updateExistingNotification() - Exception Found" :
-                        "createNotification() : Exception Found" :
+                                                "Updated" : "Exception: updateExistingNotification()" :
+                        "Exception: createNotification()" :
                 "hasExtra() : Exception Found";
 
-        if (toast != null)
-            Toast.makeText(this, toast, Toast.LENGTH_SHORT).show();
+        if (toast != null) {
+            if (toast.startsWith("Exception:")) {
+                new Utils(this).log(toast);
+            } else {
+                Toast.makeText(this, toast, Toast.LENGTH_SHORT).show();
+            }
+        }
+
 
         stopSelf();
         return super.onStartCommand(intent, flags, startId);
@@ -105,7 +111,6 @@ public class NotificationService extends Service {
             mBuilder.setChannelId(CHANNEL_ID);
         }
 
-
         //Constant values --------------------------------------------------------------------------
         mBuilder.setSmallIcon(R.drawable.ic_notification_icon);
         mBuilder.setBadgeIconType(NotificationCompat.BADGE_ICON_NONE);
@@ -118,7 +123,6 @@ public class NotificationService extends Service {
         mBuilder.setColorized(true);
         mBuilder.setSubText(model.getNotificationTags());
 
-
         //User can change following values ---------------------------------------------------------
         if (!model.isNotificationPinned() && !temporaryNotes.equals("never"))
             mBuilder.setTimeoutAfter(Integer.parseInt(temporaryNotes));
@@ -129,7 +133,6 @@ public class NotificationService extends Service {
         } else {
             mBuilder.setGroupSummary(false);
         }
-
 
 //        if(isGrouped){
 //            mBuilder.setGroupSummary(true);
@@ -191,7 +194,7 @@ public class NotificationService extends Service {
                 break;
 
             default:
-                Toast.makeText(this, "Notification Service : Exception found", Toast.LENGTH_SHORT).show();
+                new Utils(this).log("Exception Found");
                 break;
         }
 
@@ -199,11 +202,14 @@ public class NotificationService extends Service {
             notificationManager.notify(model.getNotificationId(), mBuilder.build());
             return true;
         } catch (Exception e) {
+            new Utils(this).log("Error: " + e.getLocalizedMessage());
             return false;
         }
     }
 
     private RemoteViews getWatchLaterRemoteView(NotificationModel model) {
+
+        new Utils(this).log("getWatchlaterRemoteView");
 
         RemoteViews remoteViews = new RemoteViews(getPackageName(),
                 R.layout.layout_notification_watch_later);
@@ -223,17 +229,15 @@ public class NotificationService extends Service {
 
     private RemoteViews getFullRemoteViews(NotificationModel model) {
 
+        new Utils(this).log("getFullRemoteView");
+
         String receivedText = model.getNotificationSubText();
 
         final String trimmedText = receivedText.length() > 200 ?
                 receivedText.substring(0, 200) + "..." :
                 receivedText;
 
-
         RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.layout_notification_full);
-
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
-//        remoteViews.setColor(R.id.linear_Container,"setBackgroundColor", R.color.color_app);
 
         remoteViews.setInt(R.id.linear_Container, "setBackgroundColor", new Utils(this).colorBrightness(
                 model.getNotificationBgColor(), "light", 0.7f));

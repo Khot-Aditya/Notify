@@ -1,4 +1,4 @@
-package com.ad.app.notify;
+package com.ad.app.notify.receiver;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
