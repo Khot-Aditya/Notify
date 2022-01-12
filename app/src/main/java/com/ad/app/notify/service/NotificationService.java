@@ -208,8 +208,7 @@ public class NotificationService extends Service {
     }
 
     private RemoteViews getWatchLaterRemoteView(NotificationModel model) {
-
-        new Utils(this).log("getWatchlaterRemoteView");
+        new Utils(this).log("getWatchLaterRemoteView");
 
         RemoteViews remoteViews = new RemoteViews(getPackageName(),
                 R.layout.layout_notification_watch_later);

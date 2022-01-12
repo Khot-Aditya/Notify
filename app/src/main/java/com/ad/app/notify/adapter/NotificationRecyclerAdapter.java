@@ -5,7 +5,6 @@ import static com.ad.app.notify.utils.Constants.NOTIFICATION_MODEL;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,7 +33,6 @@ public class NotificationRecyclerAdapter extends RecyclerView.Adapter<Notificati
 
     }
 
-
     @NonNull
     @Override
     public NotificationRecyclerAdapter.ListBasicViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -46,47 +44,12 @@ public class NotificationRecyclerAdapter extends RecyclerView.Adapter<Notificati
     public void onBindViewHolder(@NonNull NotificationRecyclerAdapter.ListBasicViewHolder holder, int position) {
         final NotificationModel object = objectList.get(position);
 
+        String dayOfTheWeek = object.getNotificationDate().substring(0, 3);
+        String date = object.getNotificationDate().substring(5, 7);
 
-        //under developed function
-//        switch (object.getNotificationCategory()) {
-//
-//            case TAG_WATCH_LATER:
-//                holder.view_Decor_RecyclerView.setBackground(ContextCompat.getDrawable(context, R.drawable.itemdecor_recyclerview_watch_later));
-//                holder.cardview_Container.setCardBackgroundColor(Color.parseColor("#FFDFDD"));
-//                break;
-//
-//            case TAG_EMAIL:
-//                holder.view_Decor_RecyclerView.setBackground(ContextCompat.getDrawable(context, R.drawable.itemdecor_recyclerview_email));
-//                holder.cardview_Container.setCardBackgroundColor(ContextCompat.getColor(context,R.color.color_StickyNote6));
-//                break;
-//
-//            case TAG_NOTE:
-//                holder.view_Decor_RecyclerView.setBackground(ContextCompat.getDrawable(context, R.drawable.itemdecor_recyclerview_note));
-//                holder.cardview_Container.setCardBackgroundColor(Color.parseColor("#FFDFDD"));
-//                break;
-//
-//            case TAG_PHONE_NUMBER:
-//                holder.view_Decor_RecyclerView.setBackground(ContextCompat.getDrawable(context, R.drawable.itemdecor_recyclerview_phone));
-//                holder.cardview_Container.setCardBackgroundColor(Color.parseColor("#FFDFDD"));
-//                break;
-//
-//            case TAG_URL:
-//                holder.view_Decor_RecyclerView.setBackground(ContextCompat.getDrawable(context, R.drawable.itemdecor_recyclerview_url));
-//                holder.cardview_Container.setCardBackgroundColor(Color.parseColor("#FFDFDD"));
-//                break;
+//        if(date.length() == 1){
+//            date = "0" + date;
 //        }
-
-
-        String dayOfTheWeek = "null";
-        String date = "null";
-        dayOfTheWeek = object.getNotificationDate().substring(0, 3);
-        date = object.getNotificationDate().substring(5, 7);
-
-        //if not date starts with 0
-        if (!date.startsWith("0")) {
-            date = "0" + date;
-        }
-
 
         holder.txt_DayOfTheWeek.setText(dayOfTheWeek);
         holder.txt_Date.setText(date);
@@ -94,7 +57,6 @@ public class NotificationRecyclerAdapter extends RecyclerView.Adapter<Notificati
         String subText = object.getNotificationSubText().length() > 300 ?
                 object.getNotificationSubText().substring(0, 300) + "..." :
                 object.getNotificationSubText();
-
 
         holder.txt_Tags.setTextColor(new Utils(context).colorBrightness(
                 object.getNotificationBgColor(), "dark", 0.55f));

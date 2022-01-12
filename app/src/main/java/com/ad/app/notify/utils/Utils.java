@@ -41,7 +41,7 @@ public class Utils {
     }
 
     public String getCurrentDate() {
-        return new SimpleDateFormat("EEE, d MMM"  /* Mon, 01 Jan */, Locale.getDefault()).format(new Date());
+        return new SimpleDateFormat("EEE, dd MMM"  /* Mon, 01 Jan */, Locale.getDefault()).format(new Date());
     }
 
     public int getNotificationId() {

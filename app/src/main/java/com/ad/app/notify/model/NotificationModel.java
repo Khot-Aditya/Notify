@@ -12,7 +12,6 @@ public class NotificationModel implements Serializable {
     private String notificationTags;
     private boolean isNotificationPinned;
 
-
     private int notificationBgColor;
 
     public int getNotificationId() {
