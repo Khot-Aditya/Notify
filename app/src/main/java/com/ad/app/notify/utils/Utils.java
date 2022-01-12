@@ -59,7 +59,6 @@ public class Utils {
                 "Share Using"));
     }
 
-
     public void copyToClipboard(String text) {
 
         new Utils(context).log("copyToClipBoard");
@@ -85,7 +84,7 @@ public class Utils {
         intent.putExtra(SearchManager.QUERY, url);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-        if (url.length() < 100) {
+        if (url.length() < 300) {
             context.startActivity(intent);
         } else {
             Toast.makeText(context, "Search word limit", Toast.LENGTH_SHORT).show();

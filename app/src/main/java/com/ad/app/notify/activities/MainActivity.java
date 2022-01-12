@@ -16,7 +16,6 @@ import android.service.notification.StatusBarNotification;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -54,26 +53,22 @@ import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String TAG = "MainActivity";
     private RecyclerView recyclerView;
     private LinearLayout linearLayout_NoData;
-    private FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        FirebaseAnalytics.getInstance(this);
 
         new Utils(this).log("onCreate");
-
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         ExtendedFloatingActionButton fab = (ExtendedFloatingActionButton) findViewById(R.id.fab);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerview_Home);
         linearLayout_NoData = (LinearLayout) findViewById(R.id.linearLayout_NoData);
-
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         setSupportActionBar(toolbar);
@@ -99,11 +94,9 @@ public class MainActivity extends AppCompatActivity {
             final MaterialButton btn_Dialog_Cancel = dialog.findViewById(R.id.btn_Dialog_Cancel);
 
             edt_Dialog_Message.requestFocus();
-            Window window = dialog.getWindow();
 
-//            window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | /* does not affect performance */
-//                    WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
-            window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+            dialog.getWindow().setSoftInputMode(
+                    WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
 
             if (btn_Dialog_Done != null)
                 btn_Dialog_Done.setOnClickListener(v -> {
